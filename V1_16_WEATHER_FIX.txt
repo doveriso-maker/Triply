@@ -1,0 +1,6 @@
+TRIPLY Core V1.16
+- Fixes Trip 002 weather Offline bug caused by missing coordinates.
+- Supports weather_locations per trip date.
+- Fetches Open-Meteo forecast per unique daily location.
+- Keeps hourly automatic refresh.
+- Distinguishes true browser Offline from weather-source update errors.

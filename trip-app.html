@@ -509,6 +509,7 @@ a{color:inherit;text-decoration:none}
 .v7-selected{border:1px solid #a8dec9;background:linear-gradient(180deg,#f4fffa,#fff);border-radius:14px;padding:10px;margin-top:8px}
 .v7-selected:before{content:"✓ נבחר";display:inline-block;font-size:7px;font-weight:900;background:#daf5e8;color:#177755;border-radius:999px;padding:4px 7px;margin-bottom:6px}
 
+.triply-weather-place{display:block;font-size:8px!important;line-height:1.2;color:#78909a;margin-top:2px;max-width:78px;white-space:normal}
 </style>
 <link href="/manifest.webmanifest" rel="manifest"/><link href="icon-192.png" rel="apple-touch-icon"/></head>
 <body>
@@ -1087,41 +1088,94 @@ async function refreshLiveWeather(){
   const state=document.getElementById('liveWeatherState');
   const topState=document.getElementById('weatherLiveStatus');
   const data=TRIPLY_DATA || await loadTripData();
-  if(!data?.baseLocation) return;
-  const {latitude,longitude,timezone}=data.baseLocation;
-  const qs=new URLSearchParams({
-    latitude,longitude,
-    daily:'weather_code,temperature_2m_max,temperature_2m_min',
-    timezone:timezone||'auto',
-    forecast_days:'16'
-  });
-  try{
-    const r=await fetch('https://api.open-meteo.com/v1/forecast?'+qs.toString(),{cache:'no-store'});
-    if(!r.ok) throw new Error('weather');
-    const w=await r.json();
-    const strip=document.querySelector('.triply-daily-weather');
-    if(strip && w.daily?.time){
-      const start=data.startDate, end=data.endDate;
-      let cards='';
-      w.daily.time.forEach((date,i)=>{
-        if(date<start || date>end) return;
-        const dt=new Date(date+'T12:00:00');
-        const day=dt.toLocaleDateString('he-IL',{weekday:'short'});
-        const md=dt.toLocaleDateString('he-IL',{day:'numeric',month:'numeric'});
-        const [icon,desc]=weatherCodeToIcon(Number(w.daily.weather_code[i]));
-        const hi=Math.round(w.daily.temperature_2m_max[i]);
-        const lo=Math.round(w.daily.temperature_2m_min[i]);
-        cards+=`<div class="triply-day"><span class="triply-day-name">${day}<small>${md}</small></span><b>${icon}</b><strong>${hi}°</strong><em>${desc} · ${lo}°</em></div>`;
-      });
-      if(cards) strip.innerHTML=cards;
+  if(!data) return;
+
+  const strip=document.querySelector('.triply-daily-weather');
+  const byDate=data.preferences?.weather_locations || data.preferences?.v7?.weather_locations || {};
+  const validCoord=v=>Number.isFinite(Number(v));
+
+  const fallback=(data.baseLocation && validCoord(data.baseLocation.latitude) && validCoord(data.baseLocation.longitude))
+    ? {
+        name:data.baseLocation.name||data.destination||'',
+        latitude:Number(data.baseLocation.latitude),
+        longitude:Number(data.baseLocation.longitude),
+        timezone:data.baseLocation.timezone||data.timezone||'auto'
+      }
+    : null;
+
+  const tripDates=(data.days||[]).map(d=>d.date).filter(Boolean);
+  const locations={};
+  tripDates.forEach(date=>{
+    const loc=byDate?.[date];
+    if(loc && validCoord(loc.latitude) && validCoord(loc.longitude)){
+      locations[date]={
+        name:loc.name||'',
+        latitude:Number(loc.latitude),
+        longitude:Number(loc.longitude),
+        timezone:loc.timezone||data.timezone||'auto'
+      };
+    }else if(fallback){
+      locations[date]=fallback;
     }
+  });
+
+  if(!Object.keys(locations).length){
+    if(state) state.textContent='חסר מיקום לתחזית';
+    if(topState) topState.textContent='נדרש מיקום';
+    return;
+  }
+
+  try{
+    const unique=new Map();
+    Object.values(locations).forEach(loc=>{
+      const key=[loc.latitude,loc.longitude,loc.timezone].join('|');
+      if(!unique.has(key)) unique.set(key,loc);
+    });
+
+    const forecasts=new Map();
+    await Promise.all([...unique.entries()].map(async([key,loc])=>{
+      const qs=new URLSearchParams({
+        latitude:String(loc.latitude),
+        longitude:String(loc.longitude),
+        daily:'weather_code,temperature_2m_max,temperature_2m_min',
+        timezone:loc.timezone||'auto',
+        forecast_days:'16'
+      });
+      const r=await fetch('https://api.open-meteo.com/v1/forecast?'+qs.toString(),{cache:'no-store'});
+      if(!r.ok) throw new Error('weather '+r.status);
+      const w=await r.json();
+      forecasts.set(key,w);
+    }));
+
+    let cards='';
+    tripDates.forEach(date=>{
+      const loc=locations[date];
+      if(!loc) return;
+      const key=[loc.latitude,loc.longitude,loc.timezone].join('|');
+      const w=forecasts.get(key);
+      const i=w?.daily?.time?.indexOf(date) ?? -1;
+      if(i<0) return;
+      const dt=new Date(date+'T12:00:00');
+      const day=dt.toLocaleDateString('he-IL',{weekday:'short'});
+      const md=dt.toLocaleDateString('he-IL',{day:'numeric',month:'numeric'});
+      const [icon,desc]=weatherCodeToIcon(Number(w.daily.weather_code[i]));
+      const hi=Math.round(w.daily.temperature_2m_max[i]);
+      const lo=Math.round(w.daily.temperature_2m_min[i]);
+      const place=loc.name?`<small class="triply-weather-place">${loc.name}</small>`:'';
+      cards+=`<div class="triply-day"><span class="triply-day-name">${day}<small>${md}</small>${place}</span><b>${icon}</b><strong>${hi}°</strong><em>${desc} · ${lo}°</em></div>`;
+    });
+
+    if(strip && cards) strip.innerHTML=cards;
+
     const stamp=new Date().toLocaleTimeString('he-IL',{hour:'2-digit',minute:'2-digit'});
     if(state) state.textContent='עודכן '+stamp;
     if(topState) topState.textContent='● LIVE · '+stamp;
     localStorage.setItem('triply_weather_updated',new Date().toISOString());
   }catch(e){
-    if(state) state.textContent='Offline · מוצגת תחזית שמורה';
-    if(topState) topState.textContent='Offline';
+    console.warn('Weather refresh failed',e);
+    const offline=(typeof navigator!=='undefined' && navigator.onLine===false);
+    if(state) state.textContent=offline?'Offline · מוצגת תחזית שמורה':'לא הצליח להתעדכן · מוצגת תחזית שמורה';
+    if(topState) topState.textContent=offline?'Offline':'שגיאת עדכון';
   }
 }
 
