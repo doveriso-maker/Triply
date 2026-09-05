@@ -1,4 +1,4 @@
-const CACHE='triply-core-v1';
+const CACHE='triply-core-v1-3';
 const CORE=['/','/index.html','/trip-data.json','/events.json','/manifest.webmanifest','/icon-192.png','/icon-512.png'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(CORE)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(

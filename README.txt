@@ -14,3 +14,5 @@ Architecture:
 
 Supabase project: TRIPLY Core
 Public client uses a Supabase publishable key (safe for browser use when access is restricted).
+
+V1.1: events/shopping moved to Supabase Edge Functions. No /api folder required in GitHub.
