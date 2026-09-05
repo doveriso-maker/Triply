@@ -2,10 +2,6 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "rewrites": [
     {
-      "source": "/",
-      "destination": "/site.html"
-    },
-    {
       "source": "/admin",
       "destination": "/admin.html"
     },
@@ -20,7 +16,7 @@
   ],
   "headers": [
     {
-      "source": "/site.html",
+      "source": "/index.html",
       "headers": [
         {
           "key": "Cache-Control",
