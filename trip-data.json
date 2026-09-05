@@ -1,5 +1,5 @@
 {
-  "appVersion": "live-pilot-0.1",
+  "appVersion": "live-pilot-0.2",
   "tripId": "pilot-001-albania-honeymoon",
   "customerDisplayName": "שששש",
   "title": "ירח הדבש שלנו באלבניה",
@@ -19,7 +19,26 @@
   },
   "events": {
     "enabled": true,
-    "feed": "events.json",
-    "autoRefreshMinutes": 180
+    "mode": "live-candidates",
+    "autoRefreshMinutes": 180,
+    "types": [
+      "פסטיבלי אוכל",
+      "מוזיקה",
+      "אירועים מקומיים",
+      "אירועים מיוחדים"
+    ]
+  },
+  "shopping": {
+    "enabled": true,
+    "dealsScan": true,
+    "autoRefreshMinutes": 360,
+    "categories": [
+      "אאוטלטים",
+      "קניונים",
+      "אופנה",
+      "ספורט",
+      "נעליים"
+    ],
+    "brands": []
   }
 }
