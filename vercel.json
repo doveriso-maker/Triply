@@ -1,8 +1,16 @@
 {
   "rewrites": [
     {
+      "source": "/",
+      "destination": "/site.html"
+    },
+    {
       "source": "/admin",
       "destination": "/admin.html"
+    },
+    {
+      "source": "/questionnaire",
+      "destination": "/questionnaire.html"
     },
     {
       "source": "/trip/:code",
@@ -12,6 +20,24 @@
   "headers": [
     {
       "source": "/trip-data.json",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/site.html",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/questionnaire.html",
       "headers": [
         {
           "key": "Cache-Control",
