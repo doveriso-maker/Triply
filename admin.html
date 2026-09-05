@@ -16,6 +16,20 @@ button,input,select{font:inherit}.shell{max-width:960px;margin:auto;padding:18px
 .toolbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:18px 0 10px}.toolbar h2{font-size:18px;margin:0}.trips{display:grid;gap:10px}.trip{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px;display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center}.trip h3{margin:0 0 4px;font-size:15px}.trip .meta{font-size:10px;color:var(--muted);line-height:1.6}.trip .code{display:inline-block;font-size:8px;font-weight:900;color:#0b7c90;background:#e9f7f9;border-radius:999px;padding:4px 7px;margin-left:5px}.status{display:inline-block;font-size:8px;font-weight:900;border-radius:999px;padding:4px 7px}.status.published{color:#1c805e;background:#e9f7f0}.status.draft{color:#ae7130;background:#fff4df}.actions{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-start}.empty{text-align:center;padding:30px;color:var(--muted);font-size:12px;border:1px dashed #c9dce0;border-radius:18px}.notice{font-size:10px;color:#5d747c;background:#f1f8fa;border-radius:12px;padding:10px 12px;line-height:1.6;margin-top:10px}
 .modal{position:fixed;inset:0;background:rgba(8,32,40,.45);display:none;align-items:flex-end;justify-content:center;padding:12px;z-index:30}.modal.show{display:flex}.sheet{width:min(620px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:24px;padding:18px;box-shadow:0 30px 80px rgba(0,0,0,.22)}.sheethead{display:flex;align-items:center;justify-content:space-between}.sheet h2{margin:0}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.loading{opacity:.55;pointer-events:none}
 #app{display:none}@media(max-width:700px){.grid{grid-template-columns:1fr 1fr}.formgrid{grid-template-columns:1fr}.trip{grid-template-columns:1fr}.actions{justify-content:flex-start}}
+
+.hotel-badge{display:inline-block;font-size:8px;font-weight:900;border-radius:999px;padding:4px 7px;margin-right:5px;background:#f1ecff;color:#6d4aa0}
+.hotel-badge.pending{background:#fff4df;color:#a86e2d}.hotel-badge.researching{background:#eaf4ff;color:#2a6995}.hotel-badge.shortlist_ready{background:#e9f8f1;color:#18825f}
+.match-card{border:1px solid var(--line);border-radius:16px;padding:12px;margin:9px 0;background:#fbfdfd}
+.match-card h3{margin:0 0 5px;font-size:13px}.match-meta{font-size:9px;color:var(--muted);line-height:1.55}
+.match-pref{margin-top:8px;background:#f4f9fa;border-radius:11px;padding:9px;font-size:8px;line-height:1.6;color:#506970;white-space:pre-wrap}
+.hotel-option{border-top:1px solid #e8f0f2;padding:10px 0}.hotel-option:first-child{border-top:0}.hotel-option strong{font-size:11px}.hotel-option small{display:block;color:var(--muted);font-size:8px;margin-top:3px;line-height:1.5}
+
+
+.flight-badge{display:inline-block;font-size:8px;font-weight:900;border-radius:999px;padding:4px 7px;margin-right:5px;background:#e9f4ff;color:#2a6995}
+.flight-badge.pending{background:#fff4df;color:#a86e2d}.flight-badge.researching{background:#eaf4ff;color:#2a6995}.flight-badge.shortlist_ready{background:#e9f8f1;color:#18825f}.flight-badge.approved{background:#e9f8f1;color:#18825f}
+.flight-option{border-top:1px solid #e8f0f2;padding:10px 0}.flight-option:first-child{border-top:0}
+.flight-route{font-size:10px;font-weight:900}.flight-detail{display:block;color:var(--muted);font-size:8px;margin-top:3px;line-height:1.55}
+
 </style>
 </head>
 <body>
@@ -32,7 +46,7 @@ button,input,select{font:inherit}.shell{max-width:960px;margin:auto;padding:18px
   <main id="app">
     <div class="top">
       <div class="brand"><div class="brandmark">T</div><div><h1>TRIPLY Admin</h1><p id="adminIdentity">מחובר</p></div></div>
-      <button class="btn soft" id="logoutBtn">יציאה</button>
+      <div class="actions"><a class="btn soft" href="/questionnaire.html" target="_blank" rel="noopener">פתח שאלון לקוח</a><button class="btn soft" id="logoutBtn">יציאה</button></div>
     </div>
 
     <div class="grid">
@@ -66,6 +80,22 @@ button,input,select{font:inherit}.shell{max-width:960px;margin:auto;padding:18px
   </div>
 </div>
 
+
+<div class="modal" id="hotelMatchModal">
+  <div class="sheet">
+    <div class="sheethead"><h2>🏨 TRIPLY Hotel Match</h2><button class="btn soft" id="closeHotelMatch">✕</button></div>
+    <div id="hotelMatchBody"><div class="empty">טוען…</div></div>
+  </div>
+</div>
+
+
+<div class="modal" id="flightMatchModal">
+  <div class="sheet">
+    <div class="sheethead"><h2>✈️ TRIPLY Flight Match</h2><button class="btn soft" id="closeFlightMatch">✕</button></div>
+    <div id="flightMatchBody"><div class="empty">טוען…</div></div>
+  </div>
+</div>
+
 <script type="module">
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
@@ -74,7 +104,7 @@ const CORE_KEY='sb_publishable_dZFP2IUafSBsNpsnc4e4Mw_rU0FQFJh';
 const supabase=createClient(CORE_URL,CORE_KEY,{auth:{detectSessionInUrl:true,persistSession:true,autoRefreshToken:true}});
 
 const $=s=>document.querySelector(s);
-let currentUser=null, trips=[];
+let currentUser=null, trips=[], hotelReqByTrip={}, flightReqByTrip={};
 
 function msg(el,text,show=true){el.textContent=text;el.style.display=show?'block':'none'}
 function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
@@ -103,10 +133,22 @@ function showAuth(){$('#app').style.display='none';$('#auth').style.display='blo
 async function loadTrips(){
   $('#trips').innerHTML='<div class="empty">טוען טיולים…</div>';
   const {data,error}=await supabase.from('trips')
-    .select('trip_code,title,destination,base_location,start_date,end_date,status,updated_at')
+    .select('id,trip_code,title,destination,base_location,start_date,end_date,status,updated_at')
     .order('created_at',{ascending:false});
   if(error){$('#trips').innerHTML='<div class="empty">לא ניתן לטעון טיולים.</div>';return}
   trips=data||[];
+  hotelReqByTrip={};
+  const {data:hotelReqs}=await supabase.from('hotel_search_requests').select('trip_id,status');
+  (hotelReqs||[]).forEach(r=>{
+    if(!hotelReqByTrip[r.trip_id]) hotelReqByTrip[r.trip_id]=[];
+    hotelReqByTrip[r.trip_id].push(r.status);
+  });
+  flightReqByTrip={};
+  const {data:flightReqs}=await supabase.from('flight_search_requests').select('trip_id,status');
+  (flightReqs||[]).forEach(r=>{
+    if(!flightReqByTrip[r.trip_id]) flightReqByTrip[r.trip_id]=[];
+    flightReqByTrip[r.trip_id].push(r.status);
+  });
   renderStats();renderTrips();
 }
 function renderStats(){
@@ -122,16 +164,20 @@ function renderTrips(){
     <article class="trip">
       <div>
         <h3><span class="code">Trip ${esc(t.trip_code)}</span>${esc(t.title)}</h3>
-        <div class="meta">${esc(t.destination)}${t.base_location?' · '+esc(t.base_location):''}<br>${dateHe(t.start_date)}–${dateHe(t.end_date)} · <span class="status ${esc(t.status)}">${t.status==='published'?'פורסם':'טיוטה'}</span></div>
+        <div class="meta">${esc(t.destination)}${t.base_location?' · '+esc(t.base_location):''}<br>${dateHe(t.start_date)}–${dateHe(t.end_date)} · <span class="status ${esc(t.status)}">${t.status==='published'?'פורסם':'טיוטה'}</span>${hotelReqByTrip[t.id]?.length?` · <span class="hotel-badge ${esc(hotelReqByTrip[t.id][0])}">🏨 Hotel Match ${esc(hotelReqByTrip[t.id][0])}</span>`:''}${flightReqByTrip[t.id]?.length?` · <span class="flight-badge ${esc(flightReqByTrip[t.id][0])}">✈️ Flight Match ${esc(flightReqByTrip[t.id][0])}</span>`:''}</div>
       </div>
       <div class="actions">
         <a class="btn soft" href="${tripUrl(t.trip_code)}" target="_blank" rel="noopener">פתח אפליקציה</a>
+        ${hotelReqByTrip[t.id]?.length?`<button class="btn soft" data-hotel-match="${esc(t.trip_code)}">🏨 Hotel Match</button>`:''}
+        ${flightReqByTrip[t.id]?.length?`<button class="btn soft" data-flight-match="${esc(t.trip_code)}">✈️ Flight Match</button>`:''}
         ${t.status==='published'
           ? `<button class="btn warn" data-status="${esc(t.trip_code)}" data-next="draft">החזר לטיוטה</button>`
           : `<button class="btn green" data-status="${esc(t.trip_code)}" data-next="published">פרסם ללקוח</button>`}
       </div>
     </article>`).join('');
   document.querySelectorAll('[data-status]').forEach(b=>b.addEventListener('click',()=>changeStatus(b.dataset.status,b.dataset.next)));
+  document.querySelectorAll('[data-hotel-match]').forEach(b=>b.addEventListener('click',()=>openHotelMatch(b.dataset.hotelMatch)));
+  document.querySelectorAll('[data-flight-match]').forEach(b=>b.addEventListener('click',()=>openFlightMatch(b.dataset.flightMatch)));
 }
 async function changeStatus(code,next){
   const patch={status:next,published_at:next==='published'?new Date().toISOString():null};
@@ -139,6 +185,144 @@ async function changeStatus(code,next){
   if(error){alert('לא ניתן לעדכן: '+error.message);return}
   await loadTrips();
 }
+
+
+function humanPrefs(p={}){
+  const labels={
+    hotel_status:'מצב הזמנות',hotel_budget_night:'תקציב ללילה',hotel_level:'רמת מלון',
+    hotel_location:'מיקום',hotel_features:'מתקנים',hotel_min_rating:'דירוג מינימלי',
+    hotel_cancellation:'ביטול',hotel_breakfast:'ארוחת בוקר',hotel_parking:'חניה',
+    hotel_style_notes:'סגנון',hotel_search_permission:'סוג העזרה',hotel_route_known:'בסיסים ידועים',
+    hotel_bases:'פירוט בסיסים'
+  };
+  return Object.entries(p).filter(([k])=>labels[k]).map(([k,v])=>`${labels[k]}: ${Array.isArray(v)?v.join(', '):v}`).join('\n') || 'לא נשמרו העדפות מלון.';
+}
+function statusHe(s){return ({pending:'ממתין למחקר',researching:'במחקר',shortlist_ready:'Shortlist מוכן',approved:'אושר',dismissed:'נסגר'})[s]||s}
+async function openHotelMatch(code){
+  $('#hotelMatchModal').classList.add('show');
+  $('#hotelMatchBody').innerHTML='<div class="empty">טוען Hotel Match…</div>';
+  const {data,error}=await supabase.rpc('triply_admin_hotel_match',{p_trip_code:code});
+  if(error||!data){$('#hotelMatchBody').innerHTML='<div class="empty">לא ניתן לטעון Hotel Match.</div>';return}
+  const reqs=data.requests||[];
+  if(!reqs.length){$('#hotelMatchBody').innerHTML='<div class="empty">אין בקשת Hotel Match לטיול הזה.</div>';return}
+  $('#hotelMatchBody').innerHTML=reqs.map(r=>{
+    const opts=r.recommendations||[];
+    const search=`https://www.google.com/search?q=${encodeURIComponent((r.city||r.country||'')+' hotels '+(r.checkIn||'')+' '+(r.checkOut||''))}`;
+    return `<div class="match-card">
+      <h3>${esc(r.city||r.country||'Hotel Match')} · ${esc(statusHe(r.status))}</h3>
+      <div class="match-meta">${r.checkIn?dateHe(r.checkIn):'תאריכים ייקבעו לפי המסלול'}${r.checkOut?'–'+dateHe(r.checkOut):''} · ${esc(r.scope||'')}</div>
+      <div class="match-pref">${esc(humanPrefs(r.preferences||{}))}</div>
+      <div class="actions" style="margin-top:9px">
+        <a class="btn soft" target="_blank" rel="noopener" href="${search}">חיפוש מלונות חי</a>
+        ${r.status==='pending'?`<button class="btn primary" data-hotel-status="${esc(r.id)}" data-next-hotel="researching">התחל מחקר</button>`:''}
+      </div>
+      <div>${opts.length?`
+        <div class="notice">בחר אילו מלונות יופיעו ללקוח. אפשר לפרסם 3–5 אפשרויות ואז לסמן מלון נבחר.</div>
+        ${opts.map(o=>`<div class="hotel-option">
+          <label style="display:flex;gap:9px;align-items:flex-start">
+            <input type="checkbox" data-hotel-publish-check="${esc(r.id)}" value="${esc(o.id)}" ${o.visibleToCustomer?'checked':''}>
+            <span><strong>${esc(o.name)} ${o.status==='selected'?'✓':''}</strong><small>${o.guestRating?'דירוג '+esc(o.guestRating)+' · ':''}${o.pricePerNight?esc(o.pricePerNight)+' '+esc(o.currency||'')+' ללילה · ':''}Match ${esc(o.matchScore||'—')}</small></span>
+          </label>
+          <div class="actions" style="margin-top:6px">
+            ${o.bookingUrl?`<a class="btn soft" target="_blank" rel="noopener" href="${esc(o.bookingUrl)}">הזמנה</a>`:''}
+            ${o.googleMapsUrl?`<a class="btn soft" target="_blank" rel="noopener" href="${esc(o.googleMapsUrl)}">Maps</a>`:''}
+            <button class="btn green" data-select-hotel="${esc(o.id)}" data-request-code="${esc(code)}">סמן כנבחר</button>
+          </div>
+        </div>`).join('')}
+        <button class="btn primary" data-publish-hotel-shortlist="${esc(r.id)}" data-request-code="${esc(code)}">פרסם Shortlist ללקוח</button>
+      `:'<div class="notice">עדיין אין Shortlist. אחרי מחקר נכניס כאן 3–5 אופציות מדורגות.</div>'}</div>
+    </div>`;
+  }).join('');
+  document.querySelectorAll('[data-hotel-status]').forEach(b=>b.addEventListener('click',async()=>{
+    await supabase.from('hotel_search_requests').update({status:b.dataset.nextHotel,updated_at:new Date().toISOString()}).eq('id',b.dataset.hotelStatus);
+    await openHotelMatch(code); await loadTrips();
+  }));
+  document.querySelectorAll('[data-publish-hotel-shortlist]').forEach(b=>b.addEventListener('click',async()=>{
+    const reqId=b.dataset.publishHotelShortlist;
+    const ids=[...document.querySelectorAll(`[data-hotel-publish-check="${reqId}"]:checked`)].map(x=>x.value);
+    if(!ids.length){alert('בחר לפחות מלון אחד לפרסום.');return}
+    const {error}=await supabase.rpc('triply_admin_publish_hotel_shortlist',{p_request_id:reqId,p_ids:ids});
+    if(error){alert('לא ניתן לפרסם: '+error.message);return}
+    await openHotelMatch(code); await loadTrips();
+  }));
+  document.querySelectorAll('[data-select-hotel]').forEach(b=>b.addEventListener('click',async()=>{
+    const {error}=await supabase.rpc('triply_admin_select_hotel',{p_recommendation_id:b.dataset.selectHotel});
+    if(error){alert('לא ניתן לבחור מלון: '+error.message);return}
+    await openHotelMatch(code); await loadTrips();
+  }));
+}
+$('#closeHotelMatch').addEventListener('click',()=>$('#hotelMatchModal').classList.remove('show'));
+$('#hotelMatchModal').addEventListener('click',e=>{if(e.target.id==='hotelMatchModal')$('#hotelMatchModal').classList.remove('show')});
+
+
+
+function flightStatusHe(s){return ({pending:'ממתין למחקר',researching:'במחקר',shortlist_ready:'Shortlist מוכן',approved:'אושר',dismissed:'נסגר'})[s]||s}
+function minToText(m){if(!m&&m!==0)return '—';const h=Math.floor(m/60),x=m%60;return `${h?`${h}ש׳ `:''}${x?`${x}דק׳`:''}`.trim()||'0 דק׳'}
+function flightPrefsText(p={}){
+  const labels={flight_status:'מצב טיסות',flight_origin_preference:'מוצא',flight_destination_preference:'יעד',flight_outbound_window:'חלון הלוך',
+    flight_return_window:'חלון חזור',flight_date_flexibility:'גמישות תאריכים',flight_stops:'קונקשנים',flight_baggage:'כבודה',
+    flight_fare_flexibility:'גמישות כרטיס',flight_airlines_preferred:'חברות מועדפות',flight_airlines_avoid:'להימנע',flight_budget:'תקציב',flight_priority:'עדיפות'};
+  return Object.entries(p).filter(([k])=>labels[k]).map(([k,v])=>`${labels[k]}: ${Array.isArray(v)?v.join(', '):v}`).join('\n') || 'לא נשמרו העדפות טיסה.';
+}
+async function openFlightMatch(code){
+  $('#flightMatchModal').classList.add('show');
+  $('#flightMatchBody').innerHTML='<div class="empty">טוען Flight Match…</div>';
+  const {data,error}=await supabase.rpc('triply_admin_flight_match',{p_trip_code:code});
+  if(error||!data){$('#flightMatchBody').innerHTML='<div class="empty">לא ניתן לטעון Flight Match.</div>';return}
+  const reqs=data.requests||[];
+  if(!reqs.length){$('#flightMatchBody').innerHTML='<div class="empty">אין בקשת Flight Match לטיול הזה.</div>';return}
+  $('#flightMatchBody').innerHTML=reqs.map(r=>{
+    const opts=r.recommendations||[];
+    const search=`https://www.google.com/search?q=${encodeURIComponent((r.origin||'')+' '+(r.destination||'')+' flights '+(r.outboundDate||'')+' '+(r.returnDate||''))}`;
+    return `<div class="match-card">
+      <h3>${esc(r.origin||'מוצא גמיש')} → ${esc(r.destination||'יעד')} · ${esc(flightStatusHe(r.status))}</h3>
+      <div class="match-meta">${r.outboundDate?dateHe(r.outboundDate):'—'}${r.returnDate?' → '+dateHe(r.returnDate):''} · ${esc(r.scope||'')}</div>
+      <div class="match-pref">${esc(flightPrefsText(r.preferences||{}))}</div>
+      <div class="actions" style="margin-top:9px">
+        <a class="btn soft" target="_blank" rel="noopener" href="${search}">חיפוש טיסות חי</a>
+        ${r.status==='pending'?`<button class="btn primary" data-flight-status="${esc(r.id)}" data-next-flight="researching">התחל מחקר</button>`:''}
+      </div>
+      <div>${opts.length?`
+        <div class="notice">בחר אילו טיסות יופיעו ללקוח. פרסם Shortlist ואז אפשר לסמן את האפשרות שנבחרה.</div>
+        ${opts.map(o=>`<div class="flight-option">
+          <label style="display:flex;gap:9px;align-items:flex-start">
+            <input type="checkbox" data-flight-publish-check="${esc(r.id)}" value="${esc(o.id)}" ${o.visibleToCustomer?'checked':''}>
+            <span>
+              <span class="flight-route">${esc(o.airline||'חברת תעופה')} ${esc(o.flightNumber||'')} · ${esc(o.originAirport||'')} → ${esc(o.destinationAirport||'')}</span>
+              <span class="flight-detail">${o.departureAt?new Date(o.departureAt).toLocaleString('he-IL'):''}${o.durationMinutes?' · '+minToText(o.durationMinutes):''}${o.stops!==null&&o.stops!==undefined?' · '+(o.stops===0?'ישירה':o.stops+' עצירות'):''}${o.totalPrice?' · '+esc(o.totalPrice)+' '+esc(o.currency||''):''} · Match ${esc(o.matchScore||'—')}</span>
+            </span>
+          </label>
+          <div class="actions" style="margin-top:6px">
+            ${o.bookingUrl?`<a class="btn soft" target="_blank" rel="noopener" href="${esc(o.bookingUrl)}">הזמנה</a>`:''}
+            ${o.airlineUrl?`<a class="btn soft" target="_blank" rel="noopener" href="${esc(o.airlineUrl)}">חברת תעופה</a>`:''}
+            <button class="btn green" data-select-flight="${esc(o.id)}">סמן כנבחר</button>
+          </div>
+        </div>`).join('')}
+        <button class="btn primary" data-publish-flight-shortlist="${esc(r.id)}">פרסם Shortlist ללקוח</button>
+      `:'<div class="notice">עדיין אין Shortlist. אחרי מחקר נכניס כאן 3–5 טיסות מדורגות.</div>'}</div>
+    </div>`;
+  }).join('');
+  document.querySelectorAll('[data-flight-status]').forEach(b=>b.addEventListener('click',async()=>{
+    await supabase.from('flight_search_requests').update({status:b.dataset.nextFlight,updated_at:new Date().toISOString()}).eq('id',b.dataset.flightStatus);
+    await openFlightMatch(code); await loadTrips();
+  }));
+  document.querySelectorAll('[data-publish-flight-shortlist]').forEach(b=>b.addEventListener('click',async()=>{
+    const reqId=b.dataset.publishFlightShortlist;
+    const ids=[...document.querySelectorAll(`[data-flight-publish-check="${reqId}"]:checked`)].map(x=>x.value);
+    if(!ids.length){alert('בחר לפחות טיסה אחת לפרסום.');return}
+    const {error}=await supabase.rpc('triply_admin_publish_flight_shortlist',{p_request_id:reqId,p_ids:ids});
+    if(error){alert('לא ניתן לפרסם: '+error.message);return}
+    await openFlightMatch(code); await loadTrips();
+  }));
+  document.querySelectorAll('[data-select-flight]').forEach(b=>b.addEventListener('click',async()=>{
+    const {error}=await supabase.rpc('triply_admin_select_flight',{p_recommendation_id:b.dataset.selectFlight});
+    if(error){alert('לא ניתן לבחור טיסה: '+error.message);return}
+    await openFlightMatch(code); await loadTrips();
+  }));
+}
+$('#closeFlightMatch').addEventListener('click',()=>$('#flightMatchModal').classList.remove('show'));
+$('#flightMatchModal').addEventListener('click',e=>{if(e.target.id==='flightMatchModal')$('#flightMatchModal').classList.remove('show')});
+
 
 $('#loginBtn').addEventListener('click',async()=>{
   const email=$('#loginEmail').value.trim();
