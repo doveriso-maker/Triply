@@ -83,7 +83,7 @@ button,input,select{font:inherit}.shell{max-width:960px;margin:auto;padding:18px
 
 <div class="modal" id="hotelMatchModal">
   <div class="sheet">
-    <div class="sheethead"><h2>🏨 TRIPLY Hotel Match</h2><button class="btn soft" id="closeHotelMatch">✕</button></div>
+    <div class="sheethead"><h2>🏨 TRIPLY Hotel Match</h2><button class="btn soft" id="closeHotelMatch">✕</button></div><div class="notice" style="margin-top:10px">כרגע המחקר אינו אוטומטי: TRIPLY שומר את בקשת המחקר והסטטוס, והחיפוש החי נפתח בלשונית חדשה. לאחר שמכניסים המלצות מאומתות, אפשר לפרסם Shortlist ללקוח.</div>
     <div id="hotelMatchBody"><div class="empty">טוען…</div></div>
   </div>
 </div>
@@ -91,7 +91,7 @@ button,input,select{font:inherit}.shell{max-width:960px;margin:auto;padding:18px
 
 <div class="modal" id="flightMatchModal">
   <div class="sheet">
-    <div class="sheethead"><h2>✈️ TRIPLY Flight Match</h2><button class="btn soft" id="closeFlightMatch">✕</button></div>
+    <div class="sheethead"><h2>✈️ TRIPLY Flight Match</h2><button class="btn soft" id="closeFlightMatch">✕</button></div><div class="notice" style="margin-top:10px">כרגע המחקר אינו אוטומטי: TRIPLY שומר את בקשת המחקר והסטטוס, והחיפוש החי נפתח בלשונית חדשה. לאחר שמכניסים המלצות מאומתות, אפשר לפרסם Shortlist ללקוח.</div>
     <div id="flightMatchBody"><div class="empty">טוען…</div></div>
   </div>
 </div>
@@ -213,8 +213,8 @@ async function openHotelMatch(code){
       <div class="match-meta">${r.checkIn?dateHe(r.checkIn):'תאריכים ייקבעו לפי המסלול'}${r.checkOut?'–'+dateHe(r.checkOut):''} · ${esc(r.scope||'')}</div>
       <div class="match-pref">${esc(humanPrefs(r.preferences||{}))}</div>
       <div class="actions" style="margin-top:9px">
-        <a class="btn soft" target="_blank" rel="noopener" href="${search}">חיפוש מלונות חי</a>
-        ${r.status==='pending'?`<button class="btn primary" data-hotel-status="${esc(r.id)}" data-next-hotel="researching">התחל מחקר</button>`:''}
+        <a class="btn soft" target="_blank" rel="noopener" href="${search}">פתח חיפוש Google ↗</a><button class="btn soft" type="button" data-copy-hotel-brief="${esc(r.id)}">העתק בריף מחקר</button>
+        ${r.status==='pending'?`<button class="btn primary" data-hotel-status="${esc(r.id)}" data-next-hotel="researching">סמן כבטיפול</button>`:''}
       </div>
       <div>${opts.length?`
         <div class="notice">בחר אילו מלונות יופיעו ללקוח. אפשר לפרסם 3–5 אפשרויות ואז לסמן מלון נבחר.</div>
@@ -230,7 +230,7 @@ async function openHotelMatch(code){
           </div>
         </div>`).join('')}
         <button class="btn primary" data-publish-hotel-shortlist="${esc(r.id)}" data-request-code="${esc(code)}">פרסם Shortlist ללקוח</button>
-      `:'<div class="notice">עדיין אין Shortlist. אחרי מחקר נכניס כאן 3–5 אופציות מדורגות.</div>'}</div>
+      `:'<div class="notice">עדיין אין Shortlist. הכפתור “סמן כבטיפול” אינו מפעיל מנוע חיפוש אוטומטי; הוא רק מסמן את הבקשה כבטיפול.</div>'}</div>
     </div>`;
   }).join('');
   document.querySelectorAll('[data-hotel-status]').forEach(b=>b.addEventListener('click',async()=>{
@@ -251,6 +251,22 @@ async function openHotelMatch(code){
     await openHotelMatch(code); await loadTrips();
   }));
 }
+
+  document.querySelectorAll('[data-copy-hotel-brief]').forEach(b=>b.addEventListener('click',async()=>{
+    const req=reqs.find(x=>String(x.id)===String(b.dataset.copyHotelBrief));
+    if(!req)return;
+    const brief=[
+      'TRIPLY Hotel Match',
+      `יעד/עיר: ${req.city||req.country||''}`,
+      `תאריכים: ${req.checkIn||'לפי המסלול'}${req.checkOut?' עד '+req.checkOut:''}`,
+      `Scope: ${req.scope||''}`,
+      humanPrefs(req.preferences||{}),
+      'החזר 3–5 אפשרויות מאומתות עם מחיר, דירוג, יתרונות/חסרונות, קישורי הזמנה ומועד בדיקה.'
+    ].join('\n');
+    try{await navigator.clipboard.writeText(brief); b.textContent='הועתק ✓'; setTimeout(()=>b.textContent='העתק בריף מחקר',1400)}
+    catch(e){alert(brief)}
+  }));
+
 $('#closeHotelMatch').addEventListener('click',()=>$('#hotelMatchModal').classList.remove('show'));
 $('#hotelMatchModal').addEventListener('click',e=>{if(e.target.id==='hotelMatchModal')$('#hotelMatchModal').classList.remove('show')});
 
@@ -279,8 +295,8 @@ async function openFlightMatch(code){
       <div class="match-meta">${r.outboundDate?dateHe(r.outboundDate):'—'}${r.returnDate?' → '+dateHe(r.returnDate):''} · ${esc(r.scope||'')}</div>
       <div class="match-pref">${esc(flightPrefsText(r.preferences||{}))}</div>
       <div class="actions" style="margin-top:9px">
-        <a class="btn soft" target="_blank" rel="noopener" href="${search}">חיפוש טיסות חי</a>
-        ${r.status==='pending'?`<button class="btn primary" data-flight-status="${esc(r.id)}" data-next-flight="researching">התחל מחקר</button>`:''}
+        <a class="btn soft" target="_blank" rel="noopener" href="${search}">פתח חיפוש Google ↗</a><button class="btn soft" type="button" data-copy-flight-brief="${esc(r.id)}">העתק בריף מחקר</button>
+        ${r.status==='pending'?`<button class="btn primary" data-flight-status="${esc(r.id)}" data-next-flight="researching">סמן כבטיפול</button>`:''}
       </div>
       <div>${opts.length?`
         <div class="notice">בחר אילו טיסות יופיעו ללקוח. פרסם Shortlist ואז אפשר לסמן את האפשרות שנבחרה.</div>
@@ -299,7 +315,7 @@ async function openFlightMatch(code){
           </div>
         </div>`).join('')}
         <button class="btn primary" data-publish-flight-shortlist="${esc(r.id)}">פרסם Shortlist ללקוח</button>
-      `:'<div class="notice">עדיין אין Shortlist. אחרי מחקר נכניס כאן 3–5 טיסות מדורגות.</div>'}</div>
+      `:'<div class="notice">עדיין אין Shortlist. הכפתור “סמן כבטיפול” אינו מפעיל מנוע חיפוש אוטומטי; הוא רק מסמן את הבקשה כבטיפול.</div>'}</div>
     </div>`;
   }).join('');
   document.querySelectorAll('[data-flight-status]').forEach(b=>b.addEventListener('click',async()=>{
@@ -320,6 +336,23 @@ async function openFlightMatch(code){
     await openFlightMatch(code); await loadTrips();
   }));
 }
+
+  document.querySelectorAll('[data-copy-flight-brief]').forEach(b=>b.addEventListener('click',async()=>{
+    const req=reqs.find(x=>String(x.id)===String(b.dataset.copyFlightBrief));
+    if(!req)return;
+    const brief=[
+      'TRIPLY Flight Match',
+      `מסלול: ${req.origin||''} → ${req.destination||''}`,
+      `הלוך: ${req.outboundDate||''}`,
+      `חזור: ${req.returnDate||''}`,
+      `Scope: ${req.scope||''}`,
+      flightPrefsText(req.preferences||{}),
+      'החזר 3–5 אפשרויות מאומתות עם שעות, כבודה, עצירות, מחיר, יתרונות/חסרונות, קישורי הזמנה ומועד בדיקה.'
+    ].join('\n');
+    try{await navigator.clipboard.writeText(brief); b.textContent='הועתק ✓'; setTimeout(()=>b.textContent='העתק בריף מחקר',1400)}
+    catch(e){alert(brief)}
+  }));
+
 $('#closeFlightMatch').addEventListener('click',()=>$('#flightMatchModal').classList.remove('show'));
 $('#flightMatchModal').addEventListener('click',e=>{if(e.target.id==='flightMatchModal')$('#flightMatchModal').classList.remove('show')});
 

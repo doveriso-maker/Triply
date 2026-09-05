@@ -948,7 +948,7 @@
         <div class="hotel-flow-note"><strong>TRIPLY Flight Match</strong><br>נחפש ונדרג טיסות לפי השילוב שהכי חשוב לכם: שעות טובות, מחיר, טיסה ישירה, כבודה, חברת תעופה ונוחות כוללת.</div>
         <div class="grid2">
           <div class="question"><div class="qtitle">מאיפה תרצו לטוס?</div><input name="flight_origin_preference" placeholder="למשל: נתב״ג · אפשר גם חיפה / לרנקה אם שווה"></div>
-          <div class="question"><div class="qtitle">שדה יעד מועדף</div><input name="flight_destination_preference" placeholder="למשל: CTA קטניה · או גמישים בכל סיציליה"></div>
+          <div class="question"><div class="qtitle">לאיזה שדה/עיר תרצו להגיע ביעד? <span style="font-weight:400">(אופציונלי)</span></div><input name="flight_destination_preference" placeholder="למשל: OTP בוקרשט · אם לא משנה, אפשר להשאיר ריק"><div class="hint">זהו שדה התעופה במדינת היעד — לא שדה החזרה בישראל.</div></div>
         </div>
         <div class="grid2">
           <div class="question"><div class="qtitle">חלון שעות מועדף להלוך</div><select name="flight_outbound_window"><option value="">לא משנה</option><option>לילה / לפנות בוקר</option><option>בוקר מוקדם</option><option>בוקר</option><option>צהריים</option><option>אחר הצהריים</option><option>ערב</option></select></div>
@@ -1612,7 +1612,8 @@ async function generateTriplyHtmlPackage(){
   const scores=scoreRows(d);
   const attachments=await buildEmbeddedAttachments();
 
-  const payload={
+  if(!String(d.flight_destination_preference||'').trim()) d.flight_destination_preference=String(d.destination||'').trim();
+    const payload={
     format:"TRIPLY_PILOT_BRIEF",
     version:"1.2-hotel-match",
     generated_at:new Date().toISOString(),

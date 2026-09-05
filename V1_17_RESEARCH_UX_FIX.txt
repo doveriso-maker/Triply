@@ -1,0 +1,6 @@
+TRIPLY Core V1.17
+- Clarifies Hotel/Flight Match research is currently human-verified, not automatic.
+- 'Start research' renamed to 'Mark as in progress'.
+- External Google search clearly marked as opening externally.
+- Adds 'Copy research brief' buttons.
+- Clarifies flight destination field in questionnaire and defaults blank destination to trip destination.
