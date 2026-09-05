@@ -1,0 +1,25 @@
+{
+  "appVersion": "live-pilot-0.1",
+  "tripId": "pilot-001-albania-honeymoon",
+  "customerDisplayName": "שששש",
+  "title": "ירח הדבש שלנו באלבניה",
+  "destination": "אלבניה",
+  "baseLocation": {
+    "name": "Durrës",
+    "latitude": 41.3236,
+    "longitude": 19.4414,
+    "timezone": "Europe/Tirane"
+  },
+  "startDate": "2026-09-06",
+  "endDate": "2026-09-12",
+  "startDateTime": "2026-09-06T00:00:00+02:00",
+  "weather": {
+    "provider": "Open-Meteo",
+    "autoRefreshMinutes": 60
+  },
+  "events": {
+    "enabled": true,
+    "feed": "events.json",
+    "autoRefreshMinutes": 180
+  }
+}
