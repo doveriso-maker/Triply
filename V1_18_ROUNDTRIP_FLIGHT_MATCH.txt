@@ -1,0 +1,5 @@
+TRIPLY Core V1.18
+- Flight Match supports paired round-trip segments.
+- Admin displays outbound + return together as one selectable option.
+- Customer app displays outbound + return together.
+- Backward compatible with older single-flight recommendations.

@@ -30,6 +30,9 @@ button,input,select{font:inherit}.shell{max-width:960px;margin:auto;padding:18px
 .flight-option{border-top:1px solid #e8f0f2;padding:10px 0}.flight-option:first-child{border-top:0}
 .flight-route{font-size:10px;font-weight:900}.flight-detail{display:block;color:var(--muted);font-size:8px;margin-top:3px;line-height:1.55}
 
+
+.flight-pair{display:grid;gap:6px;margin-top:7px}.flight-leg{background:#f7fbfc;border:1px solid #dbecef;border-radius:12px;padding:8px 10px;display:grid;gap:2px}.flight-leg b{font-size:13px;color:#0f5964}.flight-leg span{font-size:12px;color:#55727a}
+
 </style>
 </head>
 <body>
@@ -280,6 +283,17 @@ function flightPrefsText(p={}){
     flight_fare_flexibility:'גמישות כרטיס',flight_airlines_preferred:'חברות מועדפות',flight_airlines_avoid:'להימנע',flight_budget:'תקציב',flight_priority:'עדיפות'};
   return Object.entries(p).filter(([k])=>labels[k]).map(([k,v])=>`${labels[k]}: ${Array.isArray(v)?v.join(', '):v}`).join('\n') || 'לא נשמרו העדפות טיסה.';
 }
+
+function flightSegmentsHtml(o){
+  const segs=Array.isArray(o.segments)?o.segments:[];
+  if(!segs.length) return `<div class="flight-detail">${esc(o.originAirport||'')} → ${esc(o.destinationAirport||'')} · ${o.departureAt?new Date(o.departureAt).toLocaleString('he-IL'):''}${o.durationMinutes?' · '+minToText(o.durationMinutes):''}${o.stops!==null&&o.stops!==undefined?' · '+(o.stops===0?'ישירה':o.stops+' עצירות'):''}</div>`;
+  return `<div class="flight-pair">${segs.map((s,i)=>`
+    <div class="flight-leg">
+      <b>${i===0?'הלוך':'חזור'} · ${esc(s.airline||'')} ${esc(s.flightNumber||'')}</b>
+      <span>${esc(s.originAirport||'')} → ${esc(s.destinationAirport||'')} · ${s.departureAt?new Date(s.departureAt).toLocaleString('he-IL'):''}${s.arrivalAt?' → '+new Date(s.arrivalAt).toLocaleTimeString('he-IL',{hour:'2-digit',minute:'2-digit'}):''}${s.durationMinutes?' · '+minToText(s.durationMinutes):''}${s.stops===0?' · ישירה':''}</span>
+    </div>`).join('')}</div>`;
+}
+
 async function openFlightMatch(code){
   $('#flightMatchModal').classList.add('show');
   $('#flightMatchBody').innerHTML='<div class="empty">טוען Flight Match…</div>';
@@ -303,9 +317,10 @@ async function openFlightMatch(code){
         ${opts.map(o=>`<div class="flight-option">
           <label style="display:flex;gap:9px;align-items:flex-start">
             <input type="checkbox" data-flight-publish-check="${esc(r.id)}" value="${esc(o.id)}" ${o.visibleToCustomer?'checked':''}>
-            <span>
-              <span class="flight-route">${esc(o.airline||'חברת תעופה')} ${esc(o.flightNumber||'')} · ${esc(o.originAirport||'')} → ${esc(o.destinationAirport||'')}</span>
-              <span class="flight-detail">${o.departureAt?new Date(o.departureAt).toLocaleString('he-IL'):''}${o.durationMinutes?' · '+minToText(o.durationMinutes):''}${o.stops!==null&&o.stops!==undefined?' · '+(o.stops===0?'ישירה':o.stops+' עצירות'):''}${o.totalPrice?' · '+esc(o.totalPrice)+' '+esc(o.currency||''):''} · Match ${esc(o.matchScore||'—')}</span>
+            <span style="width:100%">
+              <span class="flight-route">אפשרות ${esc(o.rank||'')} · ${Array.isArray(o.segments)&&o.segments.length?'הלוך + חזור':esc(o.airline||'חברת תעופה')}</span>
+              ${flightSegmentsHtml(o)}
+              <span class="flight-detail">${o.totalPrice?'סה״כ '+esc(o.totalPrice)+' '+esc(o.currency||'')+' · ':''}Match ${esc(o.matchScore||'—')}</span>
             </span>
           </label>
           <div class="actions" style="margin-top:6px">
