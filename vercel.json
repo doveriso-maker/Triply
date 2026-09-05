@@ -1,4 +1,5 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
   "rewrites": [
     {
       "source": "/",
@@ -14,19 +15,10 @@
     },
     {
       "source": "/trip/:code",
-      "destination": "/index.html"
+      "destination": "/trip-app.html"
     }
   ],
   "headers": [
-    {
-      "source": "/trip-data.json",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=0, must-revalidate"
-        }
-      ]
-    },
     {
       "source": "/site.html",
       "headers": [
@@ -37,7 +29,25 @@
       ]
     },
     {
+      "source": "/trip-app.html",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    },
+    {
       "source": "/questionnaire.html",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/service-worker.js",
       "headers": [
         {
           "key": "Cache-Control",
