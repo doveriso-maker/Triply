@@ -514,7 +514,7 @@ a{color:inherit;text-decoration:none}
 .v7-flight-pair{display:grid;gap:7px;margin:8px 0}.v7-flight-leg{border:1px solid #dcebed;background:#f8fcfc;border-radius:13px;padding:9px 10px;display:grid;gap:3px}.v7-flight-leg b{font-size:13px;color:#0e5864}.v7-flight-leg span{font-size:12px;color:#526e75}
 
 
-/* TRIPLY V1.23 — personalized core + dynamic Food/Spa/Weather + Core Phrasebook */
+/* TRIPLY V1.23 — personalized core + dynamic Food/Spa research support */
 .v110-only{display:none}.v110mode .v110-only{display:block}
 .v110-home-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
 .v110-home-card{position:relative;border:1px solid var(--line);background:linear-gradient(155deg,#fff,#f5fbfc);border-radius:18px;padding:14px;text-align:right;color:var(--ink);box-shadow:0 8px 20px rgba(8,78,105,.06);min-height:105px}
@@ -546,31 +546,21 @@ a{color:inherit;text-decoration:none}
 @media(max-width:700px){.personalized-profile{grid-template-columns:1fr 1fr}.personalizedmode .triply-portrait-card{min-height:250px}}
 
 
-/* TRIPLY Core Phrasebook */
-.core-phrase-home-photo{
-  display:grid;place-items:center;
-  background:
-    radial-gradient(circle at 72% 20%,rgba(255,255,255,.32),transparent 25%),
-    linear-gradient(145deg,#0d7488,#22aab6 58%,#f3aa58);
-}
-.core-phrase-home-photo span{font-size:42px;filter:drop-shadow(0 5px 10px rgba(0,0,0,.12))}
-.core-phrasebook-intro{
-  background:linear-gradient(135deg,#eefbfc,#fff7ea);
-  border:1px solid #d9ecee;border-radius:18px;padding:13px 14px;margin:0 0 12px;
-  color:#3d5b65;font-size:11.5px;line-height:1.65
-}
-.core-phrasebook-search{width:100%;border:1px solid var(--line);border-radius:14px;padding:12px 13px;font:inherit;background:#fff;color:var(--ink);margin:0 0 10px}
-.core-phrase-cats{display:flex;gap:6px;overflow:auto;padding:0 0 10px;scrollbar-width:none}
-.core-phrase-cats::-webkit-scrollbar{display:none}
-.core-phrase-cat{border:1px solid #dcebed;background:#fff;color:#45646e;border-radius:999px;padding:7px 10px;font-size:10px;font-weight:850;white-space:nowrap}
-.core-phrase-cat.active{background:#0b7b8c;color:#fff;border-color:#0b7b8c}
+/* V1.23 · Core automatic phrasebook */
+.core-phrasebook-card{display:none}
+.core-phrasebook-card .triply-wide-photo{background:linear-gradient(145deg,#0b788c,#45b6bf);position:relative}
+.core-phrasebook-card .triply-wide-photo:after{content:"🗣️";position:absolute;inset:0;display:grid;place-items:center;font-size:30px}
+.core-phrasebook-intro{background:linear-gradient(135deg,#eefafb,#fff8e8);border:1px solid #d7e9eb;border-radius:18px;padding:13px 14px;margin-bottom:11px}
+.core-phrasebook-intro strong{display:block;font-size:14px;margin-bottom:4px}.core-phrasebook-intro span{font-size:10.5px;color:var(--muted);line-height:1.55}
+.core-phrase-search{width:100%;box-sizing:border-box;border:1px solid var(--line);background:#fff;border-radius:14px;padding:11px 12px;font:inherit;margin:0 0 10px;direction:rtl}
 .core-phrase-list{display:grid;gap:8px}
-.core-phrase-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:16px;padding:11px 12px;box-shadow:0 5px 15px rgba(9,76,95,.035)}
-.core-phrase-he{display:block;font-size:12px;font-weight:900;color:var(--ink);line-height:1.45}
-.core-phrase-local{display:block;margin-top:3px;font-size:13px;font-weight:850;color:#0b7384;line-height:1.45;text-align:right}
-.core-phrase-phonetic{display:block;margin-top:4px;color:var(--muted);font-size:10.5px;line-height:1.45}
-.core-phrase-audio{border:0;background:linear-gradient(135deg,#0a7288,#18a9b7);color:#fff;border-radius:13px;min-width:44px;height:44px;padding:0 10px;font-size:17px;font-weight:900;box-shadow:0 5px 12px rgba(9,118,137,.18)}
-.core-phrase-empty{background:#fff;border:1px dashed #ccdde1;border-radius:16px;padding:20px;text-align:center;color:var(--muted);font-size:11px}
+.core-phrase{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;gap:8px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:15px;padding:10px 11px}
+.core-phrase-he{font-weight:850;font-size:12px;line-height:1.35}
+.core-phrase-local{direction:auto;text-align:left;font-weight:850;color:#0b7487;font-size:13px;line-height:1.35}
+.core-phrase-ph{grid-column:1/3;color:var(--muted);font-size:10.5px}
+.core-phrase-cat{display:inline-block;background:#eef8fa;color:#0b7487;border-radius:999px;padding:3px 7px;font-size:8px;font-weight:900;margin-inline-start:5px}
+.core-phrase-audio{border:0;background:linear-gradient(135deg,#0a7288,#14a8b8);color:#fff;border-radius:12px;padding:8px 10px;font-size:14px;font-weight:900;cursor:pointer}
+@media(max-width:380px){.core-phrase{grid-template-columns:1fr auto}.core-phrase-local{grid-column:1/2}.core-phrase-ph{grid-column:1/2}}
 
 </style>
 <link href="/manifest.webmanifest" rel="manifest"/><link href="icon-192.png" rel="apple-touch-icon"/></head>
@@ -686,6 +676,11 @@ a{color:inherit;text-decoration:none}
 <button class="triply-wide-card triply-live-home-card" onclick="openSection('live-shopping')">
 <div class="triply-wide-photo triply-shopping-photo"></div>
 <div class="triply-wide-copy"><strong>קניות ומבצעים</strong><span>אאוטלטים, קניונים ומבצעים שמתעדכנים בזמן הטיול</span></div>
+<div class="triply-arrow">‹</div>
+</button>
+<button class="triply-wide-card core-phrasebook-card" id="corePhrasebookHome" onclick="openSection('phrasebook')">
+<div class="triply-wide-photo"></div>
+<div class="triply-wide-copy"><strong id="corePhrasebookHomeTitle">שיחון למטייל</strong><span id="corePhrasebookHomeSub">ביטויים בסיסיים בשפה המקומית · תעתיק · שמע</span></div>
 <div class="triply-arrow">‹</div>
 </button>
 </div>
@@ -808,13 +803,11 @@ a{color:inherit;text-decoration:none}
 
 
 <section class="section" id="phrasebook">
-  <div class="section-head"><div class="badge">💬</div><div><h1 id="corePhraseTitle">שיחון למטייל</h1><p id="corePhraseSubtitle">עברית · שפה מקומית · תעתיק · שמע</p></div></div>
-  <div class="core-phrasebook-intro" id="corePhraseNote">השיחון נבנה אוטומטית לפי המדינה והאזור של הטיול.</div>
-  <input class="core-phrasebook-search" id="corePhraseSearch" placeholder="חיפוש ביטוי…">
-  <div class="core-phrase-cats" id="corePhraseCats"></div>
-  <div class="core-phrase-list" id="corePhraseList"></div>
+<div class="section-head"><div class="badge">🗣️</div><div><h1 id="corePhrasebookTitle">שיחון למטייל</h1><p id="corePhrasebookSub">עברית · שפה מקומית · תעתיק · שמע</p></div></div>
+<div class="core-phrasebook-intro"><strong id="corePhrasebookIntroTitle">ביטויים שימושיים לדרך</strong><span id="corePhrasebookIntroText">TRIPLY הכינה שיחון בסיסי לפי המדינה והאזור של הטיול. ההקראה משתמשת בקול הזמין במכשיר.</span></div>
+<input class="core-phrase-search" id="corePhraseSearch" placeholder="חיפוש ביטוי…">
+<div class="core-phrase-list" id="corePhraseList"></div>
 </section>
-
 <section class="section" id="live-shopping">
 <div class="section-head"><div class="badge">🛍️</div><div><h1>קניות ומבצעים</h1><p>Outlets · Sales · Shopping Radar</p></div></div>
 <div class="live-radar-card">
@@ -1184,6 +1177,79 @@ function renderPersonalizedUseful(data){
   <div class="info"><strong>🛍️ קניות</strong>${escapeHtml(shop)}${Array.isArray(a.shopping_categories)&&a.shopping_categories.length?'<div class="source">'+a.shopping_categories.map(escapeHtml).join(' · ')+'</div>':''}</div>
   <div class="info"><strong>✈️ טיסות</strong>${escapeHtml(a.flights_summary||'')}</div>`;
 }
+
+let CORE_PHRASE_LOCALE='';
+function coreLanguageHebrew(v){
+  const s=String(v||'').toLowerCase();
+  if(s.includes('greek'))return 'יוונית';
+  if(s.includes('italian'))return 'איטלקית';
+  if(s.includes('albanian'))return 'אלבנית';
+  if(s.includes('romanian'))return 'רומנית';
+  if(s.includes('filipino')||s.includes('tagalog'))return 'פיליפינית';
+  if(s.includes('spanish'))return 'ספרדית';
+  if(s.includes('french'))return 'צרפתית';
+  if(s.includes('german'))return 'גרמנית';
+  if(s.includes('portuguese'))return 'פורטוגזית';
+  if(s.includes('turkish'))return 'טורקית';
+  if(s.includes('thai'))return 'תאית';
+  if(s.includes('japanese'))return 'יפנית';
+  if(s.includes('korean'))return 'קוריאנית';
+  return v||'השפה המקומית';
+}
+function corePhraseCategory(v){
+  const s=String(v||'').toLowerCase();
+  if(s.includes('basic'))return 'בסיסי';
+  if(s.includes('restaurant')||s.includes('food'))return 'אוכל';
+  if(s.includes('shop')||s.includes('price'))return 'קניות';
+  if(s.includes('nav')||s.includes('transport'))return 'ניווט';
+  if(s.includes('hotel'))return 'מלון';
+  if(s.includes('help')||s.includes('emerg'))return 'עזרה';
+  if(s.includes('number'))return 'מחירים';
+  return 'שימושי';
+}
+function coreSpeakPhrase(text,btn){
+  if(!text)return;
+  if(!('speechSynthesis' in window)){alert('המכשיר הזה לא תומך בהקראת טקסט בדפדפן.');return}
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang=CORE_PHRASE_LOCALE||'';
+  u.rate=.86;u.pitch=1;
+  const voices=speechSynthesis.getVoices?.()||[];
+  const lc=(CORE_PHRASE_LOCALE||'').toLowerCase(), base=lc.split('-')[0];
+  const voice=voices.find(v=>(v.lang||'').toLowerCase()===lc)||voices.find(v=>(v.lang||'').toLowerCase().startsWith(base));
+  if(voice)u.voice=voice;
+  if(btn){const old=btn.textContent;btn.textContent='🔊…';u.onend=()=>btn.textContent=old;u.onerror=()=>btn.textContent=old}
+  speechSynthesis.speak(u);
+}
+function renderCorePhrasebook(data){
+  const pb=data?.preferences?.phrasebook;
+  const rows=Array.isArray(pb?.items)?pb.items:[];
+  const home=document.getElementById('corePhrasebookHome');
+  const importedV110=data?.preferences?.import_source==='V110_EXISTING_APP';
+  if(importedV110||rows.length<1){if(home)home.style.display='none';return}
+  CORE_PHRASE_LOCALE=pb?.locale||'';
+  const lang=coreLanguageHebrew(pb?.language);
+  if(home){
+    home.style.display='grid';
+    const ht=document.getElementById('corePhrasebookHomeTitle');if(ht)ht.textContent=`שיחון ${lang}`;
+    const hs=document.getElementById('corePhrasebookHomeSub');if(hs)hs.textContent=`${rows.length} ביטויים · תעתיק בעברית · 🔊 שמע`;
+  }
+  const title=document.getElementById('corePhrasebookTitle');if(title)title.textContent=`${lang} למטייל`;
+  const sub=document.getElementById('corePhrasebookSub');if(sub)sub.textContent=`עברית · ${lang} · תעתיק בעברית · שמע`;
+  const it=document.getElementById('corePhrasebookIntroTitle');if(it)it.textContent=`שיחון בסיסי ל${data?.destination||'הטיול'}`;
+  const ix=document.getElementById('corePhrasebookIntroText');if(ix)ix.textContent=`TRIPLY הכינה ${rows.length} ביטויים שימושיים בשפה המקומית. לחיצה על 🔊 מקריאה את הביטוי באמצעות הקול הזמין במכשיר.`;
+  const el=document.getElementById('corePhraseList'), search=document.getElementById('corePhraseSearch');
+  if(!el)return;
+  const draw=(q='')=>{
+    const s=String(q||'').trim().toLowerCase();
+    const filtered=rows.filter(x=>!s||`${x.he||''} ${x.local||''} ${x.phonetic_he||''} ${x.category||''}`.toLowerCase().includes(s));
+    el.innerHTML=filtered.map(x=>`<div class="core-phrase"><div class="core-phrase-he">${escapeHtml(x.he||'')} <span class="core-phrase-cat">${escapeHtml(corePhraseCategory(x.category))}</span></div><div class="core-phrase-local" lang="${escapeHtml(pb?.locale||'')}">${escapeHtml(x.local||'')}</div><button class="core-phrase-audio" type="button" data-core-say="${escapeHtml(x.local||'')}">🔊</button><div class="core-phrase-ph">${escapeHtml(x.phonetic_he||'')}</div></div>`).join('')||'<div class="radar-empty">לא נמצאו ביטויים.</div>';
+    el.querySelectorAll('[data-core-say]').forEach(b=>b.onclick=()=>coreSpeakPhrase(b.dataset.coreSay,b));
+  };
+  draw();
+  if(search){search.value='';search.oninput=()=>draw(search.value)}
+}
+
 function renderPersonalizedCore(data){
   if(!isPersonalizedCore(data))return;
   document.body.classList.add('personalizedmode');
@@ -1227,96 +1293,6 @@ function renderPersonalizedCore(data){
   renderV7HotelMatches(data);renderV7Hotels(data);
   const nav=[...document.querySelectorAll('.navbtn')];
   if(nav.length>=4){nav[2].dataset.nav='hotels';nav[2].setAttribute('onclick',"openSection('hotels',this)");nav[2].innerHTML='<b>▰</b>מלונות';nav[3].dataset.nav='places';nav[3].setAttribute('onclick',"openSection('places',this)");nav[3].innerHTML='<b>✦</b>אטרקציות';}
-}
-
-
-let CORE_PHRASE_CATEGORY='all';
-function corePhraseCategoryLabel(cat){
-  const m={
-    all:'הכול',greetings:'בסיסי',basics:'בסיסי',food:'אוכל',shopping:'קניות',
-    navigation:'ניווט',hotel:'מלון',help:'עזרה'
-  };
-  return m[String(cat||'').toLowerCase()]||String(cat||'נוסף');
-}
-function coreSpeakPhrase(text,locale,btn){
-  if(!text)return;
-  if(!('speechSynthesis' in window)){alert('המכשיר הזה לא תומך בהקראת טקסט בדפדפן.');return}
-  speechSynthesis.cancel();
-  const u=new SpeechSynthesisUtterance(text);
-  u.lang=locale||'';
-  u.rate=.86;u.pitch=1;
-  const voices=speechSynthesis.getVoices?.()||[];
-  const lang=(locale||'').toLowerCase().split('-')[0];
-  const v=voices.find(x=>(x.lang||'').toLowerCase()===(locale||'').toLowerCase())||
-          voices.find(x=>(x.lang||'').toLowerCase().startsWith(lang+'-'))||
-          voices.find(x=>(x.lang||'').toLowerCase()===lang);
-  if(v)u.voice=v;
-  if(btn){
-    const old=btn.textContent;btn.textContent='🔊';
-    u.onend=()=>btn.textContent=old;u.onerror=()=>btn.textContent=old;
-  }
-  speechSynthesis.speak(u);
-}
-function renderCorePhrasebookRows(pack,query=''){
-  const list=document.getElementById('corePhraseList');if(!list)return;
-  const q=String(query||'').trim().toLowerCase();
-  const rows=(pack?.items||[]).filter(x=>{
-    const cat=String(x?.category||'').toLowerCase();
-    const catOk=CORE_PHRASE_CATEGORY==='all'||cat===CORE_PHRASE_CATEGORY||
-      (CORE_PHRASE_CATEGORY==='basics'&&cat==='greetings')||
-      (CORE_PHRASE_CATEGORY==='greetings'&&cat==='basics');
-    const text=`${x?.he||''} ${x?.local||''} ${x?.phonetic||''}`.toLowerCase();
-    return catOk&&(!q||text.includes(q));
-  });
-  list.innerHTML=rows.length?rows.map((x,i)=>`<div class="core-phrase-row">
-    <div>
-      <strong class="core-phrase-he">${escapeHtml(x.he||'')}</strong>
-      <span class="core-phrase-local" dir="auto">${escapeHtml(x.local||'')}</span>
-      <small class="core-phrase-phonetic">🗣️ ${escapeHtml(x.phonetic||'')}</small>
-    </div>
-    <button class="core-phrase-audio" type="button" data-phrase-i="${i}" aria-label="השמע">🔊</button>
-  </div>`).join(''):'<div class="core-phrase-empty">לא נמצאו ביטויים בחיפוש הזה.</div>';
-  const visible=rows;
-  list.querySelectorAll('[data-phrase-i]').forEach((b,i)=>b.onclick=()=>coreSpeakPhrase(visible[i]?.local||'',pack?.locale||'',b));
-}
-function renderCorePhrasebook(data){
-  const pack=data?.preferences?.triply_phrasebook;
-  const items=Array.isArray(pack?.items)?pack.items:[];
-  if(!items.length)return;
-
-  const title=document.getElementById('corePhraseTitle');
-  const sub=document.getElementById('corePhraseSubtitle');
-  const note=document.getElementById('corePhraseNote');
-  if(title)title.textContent=`${pack.language||'השפה המקומית'} למטייל`;
-  if(sub)sub.textContent=`עברית · ${pack.language||'שפה מקומית'} · תעתיק · 🔊 שמע`;
-  if(note)note.textContent=pack.note||`שיחון בסיסי שנבנה לפי ${data.destination||'היעד'} ומיקום הטיול.`;
-
-  const cats=[...new Set(items.map(x=>String(x?.category||'basics').toLowerCase()).filter(Boolean))];
-  const catBox=document.getElementById('corePhraseCats');
-  if(catBox){
-    catBox.innerHTML=['all',...cats].map(c=>`<button type="button" class="core-phrase-cat${c==='all'?' active':''}" data-core-phrase-cat="${escapeHtml(c)}">${escapeHtml(corePhraseCategoryLabel(c))}</button>`).join('');
-    catBox.querySelectorAll('[data-core-phrase-cat]').forEach(b=>b.onclick=()=>{
-      CORE_PHRASE_CATEGORY=b.dataset.corePhraseCat||'all';
-      catBox.querySelectorAll('.core-phrase-cat').forEach(x=>x.classList.toggle('active',x===b));
-      renderCorePhrasebookRows(pack,document.getElementById('corePhraseSearch')?.value||'');
-    });
-  }
-  const search=document.getElementById('corePhraseSearch');
-  if(search)search.oninput=()=>renderCorePhrasebookRows(pack,search.value);
-  CORE_PHRASE_CATEGORY='all';
-  renderCorePhrasebookRows(pack,'');
-
-  const holder=document.querySelector('.triply-wide-links');
-  if(holder&&!document.getElementById('corePhrasebookHomeCard')){
-    const btn=document.createElement('button');
-    btn.id='corePhrasebookHomeCard';
-    btn.className='triply-wide-card';
-    btn.setAttribute('onclick',"openSection('phrasebook')");
-    btn.innerHTML=`<div class="triply-wide-photo core-phrase-home-photo"><span>💬</span></div>
-      <div class="triply-wide-copy"><strong>שיחון ${escapeHtml(pack.language||'למטייל')}</strong><span>${items.length} ביטויים שימושיים · תעתיק בעברית · 🔊 שמע</span></div>
-      <div class="triply-arrow">‹</div>`;
-    holder.appendChild(btn);
-  }
 }
 
 function renderCoreTrip(data){
