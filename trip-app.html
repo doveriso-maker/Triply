@@ -514,7 +514,7 @@ a{color:inherit;text-decoration:none}
 .v7-flight-pair{display:grid;gap:7px;margin:8px 0}.v7-flight-leg{border:1px solid #dcebed;background:#f8fcfc;border-radius:13px;padding:9px 10px;display:grid;gap:3px}.v7-flight-leg b{font-size:13px;color:#0e5864}.v7-flight-leg span{font-size:12px;color:#526e75}
 
 
-/* TRIPLY V1.23 — personalized core + dynamic Food/Spa research support */
+/* TRIPLY V1.23 — personalized modules + universal country phrasebook */
 .v110-only{display:none}.v110mode .v110-only{display:block}
 .v110-home-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
 .v110-home-card{position:relative;border:1px solid var(--line);background:linear-gradient(155deg,#fff,#f5fbfc);border-radius:18px;padding:14px;text-align:right;color:var(--ink);box-shadow:0 8px 20px rgba(8,78,105,.06);min-height:105px}
@@ -543,12 +543,14 @@ a{color:inherit;text-decoration:none}
 .personalizedmode #dna .info-list{display:none}.personalizedmode #dna .dna{margin-top:4px}
 .hotel-all-note{background:#f4fbfc;border:1px solid #dcebed;border-radius:14px;padding:10px 11px;font-size:11px;line-height:1.55;color:#48636c;margin:0 0 10px}
 .v7-match-option .hotel-features{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}.v7-match-option .hotel-feature{font-size:9.5px;background:#f7fbfc;border:1px solid #dfebed;border-radius:999px;padding:4px 7px;color:#48616a}.v7-match-cons{margin-top:7px;font-size:10.5px;color:#8a5f45;line-height:1.5}
+
+.core-phrasebook-meta{display:flex;gap:7px;flex-wrap:wrap;margin:0 0 12px}.core-phrasebook-meta span{font-size:10px;font-weight:850;border:1px solid #d9ecee;background:#f6fbfc;color:#326774;border-radius:999px;padding:5px 8px}
+.core-phrasebook-list{display:grid;gap:8px}.core-phrase{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;gap:8px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:15px;padding:10px 11px}.core-phrase-he{font-weight:850;font-size:12px}.core-phrase-local{direction:ltr;text-align:left;font-weight:850;color:#0c7788;font-size:12px}.core-phrase-ph{grid-column:1/3;color:var(--muted);font-size:10.5px}.core-phrase-audio{border:0;background:linear-gradient(135deg,#0a7288,#14a8b8);color:#fff;border-radius:12px;padding:8px 10px;font-size:14px;font-weight:900}.core-phrase-cat{font-size:9px;color:#6d8187;margin-top:2px}
+@media(max-width:380px){.core-phrase{grid-template-columns:1fr auto}.core-phrase-local,.core-phrase-ph{grid-column:1/2}}
 @media(max-width:700px){.personalized-profile{grid-template-columns:1fr 1fr}.personalizedmode .triply-portrait-card{min-height:250px}}
 
 </style>
-<link href="/manifest.webmanifest" rel="manifest"/><link href="icon-192.png" rel="apple-touch-icon"/><style id="triply-v123-phrasebook-css">
-.phrasebook-quick{margin:14px 0 4px;border:0;width:100%;text-align:right;border-radius:22px;padding:16px 18px;background:linear-gradient(135deg,#e9fbfb,#fff7ee);box-shadow:0 10px 28px rgba(7,82,101,.08);display:flex;align-items:center;gap:14px;color:#0b5364}.phrasebook-quick b{font-size:30px}.phrasebook-quick strong{display:block;font-size:18px}.phrasebook-quick span{display:block;font-size:13px;color:#6d7d82;margin-top:2px}.phrasebook-intro{background:linear-gradient(135deg,#0c7285,#159aaa);color:#fff;border-radius:24px;padding:18px;margin:0 0 16px;box-shadow:0 12px 30px rgba(7,91,111,.16)}.phrasebook-intro h3{margin:0 0 6px;font-size:19px}.phrasebook-intro p{margin:0;line-height:1.6;opacity:.94}.phrasebook-group{margin:18px 0}.phrasebook-group-title{font-size:15px;color:#0b6375;margin:0 2px 9px;font-weight:800}.phrase-row{background:#fff;border:1px solid #e4edf0;border-radius:18px;padding:13px 14px;margin:8px 0;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;box-shadow:0 5px 18px rgba(4,71,92,.05)}.phrase-he{font-weight:800;font-size:15px;color:#173c46}.phrase-local{font-weight:800;font-size:16px;color:#0c7184;margin-top:4px;direction:auto}.phrase-phonetic{font-size:13px;color:#78868a;margin-top:3px}.phrase-speak{border:0;border-radius:14px;background:#e8f8fa;color:#087687;width:44px;height:44px;font-size:20px;cursor:pointer}.phrase-empty{padding:22px;border:1px dashed #ccdadd;border-radius:18px;color:#7b898d;text-align:center;background:#fff}.personalizedmode #food .kosher-note[hidden],.personalizedmode #kosher[hidden],.personalizedmode #beaches .notice[hidden]{display:none!important}
-</style></head>
+<link href="/manifest.webmanifest" rel="manifest"/><link href="icon-192.png" rel="apple-touch-icon"/></head>
 <body>
 <div class="app">
 <header class="brandbar" style="box-shadow:0 3px 14px rgba(11,79,108,.04)">
@@ -756,7 +758,7 @@ a{color:inherit;text-decoration:none}
 
 <section class="section" id="hotels"><div class="section-head"><div class="badge">🏨</div><div><h1>מלונות · Hotel Match</h1><p>הזמנות קיימות והאפשרויות ש־TRIPLY בחרה עבורכם</p></div></div><div id="v7HotelMatches"></div><div id="v7Hotels"></div></section>
 <section class="section" id="gallery"><div class="section-head"><div class="badge">📷</div><div><h1>גלריה</h1><p>לחצו על תמונה להגדלה</p></div></div><div class="v7-gallery" id="v7Gallery"></div></section>
-<section class="section" id="phrasebook"><div class="section-head"><div class="badge">🗣️</div><div><h1>שיחון בסיסי למטייל</h1><p id="corePhrasebookSubtitle">עברית · שפה מקומית · תעתיק · שמע</p></div></div><div id="corePhrasebookIntro"></div><div id="corePhrasebook" class="phrasebook-core"></div></section><section class="section" id="country"><div class="section-head"><div class="badge">🌍</div><div><h1>מידע לפי מדינה</h1><p>Country Pack · TRIPLY</p></div></div><div id="v7Country"></div></section>
+<section class="section" id="country"><div class="section-head"><div class="badge">🌍</div><div><h1>מידע לפי מדינה</h1><p>Country Pack · TRIPLY</p></div></div><div id="v7Country"></div></section>
 <section class="section" id="timeline"><div class="section-head"><div class="badge">✈️</div><div><h1>טיסות · Flight Match</h1><p>טיסות נבחרות, Shortlist ו-Timeline</p></div></div><div id="v7FlightMatches"></div><div id="v7Timeline"></div></section>
 <section class="section" id="dna">
 <div class="section-head"><div class="badge">🧬</div><div><h1>Travel DNA</h1><p>הפרופיל שמנהל את ההחלטות</p></div></div>
@@ -780,6 +782,8 @@ a{color:inherit;text-decoration:none}
 <section class="section v110-only" id="v110-fresh"><div class="section-head"><div class="badge">🍉</div><div><h1>פירות ושווקים</h1><p>תוצרת טרייה לאורך המסלול</p></div></div><div class="v110-module-list" id="v110Fresh"></div></section>
 <section class="section v110-only" id="v110-phrasebook"><div class="section-head"><div class="badge">🔊</div><div><h1>אלבנית למטייל</h1><p>עברית · אלבנית · תעתיק · שמע</p></div></div><input class="v110-search" id="v110PhraseSearch" placeholder="חיפוש ביטוי…"><div class="v110-phrase-list" id="v110Phrasebook"></div></section>
 <section class="section v110-only" id="v110-interviews"><div class="section-head"><div class="badge">🎙️</div><div><h1>שאלות לכתבה</h1><p>19 מקומות · 190 שאלות</p></div></div><div class="v110-interview-intro">בחר מקום, פתח את עשר השאלות ולחץ על <b>🔊 שאל באלבנית</b>. בפעם הראשונה נדרש אינטרנט לתרגום; לאחר מכן התרגום נשמר במכשיר וניתן להשמיע אותו שוב.</div><input class="v110-search" id="v110InterviewSearch" placeholder="חיפוש מקום / עיר / תפקיד…"><div id="v110Interviews"></div></section>
+
+<section class="section" id="phrasebook"><div class="section-head"><div class="badge">🔊</div><div><h1 id="corePhrasebookTitle">שיחון למטייל</h1><p id="corePhrasebookSub">עברית · שפה מקומית · תעתיק · שמע</p></div></div><div class="core-phrasebook-meta" id="corePhrasebookMeta"></div><input class="v110-search" id="corePhraseSearch" placeholder="חיפוש ביטוי…"><div class="core-phrasebook-list" id="corePhrasebookList"></div></section>
 
 <section class="section" id="live-shopping">
 <div class="section-head"><div class="badge">🛍️</div><div><h1>קניות ומבצעים</h1><p>Outlets · Sales · Shopping Radar</p></div></div>
@@ -1126,52 +1130,14 @@ async function renderV110Modules(data){
   const nav=[...document.querySelectorAll('.navbtn')];if(nav.length>=4){nav[2].dataset.nav='v110-phrasebook';nav[2].setAttribute('onclick',"openSection('v110-phrasebook',this)");nav[2].innerHTML='<b>🔊</b>אלבנית';}
 }
 
+function corePhraseLangHeb(pb){const m={Greek:'יוונית',Albanian:'אלבנית',Italian:'איטלקית',Romanian:'רומנית',Spanish:'ספרדית',French:'צרפתית',German:'גרמנית',Portuguese:'פורטוגזית',Turkish:'טורקית',Arabic:'ערבית',Tagalog:'טגלוג',Filipino:'פיליפינית',English:'אנגלית'};return m[pb?.language]||pb?.language||'השפה המקומית'}
+function coreSpeakLocal(text,lang,btn){if(!text)return;if(!('speechSynthesis' in window)){alert('המכשיר הזה לא תומך בהקראת טקסט בדפדפן.');return}speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang=lang||'en-US';u.rate=.86;u.pitch=1;const voices=speechSynthesis.getVoices?.()||[];const code=(lang||'').split('-')[0];const v=voices.find(v=>String(v.lang||'').toLowerCase().startsWith(code.toLowerCase()));if(v)u.voice=v;if(btn){const old=btn.textContent;btn.textContent='🔊';u.onend=()=>btn.textContent=old;u.onerror=()=>btn.textContent=old}speechSynthesis.speak(u)}
+function renderCorePhrasebook(data){const pb=data?.preferences?.phrasebook||data?.preferences?.core_phrasebook||data?.preferences?.phrasebook_core||data?.preferences?.triply_phrasebook;const items=Array.isArray(pb?.items)?pb.items:[];const el=document.getElementById('corePhrasebookList');if(!el)return;if(!items.length){el.innerHTML='<div class="radar-empty">השיחון עדיין נבנה לפי היעד.</div>';return}const langHeb=corePhraseLangHeb(pb),title=document.getElementById('corePhrasebookTitle'),sub=document.getElementById('corePhrasebookSub'),meta=document.getElementById('corePhrasebookMeta');if(title)title.textContent=`${langHeb} למטייל`;if(sub)sub.textContent=`עברית · ${langHeb} · תעתיק · שמע`;if(meta)meta.innerHTML=`<span>🌍 ${escapeHtml(data.destination||'')}</span><span>💬 ${items.length} ביטויים</span><span>🔊 הקראה ${escapeHtml(pb.speech_code||'')}</span>`;const draw=(q='')=>{const z=q.trim().toLowerCase();const rows=items.filter(x=>!z||`${x.he||''} ${x.local||''} ${x.phonetic_he||''} ${x.category||''}`.toLowerCase().includes(z));el.innerHTML=rows.map(x=>`<div class="core-phrase"><div><div class="core-phrase-he">${escapeHtml(x.he||'')}</div><div class="core-phrase-cat">${escapeHtml(x.category||'')}</div></div><div class="core-phrase-local">${escapeHtml(x.local||'')}</div><button class="core-phrase-audio" type="button" data-local="${escapeHtml(x.local||'')}" data-lang="${escapeHtml(pb.speech_code||'')}">🔊</button><div class="core-phrase-ph">${escapeHtml(x.phonetic_he||'')}</div></div>`).join('')||'<div class="radar-empty">לא נמצאו ביטויים.</div>';el.querySelectorAll('[data-local]').forEach(b=>b.onclick=()=>coreSpeakLocal(b.dataset.local,b.dataset.lang,b))};draw();const input=document.getElementById('corePhraseSearch');if(input)input.oninput=()=>draw(input.value)}
+
 function isPersonalizedCore(data){
   return !!(data?.preferences?.app_profile || data?.theme?.layout==='triply_personalized_core');
 }
 function personalizedCard(icon,title,desc){return `<div class="personalized-profile-card"><b>${icon}</b><strong>${escapeHtml(title)}</strong><span>${escapeHtml(desc||'')}</span></div>`}
-function getCorePhrasebook(data){
-  const p=data?.preferences||{};
-  const candidates=[p.phrasebook,p.core_phrasebook,p.phrasebook_core,p.triply_phrasebook];
-  for(const x of candidates){if(x&&Array.isArray(x.items)&&x.items.length)return x}
-  return null;
-}
-function phraseCategoryLabel(k){
-  const s=String(k||'בסיסי').toLowerCase();
-  if(/food|restaurant|מסעד/.test(s))return '🍽️ מסעדה ואוכל';
-  if(/shopping|price|number|קניות|מחיר/.test(s))return '🛍️ קניות ומחירים';
-  if(/navigation|transport|direction|ניווט|תחבורה/.test(s))return '🧭 ניווט ותחבורה';
-  if(/hotel|מלון/.test(s))return '🏨 מלון';
-  if(/help|emergency|עזרה/.test(s))return '🆘 עזרה ושירות';
-  return '👋 בסיסי';
-}
-function speakCorePhrase(text,locale){
-  if(!text||!('speechSynthesis' in window))return;
-  try{
-    speechSynthesis.cancel();
-    const u=new SpeechSynthesisUtterance(text);u.lang=locale||'en-US';u.rate=.86;
-    const voices=speechSynthesis.getVoices?.()||[];
-    const prefix=(u.lang||'').split('-')[0].toLowerCase();
-    const v=voices.find(v=>String(v.lang||'').toLowerCase()===(u.lang||'').toLowerCase())||voices.find(v=>String(v.lang||'').toLowerCase().startsWith(prefix));
-    if(v)u.voice=v;speechSynthesis.speak(u);
-  }catch(e){console.warn('phrasebook speech',e)}
-}
-function renderCorePhrasebook(data){
-  const pb=getCorePhrasebook(data),el=document.getElementById('corePhrasebook'),intro=document.getElementById('corePhrasebookIntro'),sub=document.getElementById('corePhrasebookSubtitle');
-  if(!el)return;
-  if(!pb){el.innerHTML='<div class="phrase-empty">השיחון עדיין נבנה ליעד הזה.</div>';if(intro)intro.innerHTML='';return}
-  const items=pb.items.map(x=>({he:x.he||x.hebrew||'',local:x.local||x.sq||x.translation||'',phonetic:x.phonetic_he||x.phonetic||'',category:x.category||'basic'})).filter(x=>x.he&&x.local);
-  const language=pb.language||pb.language_name_he||pb.language_name_local||'השפה המקומית';
-  const locale=pb.locale||pb.speech_locale||pb.language_code||'en-US';
-  if(sub)sub.textContent=`${language} · ${items.length} ביטויים · 🔊 הקראה`;
-  if(intro)intro.innerHTML=`<div class="phrasebook-intro"><h3>🗣️ ${escapeHtml(language)} למטייל</h3><p>${escapeHtml(pb.note_he||pb.note||'ביטויים בסיסיים שנבחרו לשימוש יומיומי: אוכל, תחבורה, קניות ועזרה.')}</p></div>`;
-  const groups={};for(const x of items)(groups[phraseCategoryLabel(x.category)]??=[]).push(x);
-  el.innerHTML=Object.entries(groups).map(([g,rows])=>`<div class="phrasebook-group"><h3 class="phrasebook-group-title">${escapeHtml(g)}</h3>${rows.map(x=>`<div class="phrase-row"><div><div class="phrase-he">${escapeHtml(x.he)}</div><div class="phrase-local">${escapeHtml(x.local)}</div>${x.phonetic?`<div class="phrase-phonetic">${escapeHtml(x.phonetic)}</div>`:''}</div><button class="phrase-speak" aria-label="השמעה" data-speak="${escapeHtml(x.local).replace(/&quot;/g,'&quot;')}">🔊</button></div>`).join('')}</div>`).join('');
-  el.querySelectorAll('.phrase-speak').forEach(b=>b.addEventListener('click',()=>speakCorePhrase(b.getAttribute('data-speak')||'',locale)));
-  let q=document.getElementById('phrasebookQuickHome');
-  if(!q){q=document.createElement('button');q.id='phrasebookQuickHome';q.className='phrasebook-quick';q.setAttribute('onclick',"openSection('phrasebook',this)");const anchor=document.getElementById('personalizedProfileHome')||document.querySelector('.triply-portrait-grid');anchor?.insertAdjacentElement('afterend',q)}
-  if(q)q.innerHTML=`<b>🗣️</b><div><strong>שיחון ${escapeHtml(language)}</strong><span>${items.length} ביטויים · עברית · תעתיק · 🔊 שמע</span></div>`;
-}
 function renderPersonalizedDNA(data){
   const el=document.querySelector('#dna .dna'); if(!el)return;
   const scores=data?.travelDna?.scores||{}; const rows=Object.entries(scores).sort((a,b)=>Number(b[1])-Number(a[1]));
@@ -1180,68 +1146,50 @@ function renderPersonalizedDNA(data){
 }
 function renderPersonalizedUseful(data){
   const el=document.querySelector('#useful .info-list'); if(!el)return; const a=data?.preferences?.app_profile||{};
-  const kids=Array.isArray(a.kids_ages)?a.kids_ages.join(', '):'';
-  const food=Array.isArray(a.food_likes)?a.food_likes.join(' · '):'';
-  const shop=Array.isArray(a.shopping)?a.shopping.join(' · '):'';
-  el.innerHTML=`<div class="info"><strong>👨‍👩‍👧‍👦 הרכב הטיול</strong>${escapeHtml(a.display_name||a.party_type||'')} · ${escapeHtml(a.travelers||'')} נוסעים${kids?' · ילדים בגילאי '+escapeHtml(kids):''}</div>
-  <div class="info"><strong>🕙 קצב יום</strong>${escapeHtml(a.pace||'')} · מתחילים סביב ${escapeHtml(a.day_start||'')} · מסיימים סביב ${escapeHtml(a.day_end||'')} · נסיעות ${escapeHtml(a.max_drive||'')}</div>
-  <div class="info"><strong>🏨 תוכנית לינה</strong>${escapeHtml(a.hotel_plan||'')}</div>
-  <div class="info"><strong>🎯 חובה בטיול</strong>${escapeHtml(a.must_have||'')}</div>
-  <div class="info"><strong>🚫 לא רוצים</strong>${escapeHtml(a.avoid||'')}</div>
-  <div class="info"><strong>🍽️ אוכל</strong>${escapeHtml(food)}</div>
-  <div class="info"><strong>🛍️ קניות</strong>${escapeHtml(shop)}${Array.isArray(a.shopping_categories)&&a.shopping_categories.length?'<div class="source">'+a.shopping_categories.map(escapeHtml).join(' · ')+'</div>':''}</div>
-  <div class="info"><strong>✈️ טיסות</strong>${escapeHtml(a.flights_summary||'')}</div>`;
+  const kids=Array.isArray(a.kids_ages)?a.kids_ages.join(', '):''; const food=Array.isArray(a.food_likes)?a.food_likes.join(' · '):''; const rules=Array.isArray(a.food_rules)?a.food_rules.join(' · '):''; const shop=Array.isArray(a.shopping)?a.shopping.join(' · '):'';
+  const transport=a.car===false?`בלי רכב · ${a.walking||'הליכה ותחבורה ציבורית'}`:`${a.car?'עם רכב':'תחבורה לפי המסלול'}${a.max_drive?' · '+a.max_drive:''}`;
+  const rows=[
+    ['👥 הרכב הטיול',`${a.display_name||a.party_type||''}${a.travelers?' · '+a.travelers+' נוסעים':''}${kids?' · ילדים בגילאי '+kids:''}`],
+    ['🕙 קצב יום',`${a.pace||''}${a.day_start?' · '+a.day_start:''}${a.day_end?'–'+a.day_end:''}`],
+    ['🚇 התניידות',transport],
+    a.hotel_plan?['🏨 תוכנית לינה',a.hotel_plan]:a.hotel_status?['🏨 לינה',a.hotel_status]:null,
+    a.must_have?['🎯 חובה בטיול',a.must_have]:null,
+    a.avoid?['🚫 לא רוצים',a.avoid]:null,
+    food?['🍽️ אוכל',food+(rules?' · '+rules:'')]:null,
+    shop?['🛍️ קניות',shop+(Array.isArray(a.shopping_categories)&&a.shopping_categories.length?' · '+a.shopping_categories.join(' · '):'')]:null,
+    (a.flights_summary||a.flight_status)?['✈️ טיסות',a.flights_summary||a.flight_status]:null
+  ].filter(Boolean);
+  el.innerHTML=rows.map(([h,b])=>`<div class="info"><strong>${escapeHtml(h)}</strong>${escapeHtml(b||'')}</div>`).join('');
 }
 function renderPersonalizedCore(data){
   if(!isPersonalizedCore(data))return;
   document.body.classList.add('personalizedmode');
-  const a=data?.preferences?.app_profile||{};
-  const kids=Array.isArray(a.kids_ages)?a.kids_ages.join(', '):'';
+  const a=data?.preferences?.app_profile||{}; const kids=Array.isArray(a.kids_ages)?a.kids_ages.join(', '):'';
+  const guide=Array.isArray(data?.guidePlaces)?data.guidePlaces:[];
+  const foodRows=guide.filter(p=>/מסעד|אוכל|restaurant|street|cafe|bakery|pizza|taverna|food/i.test((p?.category||'')+' '+(p?.metadata?.guide_section||'')));
+  const spaRows=guide.filter(p=>/ספא|מסאז|massage|spa|wellness|hammam|hotel_spa/i.test((p?.category||'')+' '+(p?.name||'')+' '+(p?.metadata?.guide_section||'')));
+  const phraseItems=data?.preferences?.phrasebook?.items||[]; const hotelCount=(data.hotelMatches||[]).reduce((n,r)=>n+(r.options||[]).length,0);
   const subtitle=document.querySelector('.triply-home-title p'); if(subtitle)subtitle.textContent=data?.theme?.home_subtitle||`${data.destination||''} · ${data.startDate||''}–${data.endDate||''}`;
   const flag=document.querySelector('.triply-badge-round'); if(flag)flag.textContent=data?.theme?.country_flag||'🌍';
   const scheduleSub=document.querySelector('#schedule .section-head p');if(scheduleSub)scheduleSub.textContent=[a.party_type,a.travelers?`${a.travelers} נוסעים`:null,kids?`ילדים ${kids}`:null,a.pace?`קצב ${a.pace}`:null].filter(Boolean).join(' · ');
   const portraits=[...document.querySelectorAll('.triply-portrait-card')];
-  const hotelCount=(data.hotelMatches||[]).reduce((n,r)=>n+(r.options||[]).length,0);
-  const kidsMode=Array.isArray(a.kids_ages)&&a.kids_ages.length>0;
-  const beachScore=Number(data?.travelDna?.scores?.['חופים']||0),natureScore=Number(data?.travelDna?.scores?.['טבע']||0),nightScore=Number(data?.travelDna?.scores?.['חיי לילה']||0);
-  const third=kidsMode?['🎢','הילדים במרכז',a.must_have||'אטרקציות משפחתיות','places','linear-gradient(145deg,#d75d4d,#ef9b62)']:(Math.max(beachScore,natureScore)>=70?['🏝️','חופים וטבע',a.must_have||'טבע וחוויות','beaches','linear-gradient(145deg,#d75d4d,#ef9b62)']:['✦','חוויות',a.must_have||'המקומות שמתאימים לכם','places','linear-gradient(145deg,#d75d4d,#ef9b62)']);
-  const fourth=getCorePhrasebook(data)?['🗣️','שיחון',getCorePhrasebook(data)?.language||getCorePhrasebook(data)?.language_name_he||'השפה המקומית','phrasebook','linear-gradient(145deg,#7f5aa7,#b98bd0)']:(nightScore>=60?['🌙','חיי לילה','ברים, אירועים וערבים','live-events','linear-gradient(145deg,#7f5aa7,#b98bd0)']:['🛍️','קניות',Array.isArray(a.shopping)?a.shopping.join(' · '):'קניות לאורך הטיול','live-shopping','linear-gradient(145deg,#7f5aa7,#b98bd0)']);
-  const defs=[
-    ['🗓️','המסלול שלנו',`${(data.days||[]).length} ימים · ${data.destination||''}`,'schedule','linear-gradient(145deg,#0c7587,#47b4be)'],
-    ['🏨','מלונות',`${hotelCount} אפשרויות במחקר · ${a.hotel_plan||''}`,'hotels','linear-gradient(145deg,#173c69,#4d7fb2)'],
-    third,fourth
-  ];
-  portraits.forEach((c,i)=>{const d=defs[i];if(!d)return;c.style.setProperty('--cardbg',d[4]);c.setAttribute('onclick',`openSection('${d[3]}',this)`);c.innerHTML=`<span class="portrait-icon">${d[0]}</span><strong>${escapeHtml(d[1])}</strong><small>${escapeHtml(d[2])}</small>`});
-  let panel=document.getElementById('personalizedProfileHome');
-  if(!panel){panel=document.createElement('div');panel.id='personalizedProfileHome';const grid=document.querySelector('.triply-portrait-grid');grid?.insertAdjacentElement('afterend',panel)}
-  panel.innerHTML=`<div class="personalized-profile">${personalizedCard('👥',`${a.travelers||''} נוסעים`,kids?`ילדים: ${kids}`:a.party_type||'')}${personalizedCard('🚙',a.car||'תחבורה',a.max_drive||'')}${personalizedCard('🕙',`${a.day_start||''}–${a.day_end||''}`,`קצב ${a.pace||''}`)}${personalizedCard('🏨','בסיסי לינה',data.baseLocation||a.hotel_plan||data.destination||'')}</div><div class="personalized-summary"><h3>${escapeHtml(a.display_name||'הטיול שלכם')} · ${escapeHtml(data.destination||'')}</h3><p>${escapeHtml(a.hotel_plan||'')}</p><div class="personalized-chips"><span class="personalized-chip">🎯 ${escapeHtml(a.must_have||'')}</span><span class="personalized-chip">🚫 בלי ${escapeHtml(a.avoid||'')}</span><span class="personalized-chip">🍽️ ${escapeHtml((a.food_likes||[]).slice(0,3).join(' · '))}</span></div></div>`;
-  const hotelsHead=document.querySelector('#hotels .section-head h1');if(hotelsHead)hotelsHead.textContent='מלונות · כל אפשרויות המחקר';
-  const hotelsSub=document.querySelector('#hotels .section-head p');if(hotelsSub)hotelsSub.textContent=a.hotel_plan||'כל האפשרויות שנמצאו במחקר';
-  const foodHead=document.querySelector('#food .section-head h1');if(foodHead)foodHead.textContent=`אוכל וקולינריה · ${data.destination||''}`;
-  const foodSub=document.querySelector('#food .section-head p');if(foodSub)foodSub.textContent=Array.isArray(a.food_likes)?a.food_likes.join(' · '):'העדפות האוכל שלכם';
-  const prefText=JSON.stringify(data?.preferences||{});const hasKosher=/כשר|kosher|chabad|חב״ד|חבד/i.test(prefText);
-  const foodNote=document.querySelector('#food .kosher-note');if(foodNote)foodNote.hidden=!hasKosher;
-  const kosherSection=document.getElementById('kosher');if(kosherSection)kosherSection.hidden=!hasKosher;
-  const placesHead=document.querySelector('#places .section-head h1');if(placesHead)placesHead.textContent='אטרקציות ומקומות ששמרנו';
-  const placesSub=document.querySelector('#places .section-head p');if(placesSub)placesSub.textContent=`נבנה לפי Travel DNA · ${data.destination||''}`;
-  const beachesSub=document.querySelector('#beaches .section-head p');if(beachesSub)beachesSub.textContent='חוף, טבע ותצפיות לפי המסלול';
-  const beachNotice=document.querySelector('#beaches .notice');if(beachNotice){beachNotice.hidden=false;beachNotice.innerHTML='<span class="dot"></span><div><strong>מזג אוויר חכם:</strong> התחזית מתעדכנת לפי המיקום של כל יום. בימי ים מומלץ לבדוק שוב בבוקר לפני יציאה.</div>';}
-  const spaScoreRaw=Number(data?.travelDna?.scores?.['ספא']);
-  const spaRateRaw=Number(data?.preferences?.rate_spa||a.rate_spa||0);
-  const spaScore=Number.isFinite(spaScoreRaw)&&spaScoreRaw>0?spaScoreRaw:(Number.isFinite(spaRateRaw)?Math.max(0,Math.min(100,spaRateRaw*20)):0);
-  const spaRows=(Array.isArray(data?.guidePlaces)?data.guidePlaces:[]).filter(p=>/ספא|מסאז|massage|spa|wellness|hammam|hotel_spa/i.test((p?.category||'')+' '+(p?.name||'')+' '+(p?.metadata?.guide_section||'')));
-  const spaHead=document.querySelector('#spa .section-head h1');if(spaHead)spaHead.textContent='ספא & Wellness';
-  const spaSub=document.querySelector('#spa .section-head p');if(spaSub)spaSub.textContent=spaScore>=90?'עדיפות גבוהה לפי השאלון':spaScore>=60?'אופציית פינוק שמתאימה למסלול':'אופציונלי לפי הזמן והחשק';
-  const spaSmart=document.querySelector('#spa .smart-card');
-  if(spaSmart){
-    const must=spaScore>=90;
-    const count=spaRows.length;
-    spaSmart.innerHTML=`<h3>${must?'TRIPLY שמרה מקום לספא במסלול':count?`מצאנו ${count} אפשרויות Spa & Wellness`:'Spa & Wellness לפי ההעדפות שלכם'}</h3><p>${must?'הספא קיבל עדיפות גבוהה בשאלון ולכן נשמרים עבורו חלונות מתאימים בתוך הימים.':count?`הספא קיבל ${spaScore||'עדיפות בינונית'}${spaScore?'%':''} ב־Travel DNA. לכן האפשרויות מוצגות כפינוק גמיש ליד בסיסי הלינה והמסלול — בלי להעמיס על המסלול.`:'לא הוגדר ספא כחובה בטיול. אם יימצאו אפשרויות טובות ליד המסלול הן יוצגו כאן כאופציה גמישה.'}</p>`;
-  }
-  renderPersonalizedDNA(data);renderPersonalizedUseful(data);
-  renderV7HotelMatches(data);renderV7Hotels(data);
-  const nav=[...document.querySelectorAll('.navbtn')];
-  if(nav.length>=4){nav[2].dataset.nav='hotels';nav[2].setAttribute('onclick',"openSection('hotels',this)");nav[2].innerHTML='<b>▰</b>מלונות';nav[3].dataset.nav='places';nav[3].setAttribute('onclick',"openSection('places',this)");nav[3].innerHTML='<b>✦</b>אטרקציות';}
+  const defs=[['🗓️','המסלול שלנו',`${(data.days||[]).length} ימים · ${data.destination||''}`,'schedule','linear-gradient(145deg,#0c7587,#47b4be)']];
+  if(hotelCount>0)defs.push(['🏨','Hotel Match',`${hotelCount} אפשרויות שנמצאו`,'hotels','linear-gradient(145deg,#173c69,#4d7fb2)']);
+  if(foodRows.length)defs.push(['🍽️','אוכל וקולינריה',`${foodRows.length} מקומות לפי ההעדפות`,'food','linear-gradient(145deg,#d75d4d,#ef9b62)']);
+  if((a.shopping||[]).length)defs.push(['🛍️','קניות',Array.isArray(a.shopping)?a.shopping.join(' · '):'קניות לאורך הטיול','live-shopping','linear-gradient(145deg,#7f5aa7,#b98bd0)']);
+  if(spaRows.length)defs.push(['✨','Spa & Wellness',`${spaRows.length} אפשרויות ליד המסלול`,'spa','linear-gradient(145deg,#0e8b92,#6cc3b8)']);
+  if(phraseItems.length)defs.push(['🔊','שיחון מקומי',`${phraseItems.length} ביטויים עם שמע`,'phrasebook','linear-gradient(145deg,#b57a27,#e6b65d)']);
+  defs.push(['📍','מקומות ששמרנו','אטרקציות, שווקים ונקודות עניין','places','linear-gradient(145deg,#2d6b5f,#68a78f)']);
+  portraits.forEach((c,i)=>{const d=defs[i]||defs[defs.length-1];c.style.setProperty('--cardbg',d[4]);c.setAttribute('onclick',`openSection('${d[3]}',this)`);c.innerHTML=`<span class="portrait-icon">${d[0]}</span><strong>${escapeHtml(d[1])}</strong><small>${escapeHtml(d[2])}</small>`});
+  let panel=document.getElementById('personalizedProfileHome');if(!panel){panel=document.createElement('div');panel.id='personalizedProfileHome';document.querySelector('.triply-portrait-grid')?.insertAdjacentElement('afterend',panel)}
+  const transportTitle=a.car===false?'בלי רכב':a.car?'עם רכב':'התניידות';const transportDesc=a.car===false?(a.walking||'הליכה ותחבורה ציבורית'):(a.max_drive||'לפי המסלול');const stay=a.hotel_plan||a.hotel_status||data.baseLocation||data.destination||'';
+  panel.innerHTML=`<div class="personalized-profile">${personalizedCard('👥',`${a.travelers||''} נוסעים`,kids?`ילדים: ${kids}`:a.party_type||'')}${personalizedCard(a.car===false?'🚇':'🚙',transportTitle,transportDesc)}${personalizedCard('🕙',`${a.day_start||''}–${a.day_end||''}`,`קצב ${a.pace||''}`)}${personalizedCard('📍','בסיס הטיול',stay)}</div><div class="personalized-summary"><h3>${escapeHtml(a.display_name||'הטיול שלכם')} · ${escapeHtml(data.destination||'')}</h3><p>${escapeHtml(a.favorite_trip||a.hotel_plan||a.flight_status||'אפליקציה אישית לפי השאלון')}</p><div class="personalized-chips">${a.must_have?`<span class="personalized-chip">🎯 ${escapeHtml(a.must_have)}</span>`:''}${a.avoid?`<span class="personalized-chip">🚫 בלי ${escapeHtml(a.avoid)}</span>`:''}${Array.isArray(a.food_likes)&&a.food_likes.length?`<span class="personalized-chip">🍽️ ${escapeHtml(a.food_likes.slice(0,3).join(' · '))}</span>`:''}</div></div>`;
+  const hotelsHead=document.querySelector('#hotels .section-head h1');if(hotelsHead)hotelsHead.textContent=hotelCount?'מלונות · אפשרויות המחקר':'לינה';const hotelsSub=document.querySelector('#hotels .section-head p');if(hotelsSub)hotelsSub.textContent=hotelCount?(a.hotel_plan||'כל האפשרויות שנמצאו במחקר'):(a.hotel_status||a.hotel_plan||'הלינה כבר נקבעה');
+  const foodHead=document.querySelector('#food .section-head h1');if(foodHead)foodHead.textContent=`אוכל וקולינריה · ${data.destination||''}`;const foodSub=document.querySelector('#food .section-head p');if(foodSub)foodSub.textContent=Array.isArray(a.food_likes)?a.food_likes.join(' · '):'העדפות האוכל שלכם';
+  const placesHead=document.querySelector('#places .section-head h1');if(placesHead)placesHead.textContent='אטרקציות ומקומות ששמרנו';const placesSub=document.querySelector('#places .section-head p');if(placesSub)placesSub.textContent=`נבנה לפי Travel DNA · ${data.destination||''}`;
+  const spaScoreRaw=Number(data?.travelDna?.scores?.['ספא']),spaRateRaw=Number(data?.preferences?.rate_spa||a.rate_spa||0),spaScore=Number.isFinite(spaScoreRaw)&&spaScoreRaw>0?spaScoreRaw:(Number.isFinite(spaRateRaw)?Math.max(0,Math.min(100,spaRateRaw*20)):0);const spaHead=document.querySelector('#spa .section-head h1');if(spaHead)spaHead.textContent='Spa & Wellness';const spaSub=document.querySelector('#spa .section-head p');if(spaSub)spaSub.textContent=spaScore>=90?'עדיפות גבוהה לפי השאלון':spaScore>=60?'אופציית פינוק שמתאימה למסלול':'אופציונלי לפי הזמן והחשק';const spaSmart=document.querySelector('#spa .smart-card');if(spaSmart){const must=spaScore>=90,count=spaRows.length;spaSmart.innerHTML=`<h3>${must?'TRIPLY שמרה מקום לספא במסלול':count?`מצאנו ${count} אפשרויות Spa & Wellness`:'Spa & Wellness לפי ההעדפות שלכם'}</h3><p>${must?'הספא קיבל עדיפות גבוהה בשאלון ולכן נשמרים עבורו חלונות מתאימים בתוך הימים.':count?`הספא קיבל ${spaScore||'עדיפות בינונית'}${spaScore?'%':''} ב־Travel DNA. לכן האפשרויות מוצגות כפינוק גמיש ליד המסלול — בלי להעמיס על היום.`:'לא הוגדר ספא כחובה. אפשרויות טובות יוצגו כאן כאופציה גמישה.'}</p>`}
+  renderPersonalizedDNA(data);renderPersonalizedUseful(data);renderV7HotelMatches(data);renderV7Hotels(data);
+  const nav=[...document.querySelectorAll('.navbtn')];if(nav.length>=4){if(hotelCount>0){nav[2].dataset.nav='hotels';nav[2].setAttribute('onclick',"openSection('hotels',this)");nav[2].innerHTML='<b>▰</b>מלונות'}else if(phraseItems.length){nav[2].dataset.nav='phrasebook';nav[2].setAttribute('onclick',"openSection('phrasebook',this)");nav[2].innerHTML='<b>🔊</b>שיחון'}else{nav[2].dataset.nav='spa';nav[2].setAttribute('onclick',"openSection('spa',this)");nav[2].innerHTML='<b>✦</b>ספא'}if(foodRows.length){nav[3].dataset.nav='food';nav[3].setAttribute('onclick',"openSection('food',this)");nav[3].innerHTML='<b>♨</b>אוכל'}else{nav[3].dataset.nav='places';nav[3].setAttribute('onclick',"openSection('places',this)");nav[3].innerHTML='<b>✦</b>מקומות'}}
 }
 
 function renderCoreTrip(data){
@@ -1251,7 +1199,7 @@ function renderCoreTrip(data){
   const subtitle=document.querySelector('.triply-home-title p'); if(subtitle && data.theme?.home_subtitle) subtitle.textContent=data.theme.home_subtitle;
   const badge=document.querySelector('.triply-badge-round'); if(badge){badge.textContent=data.theme?.country_flag||'🌍';badge.dataset.flag=data.theme?.country_flag||'🌍'; if(data.preferences?.v7) document.body.classList.add('v7mode');}
   if(data.assets?.length){const first=data.assets.find(a=>a.type==='gallery_image'); const hero=document.querySelector('.hero'); if(first?.url&&hero) hero.style.backgroundImage=`linear-gradient(180deg,rgba(6,63,88,.06),rgba(6,63,88,.82)),url('${first.url}')`;}
-  renderCoreSchedule(data); renderCorePlaces(data); renderPersonalizedCore(data); renderCorePhrasebook(data); renderV7Modules(data); renderV110Modules(data);
+  renderCoreSchedule(data); renderCorePlaces(data); renderCorePhrasebook(data); renderPersonalizedCore(data); renderV7Modules(data); renderV110Modules(data);
 }
 
 let V7_FOOD_KIND='all',V7_GALLERY_INDEX=0,V7_FX=3.5;
