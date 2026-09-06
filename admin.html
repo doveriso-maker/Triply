@@ -33,6 +33,7 @@ button,input,select{font:inherit}.shell{max-width:960px;margin:auto;padding:18px
 
 .flight-pair{display:grid;gap:6px;margin-top:7px}.flight-leg{background:#f7fbfc;border:1px solid #dbecef;border-radius:12px;padding:8px 10px;display:grid;gap:2px}.flight-leg b{font-size:13px;color:#0f5964}.flight-leg span{font-size:12px;color:#55727a}
 
+.ready-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 7px;border-radius:999px;background:#e8f7f2;color:#08745e;font-weight:800;font-size:11px}.ready-badge.low{background:#fff3df;color:#9a6200}
 </style>
 </head>
 <body>
@@ -107,7 +108,7 @@ const CORE_KEY='sb_publishable_dZFP2IUafSBsNpsnc4e4Mw_rU0FQFJh';
 const supabase=createClient(CORE_URL,CORE_KEY,{auth:{detectSessionInUrl:true,persistSession:true,autoRefreshToken:true}});
 
 const $=s=>document.querySelector(s);
-let currentUser=null, trips=[], hotelReqByTrip={}, flightReqByTrip={};
+let currentUser=null, trips=[], hotelReqByTrip={}, flightReqByTrip={}, readinessByTrip={};
 
 function msg(el,text,show=true){el.textContent=text;el.style.display=show?'block':'none'}
 function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
@@ -152,6 +153,9 @@ async function loadTrips(){
     if(!flightReqByTrip[r.trip_id]) flightReqByTrip[r.trip_id]=[];
     flightReqByTrip[r.trip_id].push(r.status);
   });
+  readinessByTrip={};
+  const {data:jobs}=await supabase.from('triply_autopilot_jobs').select('trip_id,result_summary,message');
+  (jobs||[]).forEach(j=>{const r=j?.result_summary?.baselineReadiness;if(r&&Number.isFinite(Number(r.percent)))readinessByTrip[j.trip_id]={percent:Number(r.percent),target:Number(r.target||75),status:r.status,message:j.message||''}});
   renderStats();renderTrips();
 }
 function renderStats(){
@@ -167,7 +171,7 @@ function renderTrips(){
     <article class="trip">
       <div>
         <h3><span class="code">Trip ${esc(t.trip_code)}</span>${esc(t.title)}</h3>
-        <div class="meta">${esc(t.destination)}${t.base_location?' · '+esc(t.base_location):''}<br>${dateHe(t.start_date)}–${dateHe(t.end_date)} · <span class="status ${esc(t.status)}">${t.status==='published'?'פורסם':'טיוטה'}</span>${t.preferences?.imported_from_existing_app?` · <span class="import-badge">📦 Imported ${esc(t.preferences?.source_version||'App')}</span>`:''}${hotelReqByTrip[t.id]?.length?` · <span class="hotel-badge ${esc(hotelReqByTrip[t.id][0])}">🏨 Hotel Match ${esc(hotelReqByTrip[t.id][0])}</span>`:''}${flightReqByTrip[t.id]?.length?` · <span class="flight-badge ${esc(flightReqByTrip[t.id][0])}">✈️ Flight Match ${esc(flightReqByTrip[t.id][0])}</span>`:''}</div>
+        <div class="meta">${esc(t.destination)}${t.base_location?' · '+esc(t.base_location):''}<br>${dateHe(t.start_date)}–${dateHe(t.end_date)} · <span class="status ${esc(t.status)}">${t.status==='published'?'פורסם':'טיוטה'}</span>${t.preferences?.imported_from_existing_app?` · <span class="import-badge">📦 Imported ${esc(t.preferences?.source_version||'App')}</span>`:''}${hotelReqByTrip[t.id]?.length?` · <span class="hotel-badge ${esc(hotelReqByTrip[t.id][0])}">🏨 Hotel Match ${esc(hotelReqByTrip[t.id][0])}</span>`:''}${flightReqByTrip[t.id]?.length?` · <span class="flight-badge ${esc(flightReqByTrip[t.id][0])}">✈️ Flight Match ${esc(flightReqByTrip[t.id][0])}</span>`:''}${readinessByTrip[t.id]?` · <span class="ready-badge ${readinessByTrip[t.id].percent<70?'low':''}">⚡ Baseline ${readinessByTrip[t.id].percent}% / ${readinessByTrip[t.id].target}%</span>`:''}</div>
       </div>
       <div class="actions">
         <a class="btn soft" href="${tripUrl(t.trip_code)}" target="_blank" rel="noopener">פתח אפליקציה</a>
