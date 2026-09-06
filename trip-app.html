@@ -514,7 +514,7 @@ a{color:inherit;text-decoration:none}
 .v7-flight-pair{display:grid;gap:7px;margin:8px 0}.v7-flight-leg{border:1px solid #dcebed;background:#f8fcfc;border-radius:13px;padding:9px 10px;display:grid;gap:3px}.v7-flight-leg b{font-size:13px;color:#0e5864}.v7-flight-leg span{font-size:12px;color:#526e75}
 
 
-/* TRIPLY V1.23 — personalized core + dynamic Food/Spa/Weather/Phrasebook support */
+/* TRIPLY V1.23 — personalized core + dynamic Food/Spa/Weather + Core Phrasebook */
 .v110-only{display:none}.v110mode .v110-only{display:block}
 .v110-home-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
 .v110-home-card{position:relative;border:1px solid var(--line);background:linear-gradient(155deg,#fff,#f5fbfc);border-radius:18px;padding:14px;text-align:right;color:var(--ink);box-shadow:0 8px 20px rgba(8,78,105,.06);min-height:105px}
@@ -546,11 +546,32 @@ a{color:inherit;text-decoration:none}
 @media(max-width:700px){.personalized-profile{grid-template-columns:1fr 1fr}.personalizedmode .triply-portrait-card{min-height:250px}}
 
 
-/* V1.23 · Core Phrasebook */
-.triply-phrasebook-note{background:linear-gradient(135deg,#f2fbfc,#fff8ea);border:1px solid #d9ecee;border-radius:18px;padding:13px 14px;margin-bottom:12px;font-size:11.5px;line-height:1.65;color:#4b6570}
-.triply-phrasebook-note strong{color:#0c7485}.triply-phrasebook-meta{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 12px}.triply-phrasebook-meta span{font-size:9.5px;font-weight:850;background:#eef9fa;color:#0a7181;border-radius:999px;padding:5px 8px}
-.triply-phrasebook-local{direction:ltr;text-align:left;font-weight:850;color:#0c7788;font-size:12px}.triply-phrasebook-ph{grid-column:1/3;color:var(--muted);font-size:10.5px}.triply-phrasebook-home-icon{display:flex;align-items:center;justify-content:center;font-size:30px;background:linear-gradient(145deg,#0c7587,#47b4be);color:#fff}
-@media(max-width:380px){.triply-phrasebook-ph{grid-column:1/2}}
+/* TRIPLY Core Phrasebook */
+.core-phrase-home-photo{
+  display:grid;place-items:center;
+  background:
+    radial-gradient(circle at 72% 20%,rgba(255,255,255,.32),transparent 25%),
+    linear-gradient(145deg,#0d7488,#22aab6 58%,#f3aa58);
+}
+.core-phrase-home-photo span{font-size:42px;filter:drop-shadow(0 5px 10px rgba(0,0,0,.12))}
+.core-phrasebook-intro{
+  background:linear-gradient(135deg,#eefbfc,#fff7ea);
+  border:1px solid #d9ecee;border-radius:18px;padding:13px 14px;margin:0 0 12px;
+  color:#3d5b65;font-size:11.5px;line-height:1.65
+}
+.core-phrasebook-search{width:100%;border:1px solid var(--line);border-radius:14px;padding:12px 13px;font:inherit;background:#fff;color:var(--ink);margin:0 0 10px}
+.core-phrase-cats{display:flex;gap:6px;overflow:auto;padding:0 0 10px;scrollbar-width:none}
+.core-phrase-cats::-webkit-scrollbar{display:none}
+.core-phrase-cat{border:1px solid #dcebed;background:#fff;color:#45646e;border-radius:999px;padding:7px 10px;font-size:10px;font-weight:850;white-space:nowrap}
+.core-phrase-cat.active{background:#0b7b8c;color:#fff;border-color:#0b7b8c}
+.core-phrase-list{display:grid;gap:8px}
+.core-phrase-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:16px;padding:11px 12px;box-shadow:0 5px 15px rgba(9,76,95,.035)}
+.core-phrase-he{display:block;font-size:12px;font-weight:900;color:var(--ink);line-height:1.45}
+.core-phrase-local{display:block;margin-top:3px;font-size:13px;font-weight:850;color:#0b7384;line-height:1.45;text-align:right}
+.core-phrase-phonetic{display:block;margin-top:4px;color:var(--muted);font-size:10.5px;line-height:1.45}
+.core-phrase-audio{border:0;background:linear-gradient(135deg,#0a7288,#18a9b7);color:#fff;border-radius:13px;min-width:44px;height:44px;padding:0 10px;font-size:17px;font-weight:900;box-shadow:0 5px 12px rgba(9,118,137,.18)}
+.core-phrase-empty{background:#fff;border:1px dashed #ccdde1;border-radius:16px;padding:20px;text-align:center;color:var(--muted);font-size:11px}
+
 </style>
 <link href="/manifest.webmanifest" rel="manifest"/><link href="icon-192.png" rel="apple-touch-icon"/></head>
 <body>
@@ -655,11 +676,6 @@ a{color:inherit;text-decoration:none}
 <strong>מידע שימושי</strong>
 <span>מזג אוויר, Plan B, חסרים, חניה ובדיקות לפני היציאה</span>
 </div>
-<div class="triply-arrow">‹</div>
-</button>
-<button class="triply-wide-card" id="phrasebookHomeCard" onclick="openSection('phrasebook')">
-<div class="triply-wide-photo triply-phrasebook-home-icon">🔊</div>
-<div class="triply-wide-copy"><strong id="phrasebookHomeTitle">שיחון למטייל</strong><span id="phrasebookHomeSubtitle">עברית · שפה מקומית · תעתיק · שמע</span></div>
 <div class="triply-arrow">‹</div>
 </button>
 <button class="triply-wide-card triply-live-home-card" onclick="openSection('live-events')">
@@ -781,14 +797,6 @@ a{color:inherit;text-decoration:none}
 </div>
 </section>
 
-<section class="section" id="phrasebook">
-<div class="section-head"><div class="badge">🔊</div><div><h1 id="triplyPhrasebookTitle">שיחון למטייל</h1><p id="triplyPhrasebookSubtitle">עברית · שפה מקומית · תעתיק · שמע</p></div></div>
-<div class="triply-phrasebook-note" id="triplyPhrasebookNote"><strong>TRIPLY Language Pack</strong><br>ביטויים בסיסיים שימושיים ליום־יום, מסעדות, קניות, ניווט ועזרה.</div>
-<div class="triply-phrasebook-meta" id="triplyPhrasebookMeta"></div>
-<input class="v110-search" id="triplyPhraseSearch" placeholder="חיפוש ביטוי…">
-<div class="v110-phrase-list" id="triplyPhrasebook"><div class="radar-empty">מכין את השיחון המקומי…</div></div>
-</section>
-
 <section class="section v110-only" id="v110-roadstops"><div class="section-head"><div class="badge">🚗</div><div><h1>עוצרים בדרך</h1><p>עצירות מקומיות שנשמרו ב־V110</p></div></div><div class="v110-module-list" id="v110Roadstops"></div></section>
 <section class="section v110-only" id="v110-navigation"><div class="section-head"><div class="badge">🧭</div><div><h1>ניווט מהיר</h1><p>כל היעדים של הטיול במקום אחד</p></div></div><div class="v110-module-list" id="v110Navigation"></div></section>
 <section class="section v110-only" id="v110-experiences"><div class="section-head"><div class="badge">✨</div><div><h1>חוויות</h1><p>הדברים שעושים את הטיול</p></div></div><div class="v110-module-list" id="v110Experiences"></div></section>
@@ -797,6 +805,15 @@ a{color:inherit;text-decoration:none}
 <section class="section v110-only" id="v110-fresh"><div class="section-head"><div class="badge">🍉</div><div><h1>פירות ושווקים</h1><p>תוצרת טרייה לאורך המסלול</p></div></div><div class="v110-module-list" id="v110Fresh"></div></section>
 <section class="section v110-only" id="v110-phrasebook"><div class="section-head"><div class="badge">🔊</div><div><h1>אלבנית למטייל</h1><p>עברית · אלבנית · תעתיק · שמע</p></div></div><input class="v110-search" id="v110PhraseSearch" placeholder="חיפוש ביטוי…"><div class="v110-phrase-list" id="v110Phrasebook"></div></section>
 <section class="section v110-only" id="v110-interviews"><div class="section-head"><div class="badge">🎙️</div><div><h1>שאלות לכתבה</h1><p>19 מקומות · 190 שאלות</p></div></div><div class="v110-interview-intro">בחר מקום, פתח את עשר השאלות ולחץ על <b>🔊 שאל באלבנית</b>. בפעם הראשונה נדרש אינטרנט לתרגום; לאחר מכן התרגום נשמר במכשיר וניתן להשמיע אותו שוב.</div><input class="v110-search" id="v110InterviewSearch" placeholder="חיפוש מקום / עיר / תפקיד…"><div id="v110Interviews"></div></section>
+
+
+<section class="section" id="phrasebook">
+  <div class="section-head"><div class="badge">💬</div><div><h1 id="corePhraseTitle">שיחון למטייל</h1><p id="corePhraseSubtitle">עברית · שפה מקומית · תעתיק · שמע</p></div></div>
+  <div class="core-phrasebook-intro" id="corePhraseNote">השיחון נבנה אוטומטית לפי המדינה והאזור של הטיול.</div>
+  <input class="core-phrasebook-search" id="corePhraseSearch" placeholder="חיפוש ביטוי…">
+  <div class="core-phrase-cats" id="corePhraseCats"></div>
+  <div class="core-phrase-list" id="corePhraseList"></div>
+</section>
 
 <section class="section" id="live-shopping">
 <div class="section-head"><div class="badge">🛍️</div><div><h1>קניות ומבצעים</h1><p>Outlets · Sales · Shopping Radar</p></div></div>
@@ -1099,43 +1116,6 @@ function v110ModuleCard(x){
   return `<div class="v110-module-card"><div class="v110-module-top"><div><div class="v110-module-title">${escapeHtml(x?.title||'')}</div>${x?.meta?`<div class="v110-module-meta">${escapeHtml(x.meta)}</div>`:''}</div></div>${x?.description?`<div class="v110-module-desc">${escapeHtml(x.description)}</div>`:''}${badges.length?`<div class="v110-badges">${badges.map(b=>`<span class="v110-badge">${escapeHtml(b)}</span>`).join('')}</div>`:''}${rawActionButtons(x?.links)}</div>`;
 }
 function v110RenderList(id,arr){const el=document.getElementById(id);if(!el)return;el.innerHTML=Array.isArray(arr)&&arr.length?arr.map(v110ModuleCard).join(''):'<div class="radar-empty">אין מידע ברובריקה הזאת.</div>'}
-function triplySpeakLocal(text,locale,btn){
-  if(!text)return;
-  if(!('speechSynthesis' in window)){alert('המכשיר הזה לא תומך בהקראת טקסט בדפדפן.');return}
-  speechSynthesis.cancel();
-  const u=new SpeechSynthesisUtterance(text);u.lang=locale||'';u.rate=.86;u.pitch=1;
-  const voices=speechSynthesis.getVoices?.()||[];
-  const wanted=String(locale||'').toLowerCase();const base=wanted.split('-')[0];
-  const v=voices.find(x=>String(x.lang||'').toLowerCase()===wanted)||voices.find(x=>String(x.lang||'').toLowerCase().startsWith(base+'-'));
-  if(v)u.voice=v;
-  if(btn){const old=btn.textContent;btn.textContent='🔊 משמיע…';u.onend=()=>btn.textContent=old;u.onerror=()=>btn.textContent=old}
-  speechSynthesis.speak(u);
-}
-function triplyLanguageLabel(pack){
-  const base=String(pack?.locale||'').toLowerCase().split('-')[0];
-  const map={sq:'אלבנית',it:'איטלקית',ro:'רומנית',el:'יוונית',fil:'פיליפינית (טגלוג)',es:'ספרדית',fr:'צרפתית',de:'גרמנית',pt:'פורטוגזית',tr:'טורקית',ja:'יפנית',th:'תאית',id:'אינדונזית',vi:'וייטנאמית',zh:'סינית',ko:'קוריאנית',pl:'פולנית',cs:'צ׳כית',sk:'סלובקית',hu:'הונגרית',hr:'קרואטית',sr:'סרבית',bs:'בוסנית',sl:'סלובנית',bg:'בולגרית',mk:'מקדונית',ru:'רוסית',uk:'אוקראינית',nl:'הולנדית',da:'דנית',sv:'שוודית',no:'נורווגית',fi:'פינית',is:'איסלנדית',et:'אסטונית',lv:'לטבית',lt:'ליטאית',mt:'מלטזית',ka:'גאורגית',hy:'ארמנית',ar:'ערבית',hi:'הינדית',ms:'מלאית',en:'אנגלית'};
-  return map[base]||pack?.language||'השפה המקומית';
-}
-function renderCorePhrasebook(data){
-  const imported=!!(data?.preferences?.imported_from_existing_app || data?.preferences?.import_source==='V110_EXISTING_APP');
-  const home=document.getElementById('phrasebookHomeCard');
-  const section=document.getElementById('phrasebook');
-  if(imported){if(home)home.style.display='none';if(section)section.style.display='none';return}
-  const pack=data?.preferences?.triply_phrasebook||{};
-  const items=Array.isArray(pack.items)?pack.items:[];
-  const language=triplyLanguageLabel(pack);
-  const locale=pack.locale||'';
-  const title=document.getElementById('triplyPhrasebookTitle');if(title)title.textContent=`${language} למטייל`;
-  const sub=document.getElementById('triplyPhrasebookSubtitle');if(sub)sub.textContent=`עברית · ${language} · תעתיק · שמע`;
-  const ht=document.getElementById('phrasebookHomeTitle');if(ht)ht.textContent=`${language} למטייל`;
-  const hs=document.getElementById('phrasebookHomeSubtitle');if(hs)hs.textContent=items.length?`${items.length} ביטויים · תעתיק בעברית · 🔊 שמע`:'השיחון המקומי בהכנה';
-  const note=document.getElementById('triplyPhrasebookNote');if(note)note.innerHTML=`<strong>TRIPLY Language Pack · ${escapeHtml(language)}</strong><br>${escapeHtml(pack.note||'ביטויים בסיסיים שימושיים ליום־יום, מסעדות, קניות, ניווט ועזרה.')}`;
-  const meta=document.getElementById('triplyPhrasebookMeta');if(meta)meta.innerHTML=`<span>🌍 ${escapeHtml(data.destination||pack.country||'')}</span><span>🗣️ ${escapeHtml(language)}</span><span>🔊 ${escapeHtml(locale||'שמע בדפדפן')}</span>`;
-  const el=document.getElementById('triplyPhrasebook');if(!el)return;
-  if(!items.length){el.innerHTML='<div class="radar-empty">השיחון המקומי עדיין בהכנה. הוא יופיע כאן אוטומטית.</div>';return}
-  const draw=(q='')=>{const z=q.trim().toLowerCase();const rows=items.filter(x=>!z||`${x.he||''} ${x.local||''} ${x.phonetic||''}`.toLowerCase().includes(z));el.innerHTML=rows.map((x,i)=>`<div class="v110-phrase"><div class="v110-phrase-he">${escapeHtml(x.he||'')}</div><div class="triply-phrasebook-local">${escapeHtml(x.local||'')}</div><button class="v110-audio-btn" type="button" data-phrase-index="${i}">🔊</button><div class="triply-phrasebook-ph">${escapeHtml(x.phonetic||'')}</div></div>`).join('')||'<div class="radar-empty">לא נמצאו ביטויים.</div>';el.querySelectorAll('[data-phrase-index]').forEach((b,idx)=>{const row=rows[idx];b.onclick=()=>triplySpeakLocal(row?.local||'',locale,b)})};
-  draw();const input=document.getElementById('triplyPhraseSearch');if(input)input.oninput=()=>draw(input.value);
-}
 function v110SpeakAlbanian(text,btn){
   if(!('speechSynthesis' in window)){alert('המכשיר הזה לא תומך בהקראת טקסט בדפדפן.');return}
   speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='sq-AL';u.rate=.84;u.pitch=1;
@@ -1247,6 +1227,96 @@ function renderPersonalizedCore(data){
   renderV7HotelMatches(data);renderV7Hotels(data);
   const nav=[...document.querySelectorAll('.navbtn')];
   if(nav.length>=4){nav[2].dataset.nav='hotels';nav[2].setAttribute('onclick',"openSection('hotels',this)");nav[2].innerHTML='<b>▰</b>מלונות';nav[3].dataset.nav='places';nav[3].setAttribute('onclick',"openSection('places',this)");nav[3].innerHTML='<b>✦</b>אטרקציות';}
+}
+
+
+let CORE_PHRASE_CATEGORY='all';
+function corePhraseCategoryLabel(cat){
+  const m={
+    all:'הכול',greetings:'בסיסי',basics:'בסיסי',food:'אוכל',shopping:'קניות',
+    navigation:'ניווט',hotel:'מלון',help:'עזרה'
+  };
+  return m[String(cat||'').toLowerCase()]||String(cat||'נוסף');
+}
+function coreSpeakPhrase(text,locale,btn){
+  if(!text)return;
+  if(!('speechSynthesis' in window)){alert('המכשיר הזה לא תומך בהקראת טקסט בדפדפן.');return}
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang=locale||'';
+  u.rate=.86;u.pitch=1;
+  const voices=speechSynthesis.getVoices?.()||[];
+  const lang=(locale||'').toLowerCase().split('-')[0];
+  const v=voices.find(x=>(x.lang||'').toLowerCase()===(locale||'').toLowerCase())||
+          voices.find(x=>(x.lang||'').toLowerCase().startsWith(lang+'-'))||
+          voices.find(x=>(x.lang||'').toLowerCase()===lang);
+  if(v)u.voice=v;
+  if(btn){
+    const old=btn.textContent;btn.textContent='🔊';
+    u.onend=()=>btn.textContent=old;u.onerror=()=>btn.textContent=old;
+  }
+  speechSynthesis.speak(u);
+}
+function renderCorePhrasebookRows(pack,query=''){
+  const list=document.getElementById('corePhraseList');if(!list)return;
+  const q=String(query||'').trim().toLowerCase();
+  const rows=(pack?.items||[]).filter(x=>{
+    const cat=String(x?.category||'').toLowerCase();
+    const catOk=CORE_PHRASE_CATEGORY==='all'||cat===CORE_PHRASE_CATEGORY||
+      (CORE_PHRASE_CATEGORY==='basics'&&cat==='greetings')||
+      (CORE_PHRASE_CATEGORY==='greetings'&&cat==='basics');
+    const text=`${x?.he||''} ${x?.local||''} ${x?.phonetic||''}`.toLowerCase();
+    return catOk&&(!q||text.includes(q));
+  });
+  list.innerHTML=rows.length?rows.map((x,i)=>`<div class="core-phrase-row">
+    <div>
+      <strong class="core-phrase-he">${escapeHtml(x.he||'')}</strong>
+      <span class="core-phrase-local" dir="auto">${escapeHtml(x.local||'')}</span>
+      <small class="core-phrase-phonetic">🗣️ ${escapeHtml(x.phonetic||'')}</small>
+    </div>
+    <button class="core-phrase-audio" type="button" data-phrase-i="${i}" aria-label="השמע">🔊</button>
+  </div>`).join(''):'<div class="core-phrase-empty">לא נמצאו ביטויים בחיפוש הזה.</div>';
+  const visible=rows;
+  list.querySelectorAll('[data-phrase-i]').forEach((b,i)=>b.onclick=()=>coreSpeakPhrase(visible[i]?.local||'',pack?.locale||'',b));
+}
+function renderCorePhrasebook(data){
+  const pack=data?.preferences?.triply_phrasebook;
+  const items=Array.isArray(pack?.items)?pack.items:[];
+  if(!items.length)return;
+
+  const title=document.getElementById('corePhraseTitle');
+  const sub=document.getElementById('corePhraseSubtitle');
+  const note=document.getElementById('corePhraseNote');
+  if(title)title.textContent=`${pack.language||'השפה המקומית'} למטייל`;
+  if(sub)sub.textContent=`עברית · ${pack.language||'שפה מקומית'} · תעתיק · 🔊 שמע`;
+  if(note)note.textContent=pack.note||`שיחון בסיסי שנבנה לפי ${data.destination||'היעד'} ומיקום הטיול.`;
+
+  const cats=[...new Set(items.map(x=>String(x?.category||'basics').toLowerCase()).filter(Boolean))];
+  const catBox=document.getElementById('corePhraseCats');
+  if(catBox){
+    catBox.innerHTML=['all',...cats].map(c=>`<button type="button" class="core-phrase-cat${c==='all'?' active':''}" data-core-phrase-cat="${escapeHtml(c)}">${escapeHtml(corePhraseCategoryLabel(c))}</button>`).join('');
+    catBox.querySelectorAll('[data-core-phrase-cat]').forEach(b=>b.onclick=()=>{
+      CORE_PHRASE_CATEGORY=b.dataset.corePhraseCat||'all';
+      catBox.querySelectorAll('.core-phrase-cat').forEach(x=>x.classList.toggle('active',x===b));
+      renderCorePhrasebookRows(pack,document.getElementById('corePhraseSearch')?.value||'');
+    });
+  }
+  const search=document.getElementById('corePhraseSearch');
+  if(search)search.oninput=()=>renderCorePhrasebookRows(pack,search.value);
+  CORE_PHRASE_CATEGORY='all';
+  renderCorePhrasebookRows(pack,'');
+
+  const holder=document.querySelector('.triply-wide-links');
+  if(holder&&!document.getElementById('corePhrasebookHomeCard')){
+    const btn=document.createElement('button');
+    btn.id='corePhrasebookHomeCard';
+    btn.className='triply-wide-card';
+    btn.setAttribute('onclick',"openSection('phrasebook')");
+    btn.innerHTML=`<div class="triply-wide-photo core-phrase-home-photo"><span>💬</span></div>
+      <div class="triply-wide-copy"><strong>שיחון ${escapeHtml(pack.language||'למטייל')}</strong><span>${items.length} ביטויים שימושיים · תעתיק בעברית · 🔊 שמע</span></div>
+      <div class="triply-arrow">‹</div>`;
+    holder.appendChild(btn);
+  }
 }
 
 function renderCoreTrip(data){
