@@ -1,0 +1,8 @@
+TRIPLY Core V1.19 — Imported App Support
+- Renders rich V110 imported modules from preferences.v110_import.
+- Home cards for hotels, road stops, navigation, experiences, shopping, useful/driving, fresh markets, Albanian phrasebook and article interviews.
+- 70 phrase TTS with sq-AL SpeechSynthesis.
+- 190 interview-question Hebrew→Albanian translation with local cache + sq-AL speech.
+- Itinerary items now render links stored in metadata.links (Maps/Waze/WhatsApp/phone/etc).
+- Backward compatible with Trips 001–003.
+- Admin marks imported trips with an Imported version badge.

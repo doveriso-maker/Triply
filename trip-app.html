@@ -513,6 +513,22 @@ a{color:inherit;text-decoration:none}
 
 .v7-flight-pair{display:grid;gap:7px;margin:8px 0}.v7-flight-leg{border:1px solid #dcebed;background:#f8fcfc;border-radius:13px;padding:9px 10px;display:grid;gap:3px}.v7-flight-leg b{font-size:13px;color:#0e5864}.v7-flight-leg span{font-size:12px;color:#526e75}
 
+
+/* TRIPLY V1.19 — imported rich-app modules (V110 compatible) */
+.v110-only{display:none}.v110mode .v110-only{display:block}
+.v110-home-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+.v110-home-card{position:relative;border:1px solid var(--line);background:linear-gradient(155deg,#fff,#f5fbfc);border-radius:18px;padding:14px;text-align:right;color:var(--ink);box-shadow:0 8px 20px rgba(8,78,105,.06);min-height:105px}
+.v110-home-card b{font-size:25px;display:block;margin-bottom:7px}.v110-home-card strong{font-size:14px;display:block}.v110-home-card span{font-size:10.5px;color:var(--muted);line-height:1.45;display:block;margin-top:4px}
+.v110-module-list{display:grid;gap:10px}.v110-module-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px;box-shadow:0 8px 24px rgba(8,78,105,.045)}
+.v110-module-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.v110-module-title{font-size:16px;font-weight:900;color:var(--ink)}.v110-module-meta{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.45}.v110-module-desc{font-size:12px;line-height:1.65;color:#3d5963;margin-top:9px;white-space:pre-line}
+.v110-badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.v110-badge{font-size:10px;font-weight:800;border:1px solid #d9ecee;border-radius:999px;padding:4px 8px;background:#f5fbfc;color:#326774}
+.v110-search{width:100%;border:1px solid var(--line);border-radius:14px;padding:12px 13px;font:inherit;margin:0 0 12px;background:#fff;color:var(--ink)}
+.v110-phrase-list{display:grid;gap:8px}.v110-phrase{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;gap:8px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:15px;padding:10px 11px}.v110-phrase-he{font-weight:850;font-size:12px}.v110-phrase-sq{direction:ltr;text-align:left;font-weight:800;color:#0c7788;font-size:12px}.v110-phrase-ph{grid-column:1/3;color:var(--muted);font-size:10.5px}.v110-audio-btn{border:0;background:linear-gradient(135deg,#0a7288,#14a8b8);color:#fff;border-radius:12px;padding:8px 10px;font-size:14px;font-weight:900}
+.v110-interview-intro{background:linear-gradient(135deg,#f3fbfc,#fff7e8);border:1px solid #d9ecee;border-radius:18px;padding:14px;margin-bottom:12px;font-size:12px;line-height:1.65}
+.v110-interview-place{border:1px solid var(--line);border-radius:18px;background:#fff;margin:9px 0;overflow:hidden}.v110-interview-place summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:10px;align-items:center;padding:13px 14px}.v110-interview-place summary::-webkit-details-marker{display:none}.v110-interview-place summary b{display:block;font-size:14px}.v110-interview-place summary small{display:block;color:var(--muted);font-size:10.5px;margin-top:3px}.v110-qcount{white-space:nowrap;font-size:10px;font-weight:900;background:#eef9fa;color:#0a7181;border-radius:999px;padding:5px 8px}.v110-interview-body{border-top:1px solid var(--line);padding:10px 12px}.v110-role{font-size:11px;color:#536e77;background:#f7fbfc;border-radius:12px;padding:8px 10px;margin-bottom:8px}.v110-question{border-top:1px dashed #deebed;padding:10px 0}.v110-question:first-of-type{border-top:0}.v110-question-he{display:flex;gap:8px;line-height:1.55;font-size:12px;font-weight:700}.v110-num{min-width:23px;height:23px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:#0c7d8d;color:white;font-size:10px}.v110-question-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}.v110-speak-btn{border:0;border-radius:11px;background:#0b7789;color:#fff;padding:8px 10px;font-size:11px;font-weight:900}.v110-sq-result{direction:ltr;text-align:left;margin-top:8px;background:#f5fbfc;border-radius:10px;padding:8px 9px;font-size:12px;font-weight:700;color:#234e59}.v110-sq-result[hidden]{display:none}
+.v110-import-mark{display:inline-flex;gap:6px;align-items:center;background:#fff3cf;color:#7a5a00;border:1px solid #efd987;border-radius:999px;padding:5px 9px;font-size:10px;font-weight:900;margin:5px auto 0}
+@media(max-width:380px){.v110-home-grid{grid-template-columns:1fr 1fr}.v110-phrase{grid-template-columns:1fr auto}.v110-phrase-sq{grid-column:1/2}.v110-phrase-ph{grid-column:1/2}}
+
 </style>
 <link href="/manifest.webmanifest" rel="manifest"/><link href="icon-192.png" rel="apple-touch-icon"/></head>
 <body>
@@ -657,6 +673,21 @@ a{color:inherit;text-decoration:none}
     <button class="v7-home-card" onclick="openSection('country')"><b>🌍</b><strong>מידע לפי מדינה</strong><span>סיכון · מטבע · חירום · נהיגה</span></button>
   </div>
 </div>
+
+<div class="v110-only" id="v110HomeModules">
+  <div style="text-align:center"><span class="v110-import-mark">✓ יובא מאפליקציית V110 המקורית</span></div>
+  <div class="v110-home-grid">
+    <button class="v110-home-card" onclick="openSection('hotels')"><b>🏨</b><strong>המלונות שלנו</strong><span>Maritim Marina Bay · Jolly Premium</span></button>
+    <button class="v110-home-card" onclick="openSection('v110-roadstops')"><b>🚗</b><strong>עוצרים בדרך</strong><span>20 עצירות · אוכל · נוף · תוצרת מקומית</span></button>
+    <button class="v110-home-card" onclick="openSection('v110-navigation')"><b>🧭</b><strong>ניווט מהיר</strong><span>23 יעדים · Maps · Waze</span></button>
+    <button class="v110-home-card" onclick="openSection('v110-experiences')"><b>✨</b><strong>חוויות</strong><span>חופים · ספא · יקבים · שקיעות</span></button>
+    <button class="v110-home-card" onclick="openSection('v110-shopping')"><b>🛍️</b><strong>קניות</strong><span>בזארים · אאוטלטים · קניות מקומיות</span></button>
+    <button class="v110-home-card" onclick="openSection('v110-useful')"><b>ℹ️</b><strong>מידע שימושי</strong><span>חירום · חניה · נהיגה · אגרות</span></button>
+    <button class="v110-home-card" onclick="openSection('v110-fresh')"><b>🍉</b><strong>פירות ושווקים</strong><span>שווקים טריים ועצירות הצטיידות</span></button>
+    <button class="v110-home-card" onclick="openSection('v110-phrasebook')"><b>🔊</b><strong>אלבנית למטייל</strong><span>70 ביטויים עם הקראה באלבנית</span></button>
+    <button class="v110-home-card" onclick="openSection('v110-interviews')"><b>🎙️</b><strong>שאלות לכתבה</strong><span>19 מקומות · 190 שאלות · תרגום + שמע</span></button>
+  </div>
+</div>
 <div class="triply-home-signoff">
 <strong>TRIPLY</strong>
 <span>הטיול שלך. בדיוק בשבילך.</span>
@@ -722,6 +753,16 @@ a{color:inherit;text-decoration:none}
 <div class="info"><strong>נסיעות קצרות</strong>Durrës נבחרה כבסיס כדי שרוב היום יישאר מקומי. טירנה מופיעה רק כאופציה לכשרות בשישי.</div>
 </div>
 </section>
+
+<section class="section v110-only" id="v110-roadstops"><div class="section-head"><div class="badge">🚗</div><div><h1>עוצרים בדרך</h1><p>עצירות מקומיות שנשמרו ב־V110</p></div></div><div class="v110-module-list" id="v110Roadstops"></div></section>
+<section class="section v110-only" id="v110-navigation"><div class="section-head"><div class="badge">🧭</div><div><h1>ניווט מהיר</h1><p>כל היעדים של הטיול במקום אחד</p></div></div><div class="v110-module-list" id="v110Navigation"></div></section>
+<section class="section v110-only" id="v110-experiences"><div class="section-head"><div class="badge">✨</div><div><h1>חוויות</h1><p>הדברים שעושים את הטיול</p></div></div><div class="v110-module-list" id="v110Experiences"></div></section>
+<section class="section v110-only" id="v110-shopping"><div class="section-head"><div class="badge">🛍️</div><div><h1>קניות מקומיות ובזארים</h1><p>בלי לבזבז את הטיול על קניונים</p></div></div><div class="v110-module-list" id="v110Shopping"></div></section>
+<section class="section v110-only" id="v110-useful"><div class="section-head"><div class="badge">ℹ️</div><div><h1>מידע שימושי</h1><p>חירום · נהיגה · חניה · יום הטיסה</p></div></div><div class="v110-module-list" id="v110Useful"></div><div class="section-head" style="margin-top:18px"><div class="badge">🛣️</div><div><h1>נהיגה ואגרות</h1><p>מידע שנשמר ב־V110</p></div></div><div class="v110-module-list" id="v110Driving"></div></section>
+<section class="section v110-only" id="v110-fresh"><div class="section-head"><div class="badge">🍉</div><div><h1>פירות ושווקים</h1><p>תוצרת טרייה לאורך המסלול</p></div></div><div class="v110-module-list" id="v110Fresh"></div></section>
+<section class="section v110-only" id="v110-phrasebook"><div class="section-head"><div class="badge">🔊</div><div><h1>אלבנית למטייל</h1><p>עברית · אלבנית · תעתיק · שמע</p></div></div><input class="v110-search" id="v110PhraseSearch" placeholder="חיפוש ביטוי…"><div class="v110-phrase-list" id="v110Phrasebook"></div></section>
+<section class="section v110-only" id="v110-interviews"><div class="section-head"><div class="badge">🎙️</div><div><h1>שאלות לכתבה</h1><p>19 מקומות · 190 שאלות</p></div></div><div class="v110-interview-intro">בחר מקום, פתח את עשר השאלות ולחץ על <b>🔊 שאל באלבנית</b>. בפעם הראשונה נדרש אינטרנט לתרגום; לאחר מכן התרגום נשמר במכשיר וניתן להשמיע אותו שוב.</div><input class="v110-search" id="v110InterviewSearch" placeholder="חיפוש מקום / עיר / תפקיד…"><div id="v110Interviews"></div></section>
+
 <section class="section" id="live-shopping">
 <div class="section-head"><div class="badge">🛍️</div><div><h1>קניות ומבצעים</h1><p>Outlets · Sales · Shopping Radar</p></div></div>
 <div class="live-radar-card">
@@ -942,6 +983,19 @@ function coreActionButtons(place){
   if(place.menuUrl) btn.push(`<a class="action business-btn menu" href="${safeHref(place.menuUrl)}" target="_blank" rel="noopener">📋 תפריט / מידע</a>`);
   return btn.length?`<div class="btnrow business-actions">${btn.join('')}</div>`:'';
 }
+
+function rawActionButtons(links){
+  links=links||{};const btn=[];
+  const a=(cls,href,label)=>{if(href)btn.push(`<a class="action business-btn ${cls}" href="${safeHref(href)}" target="_blank" rel="noopener">${label}</a>`)};
+  a('maps',links.google_maps_url||links.googleMapsUrl,'📍 Google Maps');
+  a('waze',links.waze_url||links.wazeUrl,'🚙 Waze');
+  let wa=links.whatsapp||''; if(wa){const n=String(wa).replace(/\D/g,''); if(n)a('whatsapp','https://wa.me/'+n,'💬 WhatsApp')}
+  if(links.phone){const t=String(links.phone).startsWith('tel:')?links.phone:'tel:'+links.phone;btn.push(`<a class="action business-btn phone" href="${safeHref(t)}">📞 טלפון</a>`)}
+  a('instagram',links.instagram,'◎ Instagram');a('facebook',links.facebook,'f Facebook');a('website',links.website,'🌐 אתר');
+  if(links.internal){const id=String(links.internal).replace(/^#/,'');btn.push(`<button class="action" type="button" onclick="openSection('${escapeHtml(id)}')">פתח באפליקציה</button>`)}
+  return btn.length?`<div class="btnrow business-actions">${btn.join('')}</div>`:'';
+}
+
 function corePlaceCard(place){
   const md=place?.metadata||{};
   const meta=md.label||md.display_meta||[place?.city,place?.country].filter(Boolean).join(' · ');
@@ -992,6 +1046,8 @@ function renderCoreSchedule(data){
         <div><strong>${escapeHtml(item.title||'')}</strong>
         ${item.description?`<p>${escapeHtml(item.description)}</p>`:''}
         ${coreActionButtons(item.place)}
+        ${rawActionButtons(item?.metadata?.links)}
+        ${item?.metadata?.status_label?`<div class="core-badge">${escapeHtml(item.metadata.status_label)}</div>`:''}
         ${item.status==='optional'?'<div class="core-badge">אופציונלי</div>':''}
         </div>
       </div>`;
@@ -1002,6 +1058,56 @@ function renderCoreSchedule(data){
     </div>`;
   }).join('');
 }
+
+function v110ModuleCard(x){
+  const badges=Array.isArray(x?.badges)?x.badges:[];
+  return `<div class="v110-module-card"><div class="v110-module-top"><div><div class="v110-module-title">${escapeHtml(x?.title||'')}</div>${x?.meta?`<div class="v110-module-meta">${escapeHtml(x.meta)}</div>`:''}</div></div>${x?.description?`<div class="v110-module-desc">${escapeHtml(x.description)}</div>`:''}${badges.length?`<div class="v110-badges">${badges.map(b=>`<span class="v110-badge">${escapeHtml(b)}</span>`).join('')}</div>`:''}${rawActionButtons(x?.links)}</div>`;
+}
+function v110RenderList(id,arr){const el=document.getElementById(id);if(!el)return;el.innerHTML=Array.isArray(arr)&&arr.length?arr.map(v110ModuleCard).join(''):'<div class="radar-empty">אין מידע ברובריקה הזאת.</div>'}
+function v110SpeakAlbanian(text,btn){
+  if(!('speechSynthesis' in window)){alert('המכשיר הזה לא תומך בהקראת טקסט בדפדפן.');return}
+  speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='sq-AL';u.rate=.84;u.pitch=1;
+  const voices=speechSynthesis.getVoices?.()||[];const v=voices.find(v=>/^sq([-_]|$)/i.test(v.lang||''));if(v)u.voice=v;
+  if(btn){const old=btn.textContent;btn.textContent='🔊 משמיע…';u.onend=()=>btn.textContent=old;u.onerror=()=>btn.textContent=old}speechSynthesis.speak(u);
+}
+function v110Hash(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return (h>>>0).toString(36)}
+async function v110TranslateHebrew(he){
+  const g='https://translate.googleapis.com/translate_a/single?client=gtx&sl=he&tl=sq&dt=t&q='+encodeURIComponent(he);
+  try{const r=await fetch(g);if(!r.ok)throw 0;const d=await r.json();const t=(d?.[0]||[]).map(x=>x?.[0]||'').join('').trim();if(t)return t}catch(e){}
+  const m='https://api.mymemory.translated.net/get?q='+encodeURIComponent(he)+'&langpair=he|sq';const r=await fetch(m);if(!r.ok)throw new Error('translation');const d=await r.json();const t=String(d?.responseData?.translatedText||'').trim();if(!t)throw new Error('translation');return t;
+}
+async function v110AskAlbanian(btn){
+  const row=btn.closest('.v110-question'),sq=row?.querySelector('.v110-sq-result'),he=row?.dataset?.he||'';if(!row||!sq||!he)return;
+  const key='triply_v110_sq_'+v110Hash(he);let t=row.dataset.sq||'';try{t=t||localStorage.getItem(key)||''}catch(e){}
+  const done=(x)=>{row.dataset.sq=x;sq.textContent=x;sq.hidden=false;try{localStorage.setItem(key,x)}catch(e){};btn.disabled=false;btn.textContent='🔊 השמע שוב באלבנית';v110SpeakAlbanian(x,btn)};
+  if(t){done(t);return}btn.disabled=true;btn.textContent='מתרגם לאלבנית…';
+  try{done(await v110TranslateHebrew(he))}catch(e){btn.disabled=false;btn.textContent='🔊 נסה שוב באלבנית';sq.hidden=false;sq.textContent='לא הצלחתי לתרגם כרגע. צריך חיבור לאינטרנט בפעם הראשונה.'}
+}
+function renderV110Phrasebook(arr){
+  const el=document.getElementById('v110Phrasebook');if(!el)return;
+  const draw=(q='')=>{const s=q.trim().toLowerCase();const rows=(arr||[]).filter(x=>!s||`${x.he} ${x.sq} ${x.phonetic}`.toLowerCase().includes(s));el.innerHTML=rows.map(x=>`<div class="v110-phrase"><div class="v110-phrase-he">${escapeHtml(x.he||'')}</div><div class="v110-phrase-sq">${escapeHtml(x.sq||'')}</div><button class="v110-audio-btn" type="button" data-sq="${escapeHtml(x.sq||'')}">🔊</button><div class="v110-phrase-ph">${escapeHtml(x.phonetic||'')}</div></div>`).join('')||'<div class="radar-empty">לא נמצאו ביטויים.</div>';el.querySelectorAll('[data-sq]').forEach(b=>b.onclick=()=>v110SpeakAlbanian(b.dataset.sq,b))};
+  draw();const input=document.getElementById('v110PhraseSearch');if(input)input.oninput=()=>draw(input.value);
+}
+function renderV110Interviews(arr){
+  const el=document.getElementById('v110Interviews');if(!el)return;
+  const draw=(q='')=>{const s=q.trim().toLowerCase();const rows=(arr||[]).filter(x=>!s||`${x.name} ${x.meta} ${x.role}`.toLowerCase().includes(s));el.innerHTML=rows.map(x=>`<details class="v110-interview-place"><summary><span><b>${escapeHtml(x.name||'')}</b><small>${escapeHtml(x.meta||'')}</small></span><span class="v110-qcount">${(x.questions||[]).length} שאלות</span></summary><div class="v110-interview-body">${x.role?`<div class="v110-role">${escapeHtml(x.role)}</div>`:''}${(x.questions||[]).map(q=>`<div class="v110-question" data-he="${escapeHtml(q.he||'')}"><div class="v110-question-he"><span class="v110-num">${escapeHtml(q.number||'')}</span><span>${escapeHtml(q.he||'')}</span></div><div class="v110-question-actions"><button type="button" class="v110-speak-btn" onclick="v110AskAlbanian(this)">🔊 שאל באלבנית</button></div><div class="v110-sq-result" hidden></div></div>`).join('')}</div></details>`).join('')||'<div class="radar-empty">לא נמצאו מקומות.</div>'};
+  draw();const input=document.getElementById('v110InterviewSearch');if(input)input.oninput=()=>draw(input.value);
+}
+function renderV110Hotels(data){const el=document.getElementById('v7Hotels');if(!el)return;const hotels=(data.guidePlaces||[]).filter(p=>p.category==='hotel');el.innerHTML=hotels.length?hotels.map(corePlaceCard).join(''):''}
+async function renderV110Modules(data){
+  const imported=!!(data?.preferences?.imported_from_existing_app || data?.preferences?.import_source || data?.preferences?.v110_import);
+  if(!imported)return;document.body.classList.add('v110mode');
+  let v=data?.preferences?.v110_import;
+  if(!v || !Object.keys(v).length){
+    const url=data?.preferences?.import_payload_url || (data?.tripCode==='004'?'/imports/004-v110.json':'');
+    if(url){try{const r=await fetch(url,{cache:'no-store'});if(r.ok)v=await r.json()}catch(e){console.warn('Imported payload unavailable',e)}}
+  }
+  if(!v)return;
+  v110RenderList('v110Roadstops',v.roadstops);v110RenderList('v110Navigation',v.navigation);v110RenderList('v110Experiences',v.experiences);v110RenderList('v110Shopping',v.shopping);v110RenderList('v110Useful',v.useful);v110RenderList('v110Driving',v.driving);v110RenderList('v110Fresh',v.fresh_markets);
+  renderV110Phrasebook(v.phrasebook);renderV110Interviews(v.interviews);renderV110Hotels(data);
+  const nav=[...document.querySelectorAll('.navbtn')];if(nav.length>=4){nav[2].dataset.nav='v110-phrasebook';nav[2].setAttribute('onclick',"openSection('v110-phrasebook',this)");nav[2].innerHTML='<b>🔊</b>אלבנית';}
+}
+
 function renderCoreTrip(data){
   if(!data) return;
   document.title=`TRIPLY · ${data.title||'הטיול שלך'}`;
@@ -1009,7 +1115,7 @@ function renderCoreTrip(data){
   const subtitle=document.querySelector('.triply-home-title p'); if(subtitle && data.theme?.home_subtitle) subtitle.textContent=data.theme.home_subtitle;
   const badge=document.querySelector('.triply-badge-round'); if(badge){badge.dataset.flag=data.theme?.country_flag||'🌍'; if(data.preferences?.v7) document.body.classList.add('v7mode');}
   if(data.assets?.length){const first=data.assets.find(a=>a.type==='gallery_image'); const hero=document.querySelector('.hero'); if(first?.url&&hero) hero.style.backgroundImage=`linear-gradient(180deg,rgba(6,63,88,.06),rgba(6,63,88,.82)),url('${first.url}')`;}
-  renderCoreSchedule(data); renderCorePlaces(data); renderV7Modules(data);
+  renderCoreSchedule(data); renderCorePlaces(data); renderV7Modules(data); renderV110Modules(data);
 }
 
 let V7_FOOD_KIND='all',V7_GALLERY_INDEX=0,V7_FX=3.5;
