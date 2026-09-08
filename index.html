@@ -337,22 +337,57 @@ linear-gradient(180deg,#fff,#f8fbfd);border-color:rgba(227,201,144,.30)}
 .hero-cardline{margin:20px 0 22px}
 .guarantee-note{font-weight:900;color:#285b48;margin-top:12px;font-size:12px}
 .compact-strip div span{line-height:1.45}
-.conversion-section{padding:64px 0 48px}
+.conversion-section{padding:52px 0 42px}
 .benefit-section{padding:48px 0}
 .final-conversion{padding:30px 0 64px}
 .short-head{max-width:760px;margin-bottom:26px}
 .short-head h2{margin-bottom:8px}
 .short-head p{line-height:1.55}
-.premium-steps{grid-template-columns:repeat(4,1fr)}
-.premium-steps .step{padding:24px 20px;min-height:205px}
-.premium-steps .step p{line-height:1.55}
+.premium-steps{grid-template-columns:repeat(4,1fr);gap:14px}
+.premium-steps .step{
+  aspect-ratio:1/1;
+  min-height:0;
+  padding:20px 16px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  overflow:hidden;
+  background:linear-gradient(145deg,#ffffff 0%,#fbfdff 62%,#f4f8fc 100%);
+  border:1px solid rgba(15,23,42,.075);
+  box-shadow:0 16px 38px rgba(15,23,42,.075);
+}
+.premium-steps .step .n{
+  position:static;
+  width:38px;height:38px;
+  margin:0 auto 10px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  font-size:18px;
+  line-height:1;
+  font-weight:900;
+  color:#b38b43;
+  background:linear-gradient(180deg,#fffaf0,#f7edd8);
+  border:1px solid rgba(179,139,67,.18);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.8);
+}
+.premium-steps .step .sicon{font-size:25px;margin:0 0 10px}
+.premium-steps .step strong{font-size:17px;line-height:1.2;margin-bottom:7px}
+.premium-steps .step p{font-size:12px;line-height:1.45;max-width:190px}
 .trust-banner{margin-top:18px;padding:16px 20px;border-radius:20px;background:linear-gradient(135deg,#effaf4,#fff);border:1px solid rgba(31,143,104,.16);display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap;text-align:center;color:#285b48}
 .trust-banner strong{font-family:'Rubik','Heebo',sans-serif;font-size:18px}.trust-banner span{font-size:13px;color:#607466}
 .compact-cards .card{padding:22px 18px}.compact-cards .card p{line-height:1.5}
 .whatsapp-box{padding-top:38px;padding-bottom:38px}.whatsapp-box h2{font-size:clamp(32px,4.3vw,52px);max-width:820px;margin-left:auto;margin-right:auto}.whatsapp-box p{line-height:1.55;margin-bottom:18px}.micro-trust{margin-top:13px;font-size:12px;font-weight:800;color:#64806f}
-@media(max-width:980px){.premium-steps{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:980px){.premium-steps{grid-template-columns:repeat(2,minmax(0,1fr));max-width:640px;margin-inline:auto}}
 @media(max-width:620px){
-  .premium-steps{grid-template-columns:1fr}
+  .premium-steps{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .premium-steps .step{padding:14px 10px;border-radius:22px}
+  .premium-steps .step .n{width:32px;height:32px;font-size:16px;margin-bottom:7px}
+  .premium-steps .step .sicon{font-size:22px;margin-bottom:7px}
+  .premium-steps .step strong{font-size:14px;margin-bottom:5px}
+  .premium-steps .step p{font-size:10.5px;line-height:1.35;max-width:145px}
   .hero h1{font-size:39px;line-height:1.02}
   .hero .lead{font-size:16px;line-height:1.52}
   .hero-cardline{gap:8px}
@@ -466,10 +501,10 @@ linear-gradient(180deg,#fff,#f8fbfd);border-color:rgba(227,201,144,.30)}
 <p>ארבעה שלבים פשוטים. אתם מדברים — אנחנו עושים סדר.</p>
 </div>
 <div class="steps premium-steps">
-<div class="step"><div class="n">01</div><div class="sicon">💬</div><strong>פונים אלינו</strong><p>מספרים לאן טסים ומה חשוב לכם. מתחילים בשיחה קצרה ב-WhatsApp.</p></div>
-<div class="step"><div class="n">02</div><div class="sicon">🧭</div><strong>מקבלים כיוון</strong><p>מלונות, טיסות, חוויות, אוכל וחיי לילה — לפי הסגנון שלכם.</p></div>
-<div class="step"><div class="n">03</div><div class="sicon">📲</div><strong>בונים את האפליקציה</strong><p>מסלול יומי, ניווט, המלצות ומידע שימושי — הכול במקום אחד.</p></div>
-<div class="step"><div class="n">04</div><div class="sicon">🤝</div><strong>מלווים אתכם בטיול</strong><p>שאלות, שינויים והתאמות גם בזמן החופשה, יום אחרי יום.</p></div>
+<div class="step"><div class="n">1</div><div class="sicon">💬</div><strong>פונים אלינו</strong><p>שולחים יעד, תאריכים ומה חשוב לכם.</p></div>
+<div class="step"><div class="n">2</div><div class="sicon">🧭</div><strong>מקבלים כיוון</strong><p>מלונות, טיסות, חוויות וחיי לילה שמתאימים לכם.</p></div>
+<div class="step"><div class="n">3</div><div class="sicon">📲</div><strong>בונים אפליקציה</strong><p>הטיול כולו מסודר באפליקציה אישית ונוחה.</p></div>
+<div class="step"><div class="n">4</div><div class="sicon">🤝</div><strong>מלווים אתכם</strong><p>גם בחופשה — שאלות, שינויים והתאמות יום־יום.</p></div>
 </div>
 <div class="trust-banner"><strong>לא מרוצים מהכיוון? לא משלמים.</strong><span>רק כשזה מרגיש נכון לכם — ממשיכים.</span></div>
 </div>
