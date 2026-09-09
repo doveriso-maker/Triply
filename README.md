@@ -1,4 +1,4 @@
-# TRIPLY V31 SECURE + PWA — GitHub Ready
+# TRIPLY V32 SECURE + PWA — GitHub Ready
 
 זו גרסת המשך ל-V30, עם שכבת אבטחה ו-PWA.
 
@@ -22,3 +22,7 @@
 
 ## חשוב
 אין להכניס Service Role Key או Secrets ל-HTML, JS ציבורי, GitHub public repo או localStorage.
+
+
+## V32 live hardening
+See `LIVE_SECURITY_STATUS.md`. Supabase-side hardening has already been applied and tested. No integration secret plaintext is committed to this repository.
