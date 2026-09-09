@@ -1,0 +1,22 @@
+# Security Checklist
+- [x] HTTPS/HSTS headers in Vercel config
+- [x] CSP / clickjacking / nosniff / permissions headers
+- [x] Personal app tokens hashed at rest
+- [x] Token revocation/expiry support
+- [x] Client endpoint excludes customer PII and original documents
+- [x] Service Worker avoids caching API responses
+- [x] Transient document TTL model
+- [x] Delete original source after structured extraction
+- [x] Cleanup function for abandoned uploads
+- [x] Audit event schema
+- [x] Scoped Agent API design
+- [x] Privacy page
+- [ ] Create private transient-doc bucket in live Supabase
+- [ ] Deploy document init/finalize/cleanup functions
+- [ ] Connect real extraction engine to finalize endpoint
+- [ ] Add scheduled hourly cleanup invocation
+- [ ] Review all SECURITY DEFINER grants from Advisor
+- [ ] Enable Supabase leaked-password protection
+- [ ] Migrate all customer apps to token-only access
+- [ ] Disable legacy public published-trip policies
+- [ ] Legal review of privacy/terms before commercial launch
