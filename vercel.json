@@ -56,17 +56,21 @@
       ]
     }
   ],
-  "rewrites": [
+  "redirects": [
     {
       "source": "/",
       "has": [
         {
           "type": "query",
-          "key": "code"
+          "key": "code",
+          "value": "(?<code>.+)"
         }
       ],
-      "destination": "/admin-login.html"
-    },
+      "destination": "/admin-login.html?code=:code",
+      "permanent": false
+    }
+  ],
+  "rewrites": [
     {
       "source": "/admin",
       "destination": "/admin-login.html"
