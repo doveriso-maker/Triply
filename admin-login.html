@@ -30,17 +30,37 @@ h2{margin:0 0 6px;font-size:24px}p{font-size:13px;line-height:1.6;color:var(--mu
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 const CORE_URL='https://asnnvwoersrhrgdantll.supabase.co';
 const CORE_KEY='sb_publishable_dZFP2IUafSBsNpsnc4e4Mw_rU0FQFJh';
-const supabase=createClient(CORE_URL,CORE_KEY,{auth:{flowType:'pkce',detectSessionInUrl:false,persistSession:true,autoRefreshToken:true}});
+const supabase=createClient(CORE_URL,CORE_KEY,{auth:{flowType:'implicit',detectSessionInUrl:false,persistSession:true,autoRefreshToken:true}});
 const $=s=>document.querySelector(s);
 function showMsg(text,isError=false){const el=$('#msg');el.textContent=text;el.className='notice'+(isError?' error':'');el.style.display='block'}
 async function handleCallback(){
-  const code=new URLSearchParams(location.search).get('code');
-  if(!code)return false;
+  const q=new URLSearchParams(location.search||'');
+  const h=new URLSearchParams((location.hash||'').replace(/^#/,''));
+  const callbackError=h.get('error_description')||q.get('error_description')||h.get('error')||q.get('error');
+  const access=h.get('access_token');
+  const refresh=h.get('refresh_token');
+  const code=q.get('code');
+  const hasCallback=!!(callbackError||access||code);
+  if(!hasCallback)return false;
   $('#loginView').style.display='none';$('#callbackView').style.display='block';
-  const {error}=await supabase.auth.exchangeCodeForSession(code);
-  if(error){$('#callbackView').innerHTML='<div class="notice error" style="display:block">קישור הכניסה לא תקין או שפג תוקפו. חזור ל־/admin ובקש קישור חדש.</div>';return true}
-  location.replace('/admin.html');
-  return true;
+  try{
+    if(callbackError)throw new Error(callbackError);
+    if(access){
+      if(!refresh)throw new Error('Missing refresh token');
+      const {error}=await supabase.auth.setSession({access_token:access,refresh_token:refresh});
+      if(error)throw error;
+    }else if(code){
+      const {error}=await supabase.auth.exchangeCodeForSession(code);
+      if(error)throw error;
+    }
+    history.replaceState({},document.title,'/admin');
+    location.replace('/admin.html');
+    return true;
+  }catch(error){
+    console.error('TRIPLY admin auth callback failed',error);
+    $('#callbackView').innerHTML='<div class="notice error" style="display:block">קישור הכניסה לא תקין או שפג תוקפו. חזור ל־/admin ובקש קישור חדש.</div>';
+    return true;
+  }
 }
 if(!(await handleCallback())){
   const {data:{session}}=await supabase.auth.getSession();
@@ -53,7 +73,7 @@ $('#sendBtn').addEventListener('click',async()=>{
   const {error}=await supabase.auth.signInWithOtp({email,options:{shouldCreateUser:false,emailRedirectTo:location.origin+'/'}});
   $('#sendBtn').disabled=false;
   if(error){showMsg('שגיאה בשליחת הקישור: '+error.message,true);return}
-  showMsg('שלחנו קישור כניסה למייל. פתח אותו באותו דפדפן שבו ביקשת את הקישור.');
+  showMsg('שלחנו קישור כניסה למייל. פתח את הקישור החדש ביותר פעם אחת.');
 });
 </script>
 </body>
