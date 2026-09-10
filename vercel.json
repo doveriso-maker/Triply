@@ -58,8 +58,22 @@
   ],
   "rewrites": [
     {
+      "source": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "code"
+        }
+      ],
+      "destination": "/admin-login.html"
+    },
+    {
       "source": "/admin",
-      "destination": "/admin.html"
+      "destination": "/admin-login.html"
+    },
+    {
+      "source": "/admin/",
+      "destination": "/admin-login.html"
     },
     {
       "source": "/app",
