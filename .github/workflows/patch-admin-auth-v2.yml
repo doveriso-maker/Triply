@@ -1,0 +1,105 @@
+name: Patch admin auth v2
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  patch-admin-auth:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Patch robust Supabase admin callback handling
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('admin.html')
+          s = p.read_text(encoding='utf-8')
+
+          marker = 'triply-admin-auth-v2'
+          if marker in s:
+              print('Admin auth v2 already present')
+              raise SystemExit(0)
+
+          old_login = "const {error}=await supabase.auth.signInWithOtp({email,options:{emailRedirectTo:location.origin+'/admin'}});"
+          new_login = "const {error}=await supabase.auth.signInWithOtp({email,options:{shouldCreateUser:false,emailRedirectTo:location.origin+'/'}});"
+          if old_login not in s:
+              raise SystemExit('Could not find admin login call')
+          s = s.replace(old_login, new_login, 1)
+
+          anchor = "let currentUser=null, trips=[], hotelReqByTrip={}, flightReqByTrip={};"
+          callback = r'''
+
+// triply-admin-auth-v2
+async function consumeAuthCallback(){
+  const q=new URLSearchParams(location.search||'');
+  const h=new URLSearchParams((location.hash||'').replace(/^#/,''));
+  const callbackPresent=!!(q.get('code')||q.get('token_hash')||h.get('access_token')||h.get('error')||h.get('error_code')||q.get('error')||q.get('error_code'));
+  if(!callbackPresent) return {handled:false,error:null};
+
+  const callbackError=h.get('error_description')||q.get('error_description')||h.get('error')||q.get('error');
+  if(callbackError) return {handled:true,error:new Error(callbackError)};
+
+  try{
+    const access=h.get('access_token');
+    const refresh=h.get('refresh_token');
+    if(access&&refresh){
+      const {error}=await supabase.auth.setSession({access_token:access,refresh_token:refresh});
+      if(error) throw error;
+      history.replaceState({},document.title,location.pathname);
+      return {handled:true,error:null};
+    }
+
+    const code=q.get('code');
+    if(code){
+      const {error}=await supabase.auth.exchangeCodeForSession(code);
+      if(error) throw error;
+      history.replaceState({},document.title,location.pathname);
+      return {handled:true,error:null};
+    }
+
+    const tokenHash=q.get('token_hash');
+    if(tokenHash){
+      let type=q.get('type')||'email';
+      const allowed=new Set(['email','signup','invite','magiclink','recovery','email_change']);
+      if(!allowed.has(type)) type='email';
+      const {error}=await supabase.auth.verifyOtp({token_hash:tokenHash,type});
+      if(error) throw error;
+      history.replaceState({},document.title,location.pathname);
+      return {handled:true,error:null};
+    }
+  }catch(error){
+    return {handled:true,error};
+  }
+  return {handled:true,error:new Error('Authentication callback did not contain a usable token')};
+}
+'''
+          if anchor not in s:
+              raise SystemExit('Could not find admin state anchor')
+          s = s.replace(anchor, anchor+callback, 1)
+
+          old_boot = "supabase.auth.onAuthStateChange(()=>setTimeout(ensureAdmin,0));\nawait ensureAdmin();"
+          new_boot = "const authCallback=await consumeAuthCallback();\nif(authCallback.error){\n  showAuth();\n  msg($('#authMsg'),'קישור הכניסה לא תקין או שפג תוקפו. בקש קישור חדש ופתח אותו פעם אחת בלבד.');\n}else{\n  supabase.auth.onAuthStateChange(()=>setTimeout(ensureAdmin,0));\n  await ensureAdmin();\n}"
+          if old_boot not in s:
+              raise SystemExit('Could not find admin boot sequence')
+          s = s.replace(old_boot, new_boot, 1)
+
+          p.write_text(s, encoding='utf-8')
+          print('Patched admin auth v2')
+          PY
+      - name: Commit patch
+        shell: bash
+        run: |
+          if git diff --quiet -- admin.html; then
+            echo "No changes needed"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add admin.html
+          git commit -m "Harden TRIPLY admin magic-link callback handling"
+          git push
