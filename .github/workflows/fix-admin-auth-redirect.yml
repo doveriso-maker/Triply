@@ -1,0 +1,55 @@
+name: Fix admin auth redirect
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch-admin-auth:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Inject admin auth bridge
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+          marker = 'triply-admin-auth-bridge'
+          if marker in s:
+              print('Admin auth bridge already present')
+              raise SystemExit(0)
+          bridge = '''<script id="triply-admin-auth-bridge">
+          (function(){
+            var h=window.location.hash||'';
+            var q=window.location.search||'';
+            var hasAuthHash=/(^|[&#])(access_token|refresh_token|error_description|error_code|type)=/i.test(h);
+            var hasAuthQuery=/(^|[?&])(code|token_hash)=/i.test(q);
+            if((hasAuthHash||hasAuthQuery) && window.location.pathname==='/'){
+              window.location.replace('/admin'+q+h);
+            }
+          })();
+          </script>'''
+          if '<head>' not in s:
+              raise SystemExit('Could not find <head> in index.html')
+          s = s.replace('<head>', '<head>\n'+bridge, 1)
+          p.write_text(s, encoding='utf-8')
+          print('Injected admin auth bridge')
+          PY
+      - name: Commit fix
+        shell: bash
+        run: |
+          if git diff --quiet -- index.html; then
+            echo "No changes needed"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Route Supabase admin magic links back to admin"
+          git push
