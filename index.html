@@ -2,6 +2,17 @@
 
 <html dir="rtl" lang="he">
 <head>
+<script id="triply-admin-auth-bridge">
+(function(){
+  var h=window.location.hash||'';
+  var q=window.location.search||'';
+  var hasAuthHash=/(^|[&#])(access_token|refresh_token|error_description|error_code|type)=/i.test(h);
+  var hasAuthQuery=/(^|[?&])(code|token_hash)=/i.test(q);
+  if((hasAuthHash||hasAuthQuery) && window.location.pathname==='/'){
+    window.location.replace('/admin'+q+h);
+  }
+})();
+</script>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
 <title>TRIPLY — הסוכן שלי ב-WhatsApp</title>
