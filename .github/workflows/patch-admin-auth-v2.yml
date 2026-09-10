@@ -2,7 +2,8 @@ name: Patch admin auth v2
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
 
 permissions:
   contents: write
@@ -17,77 +18,28 @@ jobs:
         run: |
           python - <<'PY'
           from pathlib import Path
+          import base64
           p = Path('admin.html')
           s = p.read_text(encoding='utf-8')
-
           marker = 'triply-admin-auth-v2'
           if marker in s:
               print('Admin auth v2 already present')
               raise SystemExit(0)
-
           old_login = "const {error}=await supabase.auth.signInWithOtp({email,options:{emailRedirectTo:location.origin+'/admin'}});"
           new_login = "const {error}=await supabase.auth.signInWithOtp({email,options:{shouldCreateUser:false,emailRedirectTo:location.origin+'/'}});"
           if old_login not in s:
               raise SystemExit('Could not find admin login call')
           s = s.replace(old_login, new_login, 1)
-
           anchor = "let currentUser=null, trips=[], hotelReqByTrip={}, flightReqByTrip={};"
-          callback = r'''
-
-// triply-admin-auth-v2
-async function consumeAuthCallback(){
-  const q=new URLSearchParams(location.search||'');
-  const h=new URLSearchParams((location.hash||'').replace(/^#/,''));
-  const callbackPresent=!!(q.get('code')||q.get('token_hash')||h.get('access_token')||h.get('error')||h.get('error_code')||q.get('error')||q.get('error_code'));
-  if(!callbackPresent) return {handled:false,error:null};
-
-  const callbackError=h.get('error_description')||q.get('error_description')||h.get('error')||q.get('error');
-  if(callbackError) return {handled:true,error:new Error(callbackError)};
-
-  try{
-    const access=h.get('access_token');
-    const refresh=h.get('refresh_token');
-    if(access&&refresh){
-      const {error}=await supabase.auth.setSession({access_token:access,refresh_token:refresh});
-      if(error) throw error;
-      history.replaceState({},document.title,location.pathname);
-      return {handled:true,error:null};
-    }
-
-    const code=q.get('code');
-    if(code){
-      const {error}=await supabase.auth.exchangeCodeForSession(code);
-      if(error) throw error;
-      history.replaceState({},document.title,location.pathname);
-      return {handled:true,error:null};
-    }
-
-    const tokenHash=q.get('token_hash');
-    if(tokenHash){
-      let type=q.get('type')||'email';
-      const allowed=new Set(['email','signup','invite','magiclink','recovery','email_change']);
-      if(!allowed.has(type)) type='email';
-      const {error}=await supabase.auth.verifyOtp({token_hash:tokenHash,type});
-      if(error) throw error;
-      history.replaceState({},document.title,location.pathname);
-      return {handled:true,error:null};
-    }
-  }catch(error){
-    return {handled:true,error};
-  }
-  return {handled:true,error:new Error('Authentication callback did not contain a usable token')};
-}
-'''
+          callback = base64.b64decode('Ly8gdHJpcGx5LWFkbWluLWF1dGgtdjIKYXN5bmMgZnVuY3Rpb24gY29uc3VtZUF1dGhDYWxsYmFjaygpewogIGNvbnN0IHE9bmV3IFVSTFNlYXJjaFBhcmFtcyhsb2NhdGlvbi5zZWFyY2h8fCcnKTsKICBjb25zdCBoPW5ldyBVUkxTZWFyY2hQYXJhbXMoKGxvY2F0aW9uLmhhc2h8fCcnKS5yZXBsYWNlKC9eIy8sJycpKTsKICBjb25zdCBjYWxsYmFja1ByZXNlbnQ9ISEocS5nZXQoJ2NvZGUnKXx8cS5nZXQoJ3Rva2VuX2hhc2gnKXx8aC5nZXQoJ2FjY2Vzc190b2tlbicpfHxoLmdldCgnZXJyb3InKXx8aC5nZXQoJ2Vycm9yX2NvZGUnKXx8cS5nZXQoJ2Vycm9yJyl8fHEuZ2V0KCdlcnJvcl9jb2RlJykpOwogIGlmKCFjYWxsYmFja1ByZXNlbnQpIHJldHVybiB7aGFuZGxlZDpmYWxzZSxlcnJvcjpudWxsfTsKCiAgY29uc3QgY2FsbGJhY2tFcnJvcj1oLmdldCgnZXJyb3JfZGVzY3JpcHRpb24nKXx8cS5nZXQoJ2Vycm9yX2Rlc2NyaXB0aW9uJyl8fGguZ2V0KCdlcnJvcicpfHxxLmdldCgnZXJyb3InKTsKICBpZihjYWxsYmFja0Vycm9yKSByZXR1cm4ge2hhbmRsZWQ6dHJ1ZSxlcnJvcjpuZXcgRXJyb3IoY2FsbGJhY2tFcnJvcil9OwoKICB0cnl7CiAgICBjb25zdCBhY2Nlc3M9aC5nZXQoJ2FjY2Vzc190b2tlbicpOwogICAgY29uc3QgcmVmcmVzaD1oLmdldCgncmVmcmVzaF90b2tlbicpOwogICAgaWYoYWNjZXNzJiZyZWZyZXNoKXsKICAgICAgY29uc3Qge2Vycm9yfT1hd2FpdCBzdXBhYmFzZS5hdXRoLnNldFNlc3Npb24oe2FjY2Vzc190b2tlbjphY2Nlc3MscmVmcmVzaF90b2tlbjpyZWZyZXNofSk7CiAgICAgIGlmKGVycm9yKSB0aHJvdyBlcnJvcjsKICAgICAgaGlzdG9yeS5yZXBsYWNlU3RhdGUoe30sZG9jdW1lbnQudGl0bGUsbG9jYXRpb24ucGF0aG5hbWUpOwogICAgICByZXR1cm4ge2hhbmRsZWQ6dHJ1ZSxlcnJvcjpudWxsfTsKICAgIH0KCiAgICBjb25zdCBjb2RlPXEuZ2V0KCdjb2RlJyk7CiAgICBpZihjb2RlKXsKICAgICAgY29uc3Qge2Vycm9yfT1hd2FpdCBzdXBhYmFzZS5hdXRoLmV4Y2hhbmdlQ29kZUZvclNlc3Npb24oY29kZSk7CiAgICAgIGlmKGVycm9yKSB0aHJvdyBlcnJvcjsKICAgICAgaGlzdG9yeS5yZXBsYWNlU3RhdGUoe30sZG9jdW1lbnQudGl0bGUsbG9jYXRpb24ucGF0aG5hbWUpOwogICAgICByZXR1cm4ge2hhbmRsZWQ6dHJ1ZSxlcnJvcjpudWxsfTsKICAgIH0KCiAgICBjb25zdCB0b2tlbkhhc2g9cS5nZXQoJ3Rva2VuX2hhc2gnKTsKICAgIGlmKHRva2VuSGFzaCl7CiAgICAgIGxldCB0eXBlPXEuZ2V0KCd0eXBlJyl8fCdlbWFpbCc7CiAgICAgIGNvbnN0IGFsbG93ZWQ9bmV3IFNldChbJ2VtYWlsJywnc2lnbnVwJywnaW52aXRlJywnbWFnaWNsaW5rJywncmVjb3ZlcnknLCdlbWFpbF9jaGFuZ2UnXSk7CiAgICAgIGlmKCFhbGxvd2VkLmhhcyh0eXBlKSkgdHlwZT0nZW1haWwnOwogICAgICBjb25zdCB7ZXJyb3J9PWF3YWl0IHN1cGFiYXNlLmF1dGgudmVyaWZ5T3RwKHt0b2tlbl9oYXNoOnRva2VuSGFzaCx0eXBlfSk7CiAgICAgIGlmKGVycm9yKSB0aHJvdyBlcnJvcjsKICAgICAgaGlzdG9yeS5yZXBsYWNlU3RhdGUoe30sZG9jdW1lbnQudGl0bGUsbG9jYXRpb24ucGF0aG5hbWUpOwogICAgICByZXR1cm4ge2hhbmRsZWQ6dHJ1ZSxlcnJvcjpudWxsfTsKICAgIH0KICB9Y2F0Y2goZXJyb3IpewogICAgcmV0dXJuIHtoYW5kbGVkOnRydWUsZXJyb3J9OwogIH0KICByZXR1cm4ge2hhbmRsZWQ6dHJ1ZSxlcnJvcjpuZXcgRXJyb3IoJ0F1dGhlbnRpY2F0aW9uIGNhbGxiYWNrIGRpZCBub3QgY29udGFpbiBhIHVzYWJsZSB0b2tlbicpfTsKfQo=').decode('utf-8')
           if anchor not in s:
               raise SystemExit('Could not find admin state anchor')
-          s = s.replace(anchor, anchor+callback, 1)
-
+          s = s.replace(anchor, anchor + '\n\n' + callback, 1)
           old_boot = "supabase.auth.onAuthStateChange(()=>setTimeout(ensureAdmin,0));\nawait ensureAdmin();"
           new_boot = "const authCallback=await consumeAuthCallback();\nif(authCallback.error){\n  showAuth();\n  msg($('#authMsg'),'קישור הכניסה לא תקין או שפג תוקפו. בקש קישור חדש ופתח אותו פעם אחת בלבד.');\n}else{\n  supabase.auth.onAuthStateChange(()=>setTimeout(ensureAdmin,0));\n  await ensureAdmin();\n}"
           if old_boot not in s:
               raise SystemExit('Could not find admin boot sequence')
           s = s.replace(old_boot, new_boot, 1)
-
           p.write_text(s, encoding='utf-8')
           print('Patched admin auth v2')
           PY
