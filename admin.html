@@ -109,6 +109,51 @@ const supabase=createClient(CORE_URL,CORE_KEY,{auth:{detectSessionInUrl:true,per
 const $=s=>document.querySelector(s);
 let currentUser=null, trips=[], hotelReqByTrip={}, flightReqByTrip={};
 
+// triply-admin-auth-v2
+async function consumeAuthCallback(){
+  const q=new URLSearchParams(location.search||'');
+  const h=new URLSearchParams((location.hash||'').replace(/^#/,''));
+  const callbackPresent=!!(q.get('code')||q.get('token_hash')||h.get('access_token')||h.get('error')||h.get('error_code')||q.get('error')||q.get('error_code'));
+  if(!callbackPresent) return {handled:false,error:null};
+
+  const callbackError=h.get('error_description')||q.get('error_description')||h.get('error')||q.get('error');
+  if(callbackError) return {handled:true,error:new Error(callbackError)};
+
+  try{
+    const access=h.get('access_token');
+    const refresh=h.get('refresh_token');
+    if(access&&refresh){
+      const {error}=await supabase.auth.setSession({access_token:access,refresh_token:refresh});
+      if(error) throw error;
+      history.replaceState({},document.title,location.pathname);
+      return {handled:true,error:null};
+    }
+
+    const code=q.get('code');
+    if(code){
+      const {error}=await supabase.auth.exchangeCodeForSession(code);
+      if(error) throw error;
+      history.replaceState({},document.title,location.pathname);
+      return {handled:true,error:null};
+    }
+
+    const tokenHash=q.get('token_hash');
+    if(tokenHash){
+      let type=q.get('type')||'email';
+      const allowed=new Set(['email','signup','invite','magiclink','recovery','email_change']);
+      if(!allowed.has(type)) type='email';
+      const {error}=await supabase.auth.verifyOtp({token_hash:tokenHash,type});
+      if(error) throw error;
+      history.replaceState({},document.title,location.pathname);
+      return {handled:true,error:null};
+    }
+  }catch(error){
+    return {handled:true,error};
+  }
+  return {handled:true,error:new Error('Authentication callback did not contain a usable token')};
+}
+
+
 function msg(el,text,show=true){el.textContent=text;el.style.display=show?'block':'none'}
 function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
 function tripUrl(code){return location.origin+'/trip/'+encodeURIComponent(code)}
@@ -376,7 +421,7 @@ $('#loginBtn').addEventListener('click',async()=>{
   const email=$('#loginEmail').value.trim();
   if(!email){msg($('#authMsg'),'הכנס כתובת אימייל.');return}
   $('#loginBtn').disabled=true;
-  const {error}=await supabase.auth.signInWithOtp({email,options:{emailRedirectTo:location.origin+'/admin'}});
+  const {error}=await supabase.auth.signInWithOtp({email,options:{shouldCreateUser:false,emailRedirectTo:location.origin+'/'}});
   $('#loginBtn').disabled=false;
   if(error){msg($('#authMsg'),'שגיאה בשליחת הקישור: '+error.message);return}
   msg($('#authMsg'),'שלחנו קישור כניסה למייל. פתח אותו באותו מכשיר.');
@@ -398,8 +443,14 @@ $('#createTripBtn').addEventListener('click',async()=>{
   setTimeout(async()=>{$('#tripModal').classList.remove('show');await loadTrips()},700);
 });
 
-supabase.auth.onAuthStateChange(()=>setTimeout(ensureAdmin,0));
-await ensureAdmin();
+const authCallback=await consumeAuthCallback();
+if(authCallback.error){
+  showAuth();
+  msg($('#authMsg'),'קישור הכניסה לא תקין או שפג תוקפו. בקש קישור חדש ופתח אותו פעם אחת בלבד.');
+}else{
+  supabase.auth.onAuthStateChange(()=>setTimeout(ensureAdmin,0));
+  await ensureAdmin();
+}
 </script>
 </body>
 </html>
