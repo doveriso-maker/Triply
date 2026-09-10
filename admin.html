@@ -104,7 +104,7 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
 const CORE_URL='https://asnnvwoersrhrgdantll.supabase.co';
 const CORE_KEY='sb_publishable_dZFP2IUafSBsNpsnc4e4Mw_rU0FQFJh';
-const supabase=createClient(CORE_URL,CORE_KEY,{auth:{detectSessionInUrl:true,persistSession:true,autoRefreshToken:true}});
+const supabase=createClient(CORE_URL,CORE_KEY,{auth:{detectSessionInUrl:false,persistSession:true,autoRefreshToken:true}});
 
 const $=s=>document.querySelector(s);
 let currentUser=null, trips=[], hotelReqByTrip={}, flightReqByTrip={};
