@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#087989">
+<title>TRIPLY · הטיול שלך</title>
+<style>
+:root{--ink:#12343d;--muted:#647b82;--teal:#087989;--line:#dbeaec;--soft:#f4fafb;--shadow:0 14px 38px rgba(22,72,82,.10)}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,"Noto Sans Hebrew",sans-serif;background:linear-gradient(180deg,#eef9fb,#fff 260px);color:var(--ink)}
+.app{max-width:760px;margin:auto;min-height:100vh;padding:0 14px 90px}.top{position:sticky;top:0;z-index:10;margin:0 -14px;padding:14px 16px;background:#ffffffee;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.brand{font-weight:1000;font-size:21px}.brand span{color:var(--teal)}
+.hero{margin:16px 0;padding:26px;border-radius:28px;background:linear-gradient(135deg,#073c53,#087989);color:#fff}.hero h1{margin:0;font-size:36px}.hero p{color:#daf7fa}.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.tile,.card{border:1px solid var(--line);background:#fff;border-radius:20px;padding:16px;box-shadow:var(--shadow)}.tile{text-align:right;cursor:pointer}.tile b{display:block;margin-top:10px}.section{display:none}.section.active{display:block}.head{display:flex;justify-content:space-between;align-items:center;margin:22px 0 12px}.back{border:0;background:#eaf7f8;color:var(--teal);border-radius:12px;padding:9px 11px}.day,.place{background:#fff;border:1px solid var(--line);border-radius:20px;margin-bottom:10px;overflow:hidden}.dayh{padding:14px 16px;background:#f1fafb;font-weight:900}.event{display:grid;grid-template-columns:60px 1fr;gap:10px;padding:12px 16px;border-top:1px solid #edf2f3}.time{font-weight:900;color:var(--teal)}.event h4{margin:0 0 4px}.event p,.place p{color:var(--muted);font-size:12px}.place{padding:15px}.acts{display:flex;flex-wrap:wrap;gap:7px}.acts a{font-size:10px;font-weight:900;text-decoration:none;color:#075e6d;background:#edf8f9;border-radius:10px;padding:8px 9px}.empty{padding:22px;text-align:center;color:var(--muted);background:#fff;border:1px dashed var(--line);border-radius:18px}.bottom{position:fixed;left:0;right:0;bottom:0;max-width:760px;margin:auto;display:grid;grid-template-columns:repeat(4,1fr);background:#fffffff2;border-top:1px solid var(--line);padding:7px}.nav{border:0;background:transparent;padding:8px;color:#71858b}.nav.active{color:var(--teal);background:#eef9fa;border-radius:12px}.load{position:fixed;inset:0;display:grid;place-items:center;background:#f5fbfc;z-index:30}.hide{display:none}@media(max-width:430px){.hero h1{font-size:31px}}
+</style>
+</head>
+<body>
+<div class="load" id="load">טוען את הטיול שלך…</div>
+<div class="app" id="app" hidden>
+  <div class="top"><div class="brand">TRIP<span>LY</span></div><b>● PERSONAL</b></div>
+  <section id="home" class="section active">
+    <div class="hero"><h1 id="title">הטיול שלך</h1><p id="meta"></p></div>
+    <div class="grid">
+      <button class="tile" onclick="go('schedule')">🗓️<b id="tileSchedule">מסלול</b></button>
+      <button class="tile" onclick="go('food')">🍽️<b id="tileFood">אוכל</b></button>
+      <button class="tile" onclick="go('places')">📍<b id="tilePlaces">מקומות</b></button>
+      <button class="tile" onclick="go('useful')">☰<b id="tileUseful">שימושי</b></button>
+    </div>
+  </section>
+  <section id="schedule" class="section"><div class="head"><h2 id="scheduleTitle">מסלול</h2><button class="back" onclick="go('home')">⌂</button></div><div id="scheduleList"></div></section>
+  <section id="food" class="section"><div class="head"><h2 id="foodTitle">אוכל ומסעדות</h2><button class="back" onclick="go('home')">⌂</button></div><div id="foodList"></div></section>
+  <section id="places" class="section"><div class="head"><h2 id="placesTitle">המקומות שלנו</h2><button class="back" onclick="go('home')">⌂</button></div><div id="placesList"></div></section>
+  <section id="useful" class="section"><div class="head"><h2 id="usefulTitle">מידע שימושי</h2><button class="back" onclick="go('home')">⌂</button></div><div id="usefulList"></div></section>
+</div>
+<nav class="bottom" id="nav" hidden>
+  <button class="nav active" data-n="home" onclick="go('home')">⌂ <span id="navHome">בית</span></button>
+  <button class="nav" data-n="schedule" onclick="go('schedule')">🗓️ <span id="navSchedule">מסלול</span></button>
+  <button class="nav" data-n="food" onclick="go('food')">🍽️ <span id="navFood">אוכל</span></button>
+  <button class="nav" data-n="places" onclick="go('places')">📍 <span id="navPlaces">מקומות</span></button>
+</nav>
+<script>
+const API='https://asnnvwoersrhrgdantll.supabase.co/functions/v1/triply-client-app';
+let D;
+const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function go(id){document.querySelectorAll('.section').forEach(x=>x.classList.toggle('active',x.id===id));document.querySelectorAll('.nav').forEach(x=>x.classList.toggle('active',x.dataset.n===id));scrollTo(0,0)}
+function acts(p){if(!p)return'';let a=[];const dict=D?.i18n?.places||{};if(p.google_maps_url)a.push(['📍 '+(dict.google_maps||'Google Maps'),p.google_maps_url]);if(p.website)a.push(['🌐 '+(dict.website||'אתר'),p.website]);if(p.booking_url)a.push(['✓ '+(dict.booking||'הזמנה'),p.booking_url]);if(p.whatsapp){let n=String(p.whatsapp).replace(/\D/g,'');if(n)a.push(['💬 WhatsApp','https://wa.me/'+n])}return a.length?'<div class="acts">'+a.map(x=>`<a href="${esc(x[1])}" target="_blank" rel="noopener">${esc(x[0])}</a>`).join('')+'</div>':''}
+function ev(x){let p=(D.places||[]).find(z=>z.id===x.place_id);return `<div class="event"><div class="time">${esc((x.start_time||'').slice(0,5)||'—')}</div><div><h4>${esc(x.title||'')}</h4>${x.description?`<p>${esc(x.description)}</p>`:''}${acts(p)}</div></div>`}
+function place(p){return `<article class="place"><b>${esc(p.name||'')}</b><p>${esc([p.city,p.address].filter(Boolean).join(' · '))}</p>${acts(p)}</article>`}
+function setLabels(){const i=D.i18n||{},nav=i.navigation||{},food=i.food||{},home=i.home||{},useful=i.useful||{};document.documentElement.lang=D.language||'he';document.documentElement.dir=D.direction||'rtl';$('#tileSchedule').textContent=nav.schedule||'מסלול';$('#tileFood').textContent=nav.food||'אוכל';$('#tilePlaces').textContent=home.our_places||'מקומות';$('#tileUseful').textContent=nav.useful||'שימושי';$('#scheduleTitle').textContent=nav.schedule||'מסלול';$('#foodTitle').textContent=food.title||'אוכל ומסעדות';$('#placesTitle').textContent=home.our_places||'המקומות שלנו';$('#usefulTitle').textContent=nav.useful||'מידע שימושי';$('#navHome').textContent=nav.home||'בית';$('#navSchedule').textContent=nav.schedule||'מסלול';$('#navFood').textContent=nav.food||'אוכל';$('#navPlaces').textContent=home.our_places||'מקומות';}
+async function load(){let token=new URLSearchParams(location.search).get('token');if(!token)throw Error('missing_token');let r=await fetch(API+'?token='+encodeURIComponent(token),{cache:'no-store'});if(!r.ok)throw Error('load_failed');D=await r.json();setLabels();$('#title').textContent=D.trip.title||D.i18n?.brand?.tagline||'הטיול שלך';$('#meta').textContent=[D.trip.destination,D.trip.start_date&&D.trip.end_date?D.trip.start_date+' — '+D.trip.end_date:''].filter(Boolean).join(' · ');$('#scheduleList').innerHTML=(D.days||[]).map(d=>`<article class="day"><div class="dayh">${esc(d.title||'')}</div>${(D.itinerary||[]).filter(x=>x.trip_day_id===d.id).map(ev).join('')||'<div class="empty">עדיין אין פריטים ביום הזה</div>'}</article>`).join('')||'<div class="empty">המסלול עדיין בבנייה</div>';let foodPlaces=(D.places||[]).filter(p=>/food|restaurant|cafe|pizza|bakery|street/i.test(String(p.metadata?.guide_section||p.category||'')));$('#foodList').innerHTML=foodPlaces.map(place).join('')||'<div class="empty">המלצות האוכל יופיעו כאן</div>';$('#placesList').innerHTML=(D.places||[]).map(place).join('')||'<div class="empty">עדיין אין מקומות שמורים</div>';const useful=D.i18n?.useful||{};$('#usefulList').innerHTML=`<div class="card"><b>✈️ ${esc(useful.flights||'טיסות')}</b><p>${esc(D.trip.start_date||'')} — ${esc(D.trip.end_date||'')}</p></div><div class="card"><b>🏨 ${esc(useful.hotel||'מלון')}</b><p>${esc(D.trip.base_location||D.trip.destination||'')}</p></div><div class="card"><b>🆘 ${esc(useful.emergency||'חירום')}</b><p>112</p></div>`;$('#load').classList.add('hide');$('#app').hidden=false;$('#nav').hidden=false;}
+load().catch(()=>{$('#load').textContent='לא הצלחנו לפתוח את הטיול. בדקו שהקישור שקיבלתם הוא הקישור העדכני.'});
+</script>
+</body>
+</html>
