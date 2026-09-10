@@ -2,6 +2,7 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
 const CORE_URL='https://asnnvwoersrhrgdantll.supabase.co';
 const CORE_KEY='sb_publishable_dZFP2IUafSBsNpsnc4e4Mw_rU0FQFJh';
+const SUMIT_INVOICE_URL=`${CORE_URL}/functions/v1/triply-sumit-invoice`;
 const supabase=createClient(CORE_URL,CORE_KEY,{auth:{detectSessionInUrl:false,persistSession:true,autoRefreshToken:true}});
 
 const esc=v=>String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
@@ -23,7 +24,7 @@ function installPaymentsPanel(){
   wrap.style.marginTop='14px';
   wrap.innerHTML=`
     <div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
-      <div><h2 style="margin:0;font-size:18px">💳 תשלומים וייצור</h2><div style="font-size:10px;color:#738a91;margin-top:4px">אימות PayBox רק לאחר השלמת שאלון TRIPLY המלא</div></div>
+      <div><h2 style="margin:0;font-size:18px">💳 תשלומים, חשבוניות וייצור</h2><div style="font-size:10px;color:#738a91;margin-top:4px">אימות PayBox → חשבונית מס/קבלה ב-SUMIT → תחילת ייצור</div></div>
       <button class="btn soft" id="refreshPayments">רענן</button>
     </div>
     <div id="paymentQueue" style="margin-top:10px"><div class="empty">טוען תשלומים…</div></div>`;
@@ -46,7 +47,7 @@ async function loadPayments(){
       ? '<span style="display:inline-block;margin-top:7px;padding:5px 8px;border-radius:999px;background:#eaf8f1;color:#18845f;font-size:9px;font-weight:900">✓ שאלון מלא · Travel DNA מוכן</span>'
       : `<span style="display:inline-block;margin-top:7px;padding:5px 8px;border-radius:999px;background:#fff4df;color:#a86e2d;font-size:9px;font-weight:900">⏳ שאלון ${esc(r.questionnaireProgress||'חלקי')} · הייצור חסום</span>`;
     const action=ready
-      ? `<button class="btn green" data-confirm-payment="${esc(r.id)}">✓ אשר תשלום והתחל ייצור</button>`
+      ? `<button class="btn green" data-confirm-payment="${esc(r.id)}">✓ אשר תשלום + חשבונית + ייצור</button>`
       : '<button class="btn soft" disabled title="יש להשלים את שאלון TRIPLY לפני תחילת ייצור">ממתין להשלמת שאלון</button>';
     return `<article style="border:1px solid #dce9ec;border-radius:16px;padding:13px;margin-top:9px;background:#fff">
       <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap">
@@ -63,14 +64,44 @@ async function loadPayments(){
 }
 
 async function confirmPayment(btn){
-  if(!confirm('יש לאשר רק לאחר שווידאת בפועל שהתשלום התקבל ב-PayBox. המערכת תאשר רק אם שאלון TRIPLY המלא הושלם. להמשיך?')) return;
+  if(!confirm('יש לאשר רק לאחר שווידאת בפועל שהתשלום התקבל ב-PayBox.\n\nבלחיצה יופקו חשבונית מס/קבלה ב-SUMIT, היא תישלח למייל הלקוח, ורק לאחר הצלחה יתחיל ייצור האפליקציה. להמשיך?')) return;
   const leadId=btn.dataset.confirmPayment;
-  btn.disabled=true;btn.textContent='מאמת שאלון ותשלום…';
-  const {data,error}=await supabase.rpc('triply_admin_confirm_whatsapp_payment',{p_lead_id:leadId});
-  if(error){alert('לא ניתן לאשר תשלום: '+error.message);btn.disabled=false;btn.textContent='✓ אשר תשלום והתחל ייצור';return;}
-  alert(`התשלום אושר ✅\nשאלון TRIPLY אומת. Trip ${data?.trip_code||''} נכנס לייצור אוטומטי.`);
-  await loadPayments();
-  setTimeout(()=>location.reload(),400);
+  btn.disabled=true;btn.textContent='מפיק חשבונית ב-SUMIT…';
+  try{
+    const {data:{session}}=await supabase.auth.getSession();
+    if(!session?.access_token) throw new Error('אין סשן מנהל פעיל');
+    const res=await fetch(SUMIT_INVOICE_URL,{
+      method:'POST',
+      headers:{
+        'Authorization':`Bearer ${session.access_token}`,
+        'apikey':CORE_KEY,
+        'Content-Type':'application/json'
+      },
+      body:JSON.stringify({lead_id:leadId,action:'issue_and_confirm'})
+    });
+    const data=await res.json().catch(()=>({}));
+    if(!res.ok||!data?.ok){
+      const messages={
+        sumit_not_configured:'SUMIT עדיין לא מוגדרת במלואה. בדוק Company ID ומפתח פרטי ב-Supabase Secrets.',
+        missing_customer_email:'חסר אימייל תקין ללקוח. יש להשלים אימייל לפני הפקת החשבונית.',
+        questionnaire_incomplete:'שאלון TRIPLY עדיין לא הושלם.',
+        payment_not_pending_verification:'התשלום אינו ממתין לאימות.',
+        manual_sumit_reconciliation_required:'מצב החשבונית אינו ודאי. יש לבדוק ב-SUMIT לפני ניסיון נוסף.',
+        sumit_result_uncertain:'לא התקבלה תשובה ודאית מ-SUMIT. אין לנסות שוב לפני שבודקים אם המסמך נוצר.',
+        invoice_issue_in_progress:'הפקת החשבונית כבר בתהליך.',
+        sumit_document_failed:'SUMIT דחתה את יצירת המסמך.'
+      };
+      throw new Error(messages[data?.error]||data?.detail||data?.error||`שגיאת SUMIT (${res.status})`);
+    }
+    const doc=data.document_number?`\nחשבונית מס/קבלה: ${data.document_number}`:'';
+    const dup=data.duplicate_prevented?'\n(לא נוצר מסמך כפול)':'';
+    alert(`בוצע בהצלחה ✅${doc}\nהמסמך נשלח למייל הלקוח.\nהתשלום אומת והטיול נכנס לייצור.${dup}`);
+    await loadPayments();
+    setTimeout(()=>location.reload(),500);
+  }catch(err){
+    alert('לא בוצע אישור תשלום.\n'+(err?.message||String(err)));
+    btn.disabled=false;btn.textContent='✓ אשר תשלום + חשבונית + ייצור';
+  }
 }
 
 async function createClientLink(tripCode){
