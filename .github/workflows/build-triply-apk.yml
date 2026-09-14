@@ -13,6 +13,9 @@ jobs:
   build-android:
     runs-on: ubuntu-latest
     timeout-minutes: 35
+    env:
+      ANDROID_HOME: /usr/local/lib/android/sdk
+      ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -25,18 +28,18 @@ jobs:
           cache-dependency-path: package.json
 
       - name: Setup Java 21
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: '21'
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-
       - name: Install Android SDK packages
         run: |
-          yes | sdkmanager --licenses >/dev/null || true
-          sdkmanager "platform-tools" "platforms;android-36" "build-tools;36.0.0"
+          SDKMANAGER="$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
+          test -x "$SDKMANAGER"
+          yes | "$SDKMANAGER" --licenses >/dev/null || true
+          "$SDKMANAGER" "platform-tools" "platforms;android-36" "build-tools;36.0.0"
+          echo "$ANDROID_HOME/platform-tools" >> "$GITHUB_PATH"
 
       - name: Install dependencies
         run: npm install
@@ -46,7 +49,7 @@ jobs:
           test -f dist/index.html
           cp triply-logo-transparent.png dist/triply-logo.png
           grep -q "החליקו לחופשה" dist/index.html
-          grep -q "Open-Meteo\|open-meteo" dist/index.html
+          grep -qi "open-meteo" dist/index.html
 
       - name: Create Capacitor Android project
         run: |
@@ -79,6 +82,7 @@ jobs:
           test -s "$APK"
           unzip -l "$APK" | grep -q AndroidManifest.xml
           unzip -l "$APK" | grep -q classes.dex
+          unzip -l "$APK" | grep -q "public/index.html"
           cp "$APK" TRIPLY_SAPIR_ALBANIA_PREMIUM.apk
           sha256sum TRIPLY_SAPIR_ALBANIA_PREMIUM.apk > TRIPLY_SAPIR_ALBANIA_PREMIUM.apk.sha256
           ls -lh TRIPLY_SAPIR_ALBANIA_PREMIUM.apk
