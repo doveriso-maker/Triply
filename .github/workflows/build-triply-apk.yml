@@ -51,6 +51,18 @@ jobs:
           grep -q "החליקו לחופשה" dist/index.html
           grep -qi "open-meteo" dist/index.html
 
+      - name: Prepare Capacitor config
+        run: |
+          rm -f capacitor.config.ts capacitor.config.js
+          cat > capacitor.config.json <<'EOF'
+          {
+            "appId": "co.il.mytriply.app",
+            "appName": "TRIPLY",
+            "webDir": "dist",
+            "server": { "androidScheme": "https" }
+          }
+          EOF
+
       - name: Create Capacitor Android project
         run: |
           rm -rf android
