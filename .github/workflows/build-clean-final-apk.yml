@@ -45,7 +45,8 @@ jobs:
       - name: Reconstruct clean app
         run: |
           mkdir -p dist
-          cat clean_build/part*.b64 | base64 -d > dist/index.html
+          : > dist/index.html
+          for f in clean_build/part*.b64; do base64 -d "$f" >> dist/index.html; done
           cp triply-logo-transparent.png dist/triply-logo.png
           test -s dist/index.html
           grep -q "החליקו לחופשה" dist/index.html
