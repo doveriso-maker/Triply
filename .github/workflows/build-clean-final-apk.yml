@@ -45,8 +45,16 @@ jobs:
       - name: Reconstruct clean app
         run: |
           mkdir -p dist
-          : > dist/index.html
-          for f in clean_build/part*.b64; do base64 -d "$f" >> dist/index.html; done
+          python3 - <<'PY'
+          from pathlib import Path
+          import base64, glob
+          out=bytearray()
+          for name in sorted(glob.glob('clean_build/part*.b64')):
+              s=''.join(Path(name).read_text().split())
+              s += '=' * ((4-len(s)%4)%4)
+              out.extend(base64.b64decode(s, validate=False))
+          Path('dist/index.html').write_bytes(out)
+          PY
           cp triply-logo-transparent.png dist/triply-logo.png
           test -s dist/index.html
           grep -q "החליקו לחופשה" dist/index.html
