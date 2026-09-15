@@ -47,13 +47,11 @@ jobs:
           mkdir -p dist
           python3 - <<'PY'
           from pathlib import Path
-          import base64, glob
-          out=bytearray()
-          for name in sorted(glob.glob('clean_build/part*.b64')):
-              s=''.join(Path(name).read_text().split())
-              s += '=' * ((4-len(s)%4)%4)
-              out.extend(base64.b64decode(s, validate=False))
-          Path('dist/index.html').write_bytes(out)
+          import base64, glob, re
+          s=''.join(Path(name).read_text(errors='ignore') for name in sorted(glob.glob('clean_build/part*.b64')))
+          s=re.sub(r'[^A-Za-z0-9+/=]','',s)
+          s += '=' * ((4-len(s)%4)%4)
+          Path('dist/index.html').write_bytes(base64.b64decode(s, validate=False))
           PY
           cp triply-logo-transparent.png dist/triply-logo.png
           test -s dist/index.html
@@ -73,7 +71,7 @@ jobs:
           rm -f capacitor.config.ts capacitor.config.js
           cat > capacitor.config.json <<'EOF'
           {
-            "appId": "co.il.mytriply.sapir33final",
+            "appId": "co.il.mytriply.sapir33final2",
             "appName": "TRIPLY",
             "webDir": "dist",
             "server": { "androidScheme": "https" }
