@@ -1,0 +1,123 @@
+name: Build TRIPLY Clean Final APK
+
+on:
+  push:
+    branches:
+      - triply-clean-final
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    env:
+      ANDROID_HOME: /usr/local/lib/android/sdk
+      ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: package.json
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Install Android SDK packages
+        run: |
+          SDKMANAGER="$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
+          test -x "$SDKMANAGER"
+          yes | "$SDKMANAGER" --licenses >/dev/null || true
+          "$SDKMANAGER" "platform-tools" "platforms;android-36" "build-tools;36.0.0"
+          echo "$ANDROID_HOME/platform-tools" >> "$GITHUB_PATH"
+          echo "$ANDROID_HOME/build-tools/36.0.0" >> "$GITHUB_PATH"
+
+      - name: Reconstruct clean app
+        run: |
+          mkdir -p dist
+          cat clean_build/part*.b64 | base64 -d > dist/index.html
+          cp triply-logo-transparent.png dist/triply-logo.png
+          test -s dist/index.html
+          grep -q "החליקו לחופשה" dist/index.html
+          grep -q "Healing Hands Massage" dist/index.html
+          grep -q "19:00" dist/index.html
+          grep -q "20:30" dist/index.html
+          grep -q "20:45" dist/index.html
+          grep -q "23:30" dist/index.html
+          grep -qi "open-meteo" dist/index.html
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Configure unique Android app
+        run: |
+          rm -f capacitor.config.ts capacitor.config.js
+          cat > capacitor.config.json <<'EOF'
+          {
+            "appId": "co.il.mytriply.sapir33final",
+            "appName": "TRIPLY",
+            "webDir": "dist",
+            "server": { "androidScheme": "https" }
+          }
+          EOF
+
+      - name: Create Android project
+        run: |
+          rm -rf android
+          npx cap add android
+          npx cap sync android
+
+      - name: Apply launcher icon
+        run: |
+          mkdir -p android/app/src/main/res/drawable-nodpi
+          cp icon-512.png android/app/src/main/res/drawable-nodpi/triply_icon.png
+          python3 - <<'PY'
+          from pathlib import Path
+          p=Path('android/app/src/main/AndroidManifest.xml')
+          s=p.read_text()
+          s=s.replace('@mipmap/ic_launcher_round','@drawable/triply_icon')
+          s=s.replace('@mipmap/ic_launcher','@drawable/triply_icon')
+          p.write_text(s)
+          PY
+
+      - name: Build release APK
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleRelease --no-daemon --stacktrace
+
+      - name: Create local signing key
+        run: |
+          keytool -genkeypair -v -keystore triply-final.keystore -storepass android -keypass android -alias triplyfinal -keyalg RSA -keysize 2048 -validity 3650 -dname "CN=TRIPLY, OU=Travel, O=TRIPLY, L=Haifa, C=IL"
+
+      - name: Zipalign and sign
+        run: |
+          UNSIGNED=android/app/build/outputs/apk/release/app-release-unsigned.apk
+          test -s "$UNSIGNED"
+          zipalign -p -f 4 "$UNSIGNED" TRIPLY_SAPIR_ALBANIA_CLEAN_FINAL_V2-aligned.apk
+          apksigner sign --ks triply-final.keystore --ks-key-alias triplyfinal --ks-pass pass:android --key-pass pass:android --out TRIPLY_SAPIR_ALBANIA_CLEAN_FINAL_V2.apk TRIPLY_SAPIR_ALBANIA_CLEAN_FINAL_V2-aligned.apk
+          apksigner verify --verbose --print-certs TRIPLY_SAPIR_ALBANIA_CLEAN_FINAL_V2.apk
+          unzip -t TRIPLY_SAPIR_ALBANIA_CLEAN_FINAL_V2.apk >/dev/null
+          unzip -l TRIPLY_SAPIR_ALBANIA_CLEAN_FINAL_V2.apk | grep -q "assets/public/index.html"
+          sha256sum TRIPLY_SAPIR_ALBANIA_CLEAN_FINAL_V2.apk > TRIPLY_SAPIR_ALBANIA_CLEAN_FINAL_V2.apk.sha256
+          ls -lh TRIPLY_SAPIR_ALBANIA_CLEAN_FINAL_V2.apk
+
+      - name: Upload signed APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: TRIPLY-SAPIR-ALBANIA-CLEAN-FINAL-V2
+          path: |
+            TRIPLY_SAPIR_ALBANIA_CLEAN_FINAL_V2.apk
+            TRIPLY_SAPIR_ALBANIA_CLEAN_FINAL_V2.apk.sha256
+          if-no-files-found: error
+          retention-days: 7
