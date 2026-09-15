@@ -48,10 +48,32 @@ jobs:
           python3 - <<'PY'
           from pathlib import Path
           import base64, glob, re
-          s=''.join(Path(name).read_text(errors='ignore') for name in sorted(glob.glob('clean_build/part*.b64')))
-          s=re.sub(r'[^A-Za-z0-9+/=]','',s)
-          s += '=' * ((4-len(s)%4)%4)
-          Path('dist/index.html').write_bytes(base64.b64decode(s, validate=False))
+          parts=[]
+          for name in sorted(glob.glob('clean_build/part*.b64')):
+              s=Path(name).read_text(errors='ignore')
+              s=re.sub(r'[^A-Za-z0-9+/=]','',s)
+              parts.append(s)
+          joined=''.join(parts)
+          candidates=[]
+          if len(joined)%4==1 and len(parts)>1:
+              boundary=len(parts[0])
+              for i in range(max(0,boundary-96), min(len(joined),boundary+96)):
+                  candidates.append(joined[:i]+joined[i+1:])
+          else:
+              candidates.append(joined)
+          data=None
+          for s in candidates:
+              try:
+                  raw=base64.b64decode(s, validate=True)
+              except Exception:
+                  continue
+              low=raw.lower()
+              if b'<!doctype html' in low and b'triply' in low and b'healing hands massage' in low and b'open-meteo' in low:
+                  data=raw
+                  break
+          if data is None:
+              raise SystemExit('Could not reconstruct clean HTML stream')
+          Path('dist/index.html').write_bytes(data)
           PY
           cp triply-logo-transparent.png dist/triply-logo.png
           test -s dist/index.html
