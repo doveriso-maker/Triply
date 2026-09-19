@@ -21,7 +21,7 @@ The follow-up destination is read from the existing server-only `internal_runtim
 
 ## Verification
 
-Run `node --test backend/tests/whatsapp-policy.test.mjs`.
+Run `node --test backend/tests/*.test.mjs` with Node 24 or newer. Readiness tests also verify that the existing V9 email requirement is enforced consistently by intake and SQL.
 The guard migration was also validated with an isolated temporary table and synthetic rows. No customer messages or payment documents are created by these tests.
 
 ## Remaining integration limits
