@@ -28,6 +28,6 @@ The guard migration was also validated with an isolated temporary table and synt
 
 The dispatcher now reads live Autocalls AI enablement after claiming each reminder, then rechecks the local profile before sending. A paused, missing or unverifiable conversation is not sent a reminder. A failed state read may be retried up to three attempts; this never retries an outgoing message. A human action after the last read still remains a race. The automation endpoint currently acknowledges acceptance rather than returning a confirmed WhatsApp delivery receipt.
 
-The Vercel connector cannot access the current team scope. Public HTTP checks do not validate protected project settings, deployment logs or the complete client journey. Do not describe this audit as full end-to-end certification.
+Vercel team access was restored on 2026-09-20. The three main site deployments and the audit preview report READY. Deployment status and runtime logs alone do not validate the complete client journey. Do not describe this audit as full end-to-end certification.
 
 `functions/autocalls-state.mjs` is active in the deployed dispatcher. The account API key is stored only in `internal_runtime_secrets` under `triply_autocalls_api_key`. Authenticated provider reads verified an enabled and a paused conversation. The REST response uses the assistant UUID, unlike the integer identifier exposed by the management connector; the guard uses the verified UUID. Never commit credentials. A pre-send read cannot make the third-party send operation atomic with human takeover.
