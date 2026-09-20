@@ -53,7 +53,8 @@ Deno.serve(async(req:Request)=>{try{
 
  const {data:existingLead}=await supabase.from('triply_whatsapp_leads').select('*').eq('customer_phone',phone).maybeSingle();
  const merged:any={...(existingLead?.profile??{})};
- for(const key of PROFILE_KEYS){const val=payload?.[key]??extracted?.[key];if(val!==undefined&&val!==null&&val!=='')merged[key]=val}
+ // Identity and language are assigned only by their validated paths below.
+ for(const key of PROFILE_KEYS){if(['customer_name','language','locale'].includes(key))continue;const val=payload?.[key]??extracted?.[key];if(val!==undefined&&val!==null&&val!=='')merged[key]=val}
  if(customerName)merged.customer_name=customerName;if(customerEmail)merged.customer_email=customerEmail;
  Object.assign(merged,mergeControls(existingLead?.profile,payload,extracted));
  if(routingLanguage){merged.language=routingLanguage;merged.locale=routingLocale}
