@@ -29,3 +29,5 @@ The guard migration was also validated with an isolated temporary table and synt
 Autocalls human-pause state must be synchronized at send time to completely close the gap between the last webhook and the outgoing request. Current guards use the latest available profile and recheck it after claiming. A human action after that read remains a race. The automation endpoint currently acknowledges acceptance rather than returning a confirmed WhatsApp delivery receipt.
 
 The Vercel connector cannot access the current team scope. Public HTTP checks do not validate protected project settings, deployment logs or the complete client journey. Do not describe this audit as full end-to-end certification.
+
+`functions/autocalls-state.mjs` is a prepared, isolated-tested API reader for explicit AI enablement and conversation identity. It is not wired into the deployed dispatcher. Enabling it requires an account API key, an authenticated read against the real API, and integration verification. Store that key only in server-side secret storage. A pre-send read still cannot make the third-party send operation atomic with human takeover.
