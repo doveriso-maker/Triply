@@ -3,6 +3,7 @@ import {stripTypeScriptTypes} from 'node:module';
 import {runInNewContext} from 'node:vm';
 import {createHash,webcrypto} from 'node:crypto';
 import * as policy from '../functions/whatsapp-policy.mjs';
+import {checkConversationState} from '../functions/autocalls-state.mjs';
 
 const token='synthetic-audit-token-not-a-real-credential';
 export function harness(slug,lead=null,options={}) {
@@ -29,8 +30,13 @@ export function harness(slug,lead=null,options={}) {
       }catch(error){return Promise.reject(error).then(resolve,reject);}}
     };return query;
   }
+  state.tables.internal_runtime_secrets.push({name:'triply_autocalls_api_key',secret:'synthetic-api-key'});
   let handler;
   const source=readFileSync(new URL('../functions/'+slug+'/index.ts',import.meta.url),'utf8').replace(/^import .*;\n/gm,'');
-  runInNewContext(stripTypeScriptTypes(source),{...policy,canRequestPayment:policy.paymentReady,createClient:()=>({from,rpc:async(name,args)=>{state.rpc.push({name,args});return {data:{trip_id:'fixture-trip'},error:null};}}),Deno:{env:{get:()=>''},serve:fn=>{handler=fn;}},crypto:webcrypto,TextEncoder,Request,Response,URL,AbortSignal,console:{error(){}},fetch:async(url,init)=>{state.requests.push(JSON.parse(init.body));if(options.failSend)throw Error('simulated ambiguous timeout');return Response.json({ok:true});}});
+  const stateFetcher=async()=>{
+    if(options.failStateCheck)throw Error('simulated read failure');
+    return Response.json({data:[{id:lead?.latest_conversation_id,assistant_id:'10b4d3cd-00d3-4fda-a615-a85bf41f911e',type:'whatsapp',ai_enabled:options.liveAiEnabled??true}]});
+  };
+  runInNewContext(stripTypeScriptTypes(source),{...policy,checkConversationState:args=>checkConversationState({...args,fetcher:stateFetcher}),canRequestPayment:policy.paymentReady,createClient:()=>({from,rpc:async(name,args)=>{state.rpc.push({name,args});return {data:{trip_id:'fixture-trip'},error:null};}}),Deno:{env:{get:()=>''},serve:fn=>{handler=fn;}},crypto:webcrypto,TextEncoder,Request,Response,URL,AbortSignal,console:{error(){}},fetch:async(url,init)=>{state.requests.push(JSON.parse(init.body));if(options.failSend)throw Error('simulated ambiguous timeout');return Response.json({ok:true});}});
   return {state,async run(payload={}){const response=await handler(new Request('https://example.invalid/?token='+token,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(payload)}));return {status:response.status,body:await response.json()};}};
 }

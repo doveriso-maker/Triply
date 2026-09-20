@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {harness} from './handler-harness.mjs';
 
-const lead={id:'fixture-lead',customer_phone:'+15555550100',status:'collecting',app_interest:false,profile:{language:'ar'},payment_status:'not_started',followup_status:'scheduled',followup_due_at:'2026-01-01T00:00:00Z',followup_attempts:0,last_synced_at:'2026-01-01T00:00:00Z'};
+const lead={id:'fixture-lead',latest_conversation_id:'fixture-conversation',customer_phone:'+15555550100',status:'collecting',app_interest:false,profile:{language:'ar'},payment_status:'not_started',followup_status:'scheduled',followup_due_at:'2026-01-01T00:00:00Z',followup_attempts:0,last_synced_at:'2026-01-01T00:00:00Z'};
 const payload={customer_phone:lead.customer_phone,conversation_id:'fixture-chat',transcript:[{role:'user',content:'مرحبا'}],extracted_variables:{language:'ar'}};
 
 test('intake: display name cannot populate a verified customer profile',async()=>{
@@ -34,4 +34,14 @@ test('dispatcher: Arabic unpaid lead receives generic Arabic rather than prematu
 test('dispatcher: ambiguous timeout does not create an automatic retry',async()=>{
  const h=harness('triply-whatsapp-followup-dispatch',lead,{failSend:true});await h.run();await h.run();
  assert.equal(h.state.requests.length,1);assert.equal(h.state.tables.triply_whatsapp_leads[0].followup_status,'failed');
+});
+test('dispatcher: live provider pause blocks send even with a stale eligible profile',async()=>{
+ const h=harness('triply-whatsapp-followup-dispatch',lead,{liveAiEnabled:false});const result=await h.run();
+ assert.equal(result.body.sent,0);assert.equal(h.state.requests.length,0);
+ assert.equal(h.state.tables.triply_whatsapp_leads[0].followup_last_error,'ai_paused_or_unknown');
+});
+test('dispatcher: failed state read schedules only a read retry, never a message',async()=>{
+ const h=harness('triply-whatsapp-followup-dispatch',lead,{failStateCheck:true});await h.run();
+ assert.equal(h.state.requests.length,0);assert.equal(h.state.tables.triply_whatsapp_leads[0].followup_status,'scheduled');
+ assert.equal(h.state.tables.triply_whatsapp_leads[0].followup_last_error,'state_check_failed');
 });

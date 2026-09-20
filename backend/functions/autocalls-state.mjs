@@ -1,4 +1,4 @@
-// Prepared for the send-time check; not wired into the live dispatcher yet.
+// Read the provider's current AI enablement before dispatch; never send on unknown state.
 // API contract: https://docs.autocalls.ai/api-reference/conversations/list-conversations
 export async function checkConversationState({apiKey,phone,conversationId,assistantId,fetcher=fetch}) {
   if(!apiKey||!phone||!conversationId||!assistantId)return {allowed:false,reason:'state_check_not_configured'};
