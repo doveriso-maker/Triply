@@ -1902,7 +1902,7 @@ async function sendToTriplyCore(){
     const skipped=Array.isArray(j.skipped_documents)&&j.skipped_documents.length;
     const hotelMsg=j.hotel_match_requested?`<br><small>🏨 נפתחה גם בקשת Hotel Match אוטומטית.</small>`:"";
     const flightMsg=j.flight_match_requested?`<br><small>✈️ נפתחה גם בקשת Flight Match אוטומטית.</small>`:"";
-    statusEl.innerHTML=`✅ הטיול התקבל ב־TRIPLY · קוד <strong>${escHtml(j.trip_code||"")}</strong>${hotelMsg}${flightMsg}${skipped?`<br><small>חלק מהמסמכים גדולים מדי להעלאה אוטומטית ונשמרים בקובץ הגיבוי.</small>`:""}`;
+    statusEl.innerHTML=`✅ הטיול התקבל ב־TRIPLY · קוד <strong>${escHtml(j.trip_code||"")}</strong>${hotelMsg}${flightMsg}${skipped?`<br><small>פרטי הטיול נקלטו, אך המסמכים המצורפים לא נקלטו לעיבוד אוטומטי. יש לשמור אותם ולהעבירם בנפרד לצוות TRIPLY.</small>`:""}`;
     btn.textContent="✓ נשלח ל־TRIPLY";
   }catch(e){
     console.error(e);
