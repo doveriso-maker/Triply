@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0b6578">
-<title>TRIPLY Admin Login</title>
+<meta name="theme-color" content="#073348">
+<title>NAVIGAM Admin Login</title>
 <style>
 :root{--ink:#123f4b;--muted:#738a91;--teal:#0b7c90;--teal2:#0d5c73;--line:#dce9ec}
 *{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;background:linear-gradient(180deg,#eef8fa,#fff 35%,#f6fbfc);font-family:Arial,"Noto Sans Hebrew",sans-serif;color:var(--ink);padding:18px}
@@ -12,13 +12,13 @@
 .brand{display:flex;align-items:center;gap:10px;margin-bottom:18px}.mark{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,var(--teal),#17324d);display:grid;place-items:center;color:#fff;font-weight:900}.brand h1{font-size:21px;margin:0}.brand p{font-size:11px;color:var(--muted);margin:3px 0 0}
 h2{margin:0 0 6px;font-size:24px}p{font-size:13px;line-height:1.6;color:var(--muted)}label{display:block;font-size:11px;font-weight:800;margin:14px 0 6px}input{width:100%;border:1px solid #cfe0e4;border-radius:12px;padding:12px;background:#fff;font:inherit;outline:none}input:focus{border-color:#6bb9c5;box-shadow:0 0 0 3px rgba(11,124,144,.08)}button{width:100%;border:0;border-radius:12px;padding:12px 14px;margin-top:12px;background:linear-gradient(135deg,var(--teal),var(--teal2));color:#fff;font:inherit;font-weight:800;cursor:pointer}button:disabled{opacity:.55;cursor:default}.notice{display:none;margin-top:12px;padding:10px 12px;border-radius:12px;background:#f1f8fa;color:#5d747c;font-size:11px;line-height:1.6}.notice.error{background:#fff1ef;color:#a94539}.loading{text-align:center;padding:8px 0;font-size:12px;color:var(--muted)}
 </style>
-</head>
+<link rel="icon" type="image/png" href="/assets/navigam/symbol.png"><link rel="apple-touch-icon" href="/assets/navigam/symbol.png"><style id="navigam-brand-colors">:root{--ink:#073348;--deep:#073348;--teal:#087d8b;--cyan:#00cfdf;--accent:#087d8b;--accent-2:#00cfdf;--coral:#087d8b;--sun:#00cfdf} .brand-logo,.mini-logo{object-fit:contain}</style></head>
 <body>
 <section class="card">
-  <div class="brand"><div class="mark">T</div><div><h1>TRIPLY Admin</h1><p>מערכת ניהול</p></div></div>
+  <div class="brand"><div class="mark"><img src="/assets/navigam/symbol.png" alt="NAVIGAM" style="width:30px;height:42px;object-fit:contain"></div><div><h1>NAVIGAM Admin</h1><p>מערכת ניהול</p></div></div>
   <div id="loginView">
     <h2>כניסה למערכת</h2>
-    <p>הכנס את כתובת המייל של מנהל TRIPLY. נשלח קישור כניסה חד־פעמי.</p>
+    <p>הכנס את כתובת המייל של מנהל NAVIGAM. נשלח קישור כניסה חד־פעמי.</p>
     <label for="email">אימייל</label>
     <input id="email" type="email" autocomplete="email" placeholder="name@example.com">
     <button id="sendBtn">שלח קישור כניסה</button>
@@ -57,7 +57,7 @@ async function handleCallback(){
     location.replace('/admin.html');
     return true;
   }catch(error){
-    console.error('TRIPLY admin auth callback failed',error);
+    console.error('NAVIGAM admin auth callback failed',error);
     $('#callbackView').innerHTML='<div class="notice error" style="display:block">קישור הכניסה לא תקין או שפג תוקפו. חזור ל־/admin ובקש קישור חדש.</div>';
     return true;
   }
