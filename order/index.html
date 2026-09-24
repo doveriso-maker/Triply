@@ -129,7 +129,7 @@ function render(){
   $('#preferenceChips').innerHTML=prefs.map(x=>'<span class="tag">'+esc(x)+'</span>').join('');
   $('#included').innerHTML=T.inc.map(x=>'<div class="inc"><div class="tick">✓</div><div><b>'+esc(x[0])+'</b><small>'+esc(x[1])+'</small></div></div>').join('');
   const p=D.pricing;
-  let rows='<div class="row"><span>'+esc(T.base)+'</span><span>'+money(p.plan_amount_ils)+'</span></div>';
+  let rows='<div class="row"><span>'+esc(T.base)+'</span><span>'+money(p.base_amount_ils)+'</span></div>';
   if(p.extra_days>0)rows+='<div class="row muted"><span>'+esc(T.extra)+' · '+p.extra_days+'</span><span>+'+money(p.extra_days_amount_ils)+'</span></div>';
   if(p.avia_days>0)rows+='<div class="row"><span>'+esc(T.avia)+' · '+p.avia_days+'</span><span>+'+money(p.avia_amount_ils)+'</span></div>';
   else rows+='<div class="row muted"><span>'+esc(T.aviaOptional)+' · '+money(p.avia_optional_amount_ils)+'</span><span>'+esc(T.notIncluded)+'</span></div>';
