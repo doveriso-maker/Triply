@@ -78,7 +78,7 @@ const C={
 let D=null,L='he',T=C.he,route='home';
 function daysBetween(a,b){const x=new Date(a+'T12:00:00Z'),y=new Date(b+'T12:00:00Z');return Math.max(1,Math.round((y-x)/86400000)+1)}
 function imgFor(x){return x?.place?.preview_image_url||x?.place?.metadata?.preview_image_url||x?.place?.metadata?.image_url||null}
-function hero(){return D?.trip?.hero_image_url||null}
+function hero(){return D?.trip?.hero_image_url||null}\nfunction splashImage(){return D?.trip?.splash_image_url||hero()}
 function mapsUrl(x){return x?.place?.google_maps_url||('https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(x?.place?.address||x?.place?.name||x?.title||D.trip.destination))}
 function wazeUrl(x){return 'https://www.waze.com/ul?q='+encodeURIComponent(x?.place?.address||x?.place?.name||x?.title||D.trip.destination)+'&navigate=yes'}
 function allMaps(){const a=D.items||[];if(!a.length)return '#';const qs=a.map(x=>x.place?.address||x.place?.name||x.title).filter(Boolean);const u=new URL('https://www.google.com/maps/dir/');u.searchParams.set('api','1');u.searchParams.set('origin',qs[0]);u.searchParams.set('destination',qs[qs.length-1]);if(qs.length>2)u.searchParams.set('waypoints',qs.slice(1,-1).join('|'));return u.toString()}
@@ -140,7 +140,7 @@ async function load(){
  try{
    D=await fetchPreview(token||code,token?'token':'code');
    L=D.language||'he';T=C[L]||C.he;setChrome();
-   if(hero()){$('#splashImage').src=hero();$('#splashImage').onerror=()=>{$('#splashImage').style.display='none'}}else{$('#splashImage').style.display='none'}
+   if(splashImage()){$('#splashImage').src=splashImage();$('#splashImage').onerror=()=>{$('#splashImage').style.display='none'}}else{$('#splashImage').style.display='none'}
    $('#splashTitle').textContent=D.trip.destination;$('#splashBadge').textContent='NAVIGAM PREVIEW · '+fmtDate(D.day.trip_date);
    render();
    const b=$('#startBtn');b.disabled=false;b.style.opacity='1';b.textContent=T.start;
