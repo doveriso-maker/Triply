@@ -11,14 +11,41 @@
     ru:{loading:'Открываем вашу поездку…',expired:'Срок просмотра истёк',expiryNote:'Предпросмотр доступен 24 часа. Свяжитесь с Авией, чтобы продолжить.',failed:'Не удалось открыть предпросмотр',network:'Для проверки доступа к предпросмотру нужен интернет.',retry:'Повторить',invalid:'Ссылка на предпросмотр недоступна'},
     ar:{loading:'جارٍ فتح رحلتكم…',expired:'انتهت صلاحية المعاينة',expiryNote:'المعاينة متاحة لمدة 24 ساعة. تواصلوا مع أڤيا لمتابعة الرحلة.',failed:'تعذر فتح المعاينة الآن',network:'يلزم الاتصال بالإنترنت للتحقق من صلاحية الوصول إلى المعاينة.',retry:'إعادة المحاولة',invalid:'رابط المعاينة غير متاح'}
   };
+  const offlineCopy = {
+    he:'החיבור נותק. הטיול הפתוח זמין עד פקיעת התצוגה המקדימה; שירותים חיים דורשים אינטרנט.',
+    en:'Connection interrupted. This open trip remains available until preview expiry; live features need internet.',
+    ru:'Связь прервана. Открытая поездка доступна до окончания предпросмотра; онлайн-функциям нужен интернет.',
+    ar:'انقطع الاتصال. تبقى الرحلة المفتوحة متاحة حتى انتهاء المعاينة؛ وتتطلب الخدمات المباشرة الإنترنت.'
+  };
   let language = ['he','en','ru','ar'].includes(navigator.language?.slice(0,2)) ? navigator.language.slice(0,2) : 'en';
   const scriptsLoaded = new Set();
-  let timer, hardTimer, deadline = 0, loaded = false, checking = null, terminal = false, expiresIn = 0;
+  let timer, hardTimer, deadline = 0, loaded = false, checking = null, terminal = false, expiresIn = 0, offlineNotice = null;
   window.NAVIGAM_PREVIEW_URL = 'https://www.navigam.com/p/' + encodeURIComponent(code);
   window.NAVIGAM_AUTHORIZED = false;
+  function clearOfflineStatus() { offlineNotice?.remove(); offlineNotice=null; }
+  function updateOfflineStatus() {
+    if(!offlineNotice)return;
+    const locale=copy[document.documentElement.lang]?document.documentElement.lang:language;
+    offlineNotice.textContent=offlineCopy[locale];
+    offlineNotice.lang=locale;offlineNotice.dir=['he','ar'].includes(locale)?'rtl':'ltr';
+  }
+  function retainOpenSession() {
+    // Continue only a visible grant already obtained from the server. Neither
+    // this branch nor a failed refresh may create, renew or extend that grant.
+    if(!loaded || terminal || !window.NAVIGAM_AUTHORIZED || document.hidden || app.hidden || app.inert || !gate.hidden || gate.style.display!=='none' || performance.now()>=deadline)return false;
+    if(!offlineNotice){
+      offlineNotice=document.createElement('div');offlineNotice.id='previewOfflineStatus';
+      offlineNotice.setAttribute('role','status');offlineNotice.setAttribute('aria-live','polite');
+      offlineNotice.style.cssText='flex-shrink:0;margin:0;padding:8px 14px;border-bottom:1px solid #cfeef3;background:#eaf8fc;color:#073752;font-size:12px;line-height:1.45';
+      document.getElementById('main').before(offlineNotice);
+    }
+    updateOfflineStatus();return true;
+  }
+  new MutationObserver(updateOfflineStatus).observe(document.documentElement,{attributes:true,attributeFilter:['lang']});
   function showGate(state, responseLanguage) {
     if(terminal && state!=='expired' && state!=='invalid')return;
     if(terminal){clearTimeout(timer);clearTimeout(hardTimer);}
+    clearOfflineStatus();
     if (responseLanguage && copy[responseLanguage]) language = responseLanguage;
     else if (typeof LOCALE !== 'undefined' && copy[LOCALE]) language = LOCALE;
     const words = copy[language];
@@ -70,8 +97,16 @@
     clearTimeout(timer);
     checking = (async () => {
       const controller=new AbortController(), timeout=setTimeout(()=>controller.abort(),15000), started=performance.now();
+      let transportFailure=false;
       try {
-        const response = await fetch(API+'?code='+encodeURIComponent(code)+'&request='+crypto.randomUUID(), {cache:'no-store',credentials:'omit',signal:controller.signal});
+        const requestUrl=API+'?code='+encodeURIComponent(code)+'&request='+crypto.randomUUID();
+        let response;
+        try {
+          response=await fetch(requestUrl,{cache:'no-store',credentials:'omit',signal:controller.signal});
+        } catch(error) {
+          transportFailure=error?.name==='TypeError' || error?.name==='AbortError';
+          throw error;
+        }
         const data = await response.json();
         if (!response.ok || data.ok !== true) {
           terminal = response.status===401 || response.status===403 || response.status===404;
@@ -95,11 +130,15 @@
         }
         if(performance.now()>=deadline){showGate('loading');timer=setTimeout(authorize,0);return;}
         if(loaded && gate.style.display !== 'none'){const main=document.getElementById('main'),scroll=main.scrollTop;render();main.scrollTop=scroll;}
+        clearOfflineStatus();
         app.hidden=false;app.inert=false;gate.style.display='none';gate.hidden=true;
         window.NAVIGAM_AUTHORIZED=true;
         clearTimeout(timer);
         timer=setTimeout(()=>{if(expiresIn<=60000)showGate('loading');authorize();},Math.min(60000,Math.max(250,deadline-performance.now())));
-      } catch {showGate('failed',language);clearTimeout(timer);timer=setTimeout(authorize,30000);}
+      } catch {
+        if(!transportFailure || !retainOpenSession())showGate('failed',language);
+        clearTimeout(timer);timer=setTimeout(authorize,30000);
+      }
       finally {clearTimeout(timeout);checking=null;}
     })();
     return checking;
@@ -108,6 +147,6 @@
   document.addEventListener('visibilitychange',()=>{if(!document.hidden){showGate('loading');authorize();}});
   window.addEventListener('pageshow',event=>{if(event.persisted){showGate('loading');authorize();}});
   window.addEventListener('online',authorize);
-  window.addEventListener('offline',()=>showGate('failed'));
+  window.addEventListener('offline',()=>{if(!retainOpenSession())showGate('failed');});
   await authorize();
 })();
