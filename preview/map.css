@@ -1,0 +1,12 @@
+/* Map failure/loading state is compact; the approved live map sizing is retained. */
+.mapbox.map-compact{height:140px;min-height:0}
+.mapbox.map-compact .mapfallback{display:flex;flex-direction:column;justify-content:center;gap:7px;padding:10px 14px;font-size:12px;line-height:1.4}
+.mapbox.map-compact .mapfallback strong{color:var(--navy);font-size:13px}
+.mapbox.map-compact .mapfallback .btn{padding:7px 13px;font-size:12px;min-height:34px}
+.map-location-note{font-style:italic;color:#547a8a!important}
+.route-segments>.route-note{width:100%;margin:0}
+.mapbox .leaflet-control-zoom a{color:#073752}
+.mapbox .leaflet-popup-content{direction:inherit;font-family:inherit;line-height:1.5}
+.mapbox .leaflet-popup-content .place-actions{display:flex;flex-wrap:wrap;gap:7px;margin-top:9px}
+.mapbox .leaflet-container{font-family:inherit}
+.mapbox .leaflet-control-attribution{font-size:9px;max-width:260px}

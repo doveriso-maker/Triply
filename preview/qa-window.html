@@ -1,0 +1,5 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><meta name="robots" content="noindex,nofollow"><meta name="viewport" content="width=device-width,initial-scale=1"><title>NAVIGAM responsive QA</title>
+<style>body{font:16px/1.6 system-ui;padding:32px;background:#f5fafc;color:#073752}button{padding:14px 22px;border:0;border-radius:16px;background:#073752;color:white;cursor:pointer}</style>
+<h1>NAVIGAM responsive QA</h1><p>Open the existing preview in a narrow browser window. This checks responsive layout; it does not emulate an Android device.</p><button id="open">Open 390 × 844 preview</button>
+<script>document.getElementById('open').onclick=()=>{const code=(new URLSearchParams(location.search).get('code')||'').toUpperCase();if(!/^[23456789ABCDEFGHJKLMNPQRSTUVWXYZ]{6,16}$/.test(code))return;window.open('/p/'+encodeURIComponent(code),'navigam-mobile-qa','popup,width=390,height=844,resizable=yes,scrollbars=yes');};</script></html>

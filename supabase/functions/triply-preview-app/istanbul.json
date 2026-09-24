@@ -1,0 +1,398 @@
+{
+  "id": "istanbul",
+  "aliases": [
+    "Istanbul",
+    "İstanbul",
+    "إسطنبول",
+    "اسطنبول",
+    "איסטנבול",
+    "Стамбул"
+  ],
+  "name": {
+    "he": "איסטנבול",
+    "en": "Istanbul",
+    "ru": "Стамбул",
+    "ar": "إسطنبول"
+  },
+  "country": "TR",
+  "language": "tr",
+  "speech_locale": "tr-TR",
+  "timezone": "Europe/Istanbul",
+  "currency": "TRY",
+  "latitude": 41.0082,
+  "longitude": 28.9784,
+  "images": {
+    "hero": "https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?auto=format&fit=crop&w=1400&q=90",
+    "splash": null,
+    "itinerary": "https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?auto=format&fit=crop&w=1400&q=90"
+  },
+  "places": {
+    "e6155b0e-8f92-4acf-9faf-5f96e375ef0a": {
+      "id": "e6155b0e-8f92-4acf-9faf-5f96e375ef0a",
+      "name": "حديقة غولهانه (Gülhane Park)",
+      "category_key": "attractions",
+      "categories": [
+        "attractions",
+        "family"
+      ],
+      "area": "Gülhane",
+      "latitude": 41.0137,
+      "longitude": 28.981,
+      "coordinates_approximate": true,
+      "coordinates_source": "approved_premium_v2_unverified",
+      "image": {
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Gulhane_park_Istanbul_2007_002.jpg/1280px-Gulhane_park_Istanbul_2007_002.jpg",
+        "kind": "place",
+        "source": "existing_place_registry",
+        "verified": false
+      }
+    },
+    "48090ea8-b6a0-4148-8a3e-eba546846e0c": {
+      "id": "48090ea8-b6a0-4148-8a3e-eba546846e0c",
+      "name": "ساحة السلطان أحمد وآيا صوفيا",
+      "category_key": "attractions",
+      "categories": [
+        "attractions",
+        "family"
+      ],
+      "area": "Sultanahmet",
+      "latitude": 41.0054,
+      "longitude": 28.9768,
+      "coordinates_approximate": true,
+      "coordinates_source": "approved_premium_v2_unverified",
+      "image": {
+        "url": "https://serhatengul.com/wp-content/uploads/2023/01/2022-135-Hagia-Sophia-iStock.jpg",
+        "kind": "place",
+        "source": "existing_place_registry",
+        "verified": false
+      }
+    },
+    "47452e99-a933-472f-ad48-06827bb98ec0": {
+      "id": "47452e99-a933-472f-ad48-06827bb98ec0",
+      "name": "Hafız Mustafa 1864 Sirkeci",
+      "category_key": "restaurants",
+      "categories": [
+        "restaurants",
+        "family"
+      ],
+      "area": "Sirkeci",
+      "latitude": 41.0146,
+      "longitude": 28.9749,
+      "coordinates_approximate": true,
+      "coordinates_source": "approved_premium_v2_unverified",
+      "image": {
+        "url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1c/ad/43/35/hafiz-mustafa-1864-sirkeci.jpg?h=500&s=1&w=900",
+        "kind": "place",
+        "source": "existing_place_registry",
+        "verified": false
+      }
+    },
+    "424e1979-215c-4a5f-b4e5-ae6a68a8f02b": {
+      "id": "424e1979-215c-4a5f-b4e5-ae6a68a8f02b",
+      "name": "السوق المصري (Mısır Çarşısı / Spice Bazaar)",
+      "category_key": "shopping",
+      "categories": [
+        "shopping",
+        "family"
+      ],
+      "area": "Eminönü",
+      "latitude": 41.0166,
+      "longitude": 28.9705,
+      "coordinates_approximate": true,
+      "coordinates_source": "approved_premium_v2_unverified",
+      "image": {
+        "url": "https://www.foodie.com/img/gallery/10-food-markets-from-around-the-world-that-inspire-wanderlust/spice-bazaar-istanbul-turkey-1704301790.jpg",
+        "kind": "place",
+        "source": "existing_place_registry",
+        "verified": false
+      }
+    },
+    "492e200e-eb7f-438c-a8fa-0e9cf74eeaed": {
+      "id": "492e200e-eb7f-438c-a8fa-0e9cf74eeaed",
+      "name": "جسر غلطة (Galata Bridge)",
+      "category_key": "evening",
+      "categories": [
+        "evening",
+        "family"
+      ],
+      "area": "Galata",
+      "latitude": 41.0199,
+      "longitude": 28.9733,
+      "coordinates_approximate": true,
+      "coordinates_source": "approved_premium_v2_unverified",
+      "image": {
+        "url": "https://foto.sondakika.com/haber/2021/03/27/eminonu-ndeki-kalabalik-eski-gunlerine-dondu-14024358_amp.jpg",
+        "kind": "place",
+        "source": "existing_place_registry",
+        "verified": false
+      }
+    },
+    "0440b839-0092-45b9-830b-4baa7eff879a": {
+      "id": "0440b839-0092-45b9-830b-4baa7eff879a",
+      "name": "رصيف إمينونو – خطوط Şehir Hatları",
+      "category_key": "evening",
+      "categories": [
+        "evening",
+        "family"
+      ],
+      "area": "Eminönü",
+      "latitude": 41.0169,
+      "longitude": 28.9708,
+      "coordinates_approximate": true,
+      "coordinates_source": "approved_premium_v2_unverified",
+      "image": {
+        "url": "https://cdn2.goturkiye.com/istanbul-1920x1080-51-900x506.jpg?1775776289413",
+        "kind": "place",
+        "source": "https://goturkiye.com/istanbul/eminonu",
+        "verified": true,
+        "replaces_url": "https://excursionmania.com/cdn-cgi/image/quality%3D75%2Cformat%3Dwebp%2Cw%3Dauto%2Ch%3Dauto%2Cfit%3Dscale-down%2Ctrim%3Dborder/https%3A/excursionmania.com/uploads/blog/gallery/3728/1762789456.jpg",
+        "note": "Eminonu waterfront/ferry area photograph; do not claim exact Uskudar sailing/vessel"
+      }
+    }
+  },
+  "recommendations": [
+    {
+      "id": "istanbul-selim",
+      "registry_key": "selim",
+      "name": "Tarihi Sultanahmet Köftecisi Selim Usta",
+      "category_key": "restaurants",
+      "categories": [
+        "restaurants"
+      ],
+      "area": "Sultanahmet",
+      "description": {
+        "he": "קציצות טורקיות באזור סולטנאחמט.",
+        "en": "Turkish köfte in Sultanahmet.",
+        "ru": "Турецкие кёфте в Султанахмете.",
+        "ar": "كفتة تركية في منطقة السلطان أحمد."
+      },
+      "query": "Tarihi Sultanahmet Köftecisi Selim Usta Istanbul",
+      "image": {
+        "url": "https://cdn2.enuygun.com/media/lib/825x620/uploads/image/sultanahmet-koftecisi-38164.webp",
+        "kind": "place",
+        "source": "approved_premium_v2",
+        "verified": false
+      }
+    },
+    {
+      "id": "istanbul-deraliye",
+      "registry_key": "deraliye",
+      "name": "Deraliye Ottoman Cuisine",
+      "category_key": "restaurants",
+      "categories": [
+        "restaurants"
+      ],
+      "area": "Sultanahmet",
+      "description": {
+        "he": "מטבח עותמאני ליד סולטנאחמט.",
+        "en": "Ottoman cuisine near Sultanahmet.",
+        "ru": "Османская кухня рядом с Султанахметом.",
+        "ar": "مطبخ عثماني قرب السلطان أحمد."
+      },
+      "query": "Deraliye Restaurant Istanbul",
+      "image": {
+        "url": "https://img.turkiyetoday.com/images/2025/12/18/restaurants-you-can-add-to-your-new-year-eve-plans-3211546_photogallery_20251218153249_5.jpg",
+        "kind": "place",
+        "source": "approved_premium_v2",
+        "verified": false
+      }
+    },
+    {
+      "id": "47452e99-a933-472f-ad48-06827bb98ec0",
+      "registry_key": "hafiz",
+      "name": "Hafız Mustafa 1864 Sirkeci",
+      "category_key": "restaurants",
+      "categories": [
+        "restaurants"
+      ],
+      "area": "Sirkeci",
+      "description": {
+        "he": "קפה ומתוקים בסירקג׳י.",
+        "en": "Turkish sweets and coffee in Sirkeci.",
+        "ru": "Турецкие сладости и кофе в Сиркеджи.",
+        "ar": "حلويات تركية وقهوة في سيركجي."
+      },
+      "query": "Hafiz Mustafa 1864 Sirkeci Istanbul",
+      "image": {
+        "url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1c/ad/43/35/hafiz-mustafa-1864-sirkeci.jpg?h=500&s=1&w=900",
+        "kind": "place",
+        "source": "approved_premium_v2",
+        "verified": false
+      }
+    },
+    {
+      "id": "istanbul-nar",
+      "registry_key": "nar",
+      "name": "Nar Grill & SteakHouse",
+      "category_key": "restaurants",
+      "categories": [
+        "restaurants",
+        "family"
+      ],
+      "area": "Sultanahmet",
+      "description": {
+        "he": "מסעדת גריל באזור סולטנאחמט.",
+        "en": "A grill restaurant in Sultanahmet.",
+        "ru": "Гриль-ресторан в Султанахмете.",
+        "ar": "مطعم مشاوي في منطقة السلطان أحمد."
+      },
+      "query": "Nar Grill SteakHouse Sultanahmet Istanbul",
+      "image": {
+        "url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0b/08/73/e4/nar-grill-steak-house.jpg?w=900&h=500&s=1",
+        "kind": "place",
+        "source": "https://www.tripadvisor.com/Restaurant_Review-g293974-d6610519-Reviews-Nar_Grill_SteakHouse-Istanbul.html",
+        "verified": true,
+        "replaces_url": "https://images.unsplash.com/photo-1544148103-0773bf10d330?auto=format&fit=crop&w=900&q=80",
+        "note": "Restaurant interior from its claimed Tripadvisor listing; sourced and visually distinct"
+      }
+    },
+    {
+      "id": "istanbul-istiklal",
+      "registry_key": "istiklal",
+      "name": "İstiklal Avenue",
+      "category_key": "evening",
+      "categories": [
+        "evening"
+      ],
+      "area": "Beyoğlu",
+      "description": {
+        "he": "רחוב להליכה, קניות ובתי קפה.",
+        "en": "A lively avenue for walking, shops and cafés.",
+        "ru": "Оживлённая улица для прогулок, магазинов и кафе.",
+        "ar": "شارع للمشي والتسوق والمقاهي."
+      },
+      "query": "Istiklal Avenue Istanbul",
+      "image": {
+        "url": "https://optim.tildacdn.one/tild3461-3266-4035-b632-393565616166/-/format/webp/___.jpg.webp",
+        "kind": "place",
+        "source": "approved_premium_v2",
+        "verified": false
+      }
+    },
+    {
+      "id": "istanbul-ortakoy",
+      "registry_key": "ortakoy",
+      "name": "Ortaköy Waterfront",
+      "category_key": "evening",
+      "categories": [
+        "evening",
+        "family"
+      ],
+      "area": "Beşiktaş",
+      "description": {
+        "he": "טיילת ומבט על הבוספורוס.",
+        "en": "Waterfront views over the Bosphorus.",
+        "ru": "Набережная с видом на Босфор.",
+        "ar": "ممشى وإطلالات على البوسفور."
+      },
+      "query": "Ortakoy Square Istanbul",
+      "image": {
+        "url": "https://cdn2.goturkiye.com/istanbul-ci-ortakoy-2-1400x788.jpg?2026-04-10T19%3A43%3A36.624Z",
+        "kind": "place",
+        "source": "https://goturkiye.com/istanbul/ortakoy",
+        "verified": true,
+        "replaces_url": "https://images.unsplash.com/photo-1527838832700-5059252407fa?auto=format&fit=crop&w=900&q=80",
+        "note": "Ortakoy Mosque at waterfront; bridge visible"
+      }
+    },
+    {
+      "id": "istanbul-mall",
+      "registry_key": "mall",
+      "name": "Mall of Istanbul",
+      "category_key": "shopping",
+      "categories": [
+        "shopping",
+        "family"
+      ],
+      "area": "Başakşehir",
+      "description": {
+        "he": "מרכז קניות, אוכל ופעילויות פנאי.",
+        "en": "A shopping centre with dining and leisure options.",
+        "ru": "Торговый центр с ресторанами и досугом.",
+        "ar": "مركز تسوق مع مطاعم وخيارات ترفيه."
+      },
+      "query": "Mall of Istanbul",
+      "image": {
+        "url": "https://static.getoccupi.com/uploads/mall_photo/photo/39841/e1b0a462-2a80-464c-ade0-c399d2953123.jpg",
+        "kind": "place",
+        "source": "approved_premium_v2",
+        "verified": false
+      }
+    },
+    {
+      "id": "istanbul-grand",
+      "registry_key": "grand",
+      "name": "Grand Bazaar",
+      "category_key": "shopping",
+      "categories": [
+        "shopping"
+      ],
+      "area": "Fatih",
+      "description": {
+        "he": "בזאר מקורה וחנויות בעיר העתיקה.",
+        "en": "A covered bazaar and shops in the old city.",
+        "ru": "Крытый базар и магазины в старом городе.",
+        "ar": "بازار مغطى ومتاجر في المدينة القديمة."
+      },
+      "query": "Grand Bazaar Istanbul",
+      "image": {
+        "url": "https://cdn2.goturkiye.com/istanbul-ci-1920x1080-60-1400x788.jpg?2026-04-09T23%3A14%3A20.175Z",
+        "kind": "place",
+        "source": "https://goturkiye.com/istanbul/grand-bazaar",
+        "verified": true,
+        "replaces_url": null,
+        "note": "Grand Bazaar interior verified from official destination page; not duplicated hero"
+      }
+    },
+    {
+      "id": "istanbul-arasta",
+      "registry_key": "arasta",
+      "name": "Arasta Bazaar",
+      "category_key": "shopping",
+      "categories": [
+        "shopping"
+      ],
+      "area": "Sultanahmet",
+      "description": {
+        "he": "בזאר קטן סמוך למסגד הכחול.",
+        "en": "A smaller bazaar beside the Blue Mosque.",
+        "ru": "Небольшой базар возле Голубой мечети.",
+        "ar": "بازار أصغر بجوار المسجد الأزرق."
+      },
+      "query": "Arasta Bazaar Istanbul",
+      "image": {
+        "url": "https://cdn2.goturkiye.com/istanbul-ci-arasta-bazaar-1400x788.jpg?2026-04-09T23%3A05%3A42.220Z",
+        "kind": "place",
+        "source": "https://goturkiye.com/istanbul/arasta-bazaar",
+        "verified": true,
+        "replaces_url": "https://images.unsplash.com/photo-1589561454226-796a8aa89b05?auto=format&fit=crop&w=900&q=80",
+        "note": "Arasta Bazaar outdoor shopping passage"
+      }
+    },
+    {
+      "id": "istanbul-cistern",
+      "registry_key": "cistern",
+      "name": "Basilica Cistern",
+      "category_key": "attractions",
+      "categories": [
+        "attractions"
+      ],
+      "area": "Sultanahmet",
+      "description": {
+        "he": "מאגר מים היסטורי תת־קרקעי.",
+        "en": "A historic underground cistern.",
+        "ru": "Историческое подземное водохранилище.",
+        "ar": "صهريج مياه تاريخي تحت الأرض."
+      },
+      "query": "Basilica Cistern Istanbul",
+      "image": {
+        "url": "https://cdn2.goturkiye.com/istanbul-ci-shutterstock384658294-1400x788.jpg?2026-04-02T19%3A40%3A14.879Z",
+        "kind": "place",
+        "source": "https://goturkiye.com/istanbul/basilica-cistern",
+        "verified": true,
+        "replaces_url": "https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?auto=format&fit=crop&w=900&q=80",
+        "note": "Basilica Cistern columns/interior"
+      }
+    }
+  ]
+}
