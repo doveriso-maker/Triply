@@ -136,7 +136,11 @@ function imageSelector(hero: string | null, splash: string | null) {
     const url = safeUrl(image?.url);
     if (!url || used.has(imageIdentity(url))) return { url: null, kind: "unavailable", verified: false };
     used.add(imageIdentity(url));
-    return { url, kind: image.kind === "atmosphere" ? "atmosphere" : "place", verified: image.verified === true, source: text(image.source, 120) };
+    return {
+      url, kind: image.kind === "atmosphere" ? "atmosphere" : "place", verified: image.verified === true,
+      source: text(image.source, 2048), original_url: safeUrl(image.original_url),
+      credit: text(image.credit, 500) || null,
+    };
   };
 }
 function publicPlace(place: any, registry: any, language: string, chooseImage: (value: any) => any) {
@@ -146,8 +150,11 @@ function publicPlace(place: any, registry: any, language: string, chooseImage: (
   const metadata = place.metadata || {};
   const preferred = safeUrl(metadata.preview_image_url);
   const preferredFor = normText(metadata.preview_image_place_name);
+  const knownOriginals = [curated?.image?.replaces_url, curated?.image?.original_url,
+    ...(Array.isArray(curated?.image?.known_original_urls) ? curated.image.known_original_urls : [])]
+    .map(safeUrl).filter(Boolean);
   const verifiedReplacement = curated?.image?.verified === true &&
-    (!preferred || safeUrl(curated.image.replaces_url) === preferred);
+    (!preferred || knownOriginals.includes(preferred));
   const image = chooseImage(verifiedReplacement ? curated.image : preferred && preferredFor === normText(place.name)
     ? { url: preferred, kind: "place", source: "place_metadata", verified: metadata.preview_image_verified === true }
     : curated?.image);
@@ -252,7 +259,10 @@ export async function handler(req: Request) {
     const registry = registryFor(trip);
     const destination = destinationFor(trip, registry, language);
     const preferences = trip.preferences || {};
-    const hero = safeUrl(preferences.preview_hero_image_url) || safeUrl(registry?.images?.hero);
+    const preferredHero = safeUrl(preferences.preview_hero_image_url);
+    const hostedHero = safeUrl(registry?.images?.hero);
+    const knownHeroes = (registry?.images?.hero_original_urls || []).map(safeUrl).filter(Boolean);
+    const hero = hostedHero && (!preferredHero || knownHeroes.includes(preferredHero)) ? hostedHero : preferredHero || hostedHero;
     const splash = safeUrl(preferences.preview_splash_image_url) || safeUrl(registry?.images?.splash) || hero;
     const chooseImage = imageSelector(hero, splash);
     const byId = new Map(rawPlaces.map(place => [place.id, publicPlace(place, registry, language, chooseImage)]));

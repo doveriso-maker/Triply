@@ -182,6 +182,27 @@ function swapLang(){
   const out=document.getElementById('trOut');if(out)out.textContent=t('output');
 }
 function quickPhrase(){const input=document.getElementById('trIn');if(input){input.value=PHRASES[S.transSrc]||PHRASES.en;translationInputChanged()}}
+function myMemoryTranslation(response,query,source,target){
+  if(!response||Number(response.responseStatus)!==200||response.quotaFinished)return '';
+  const primary=response.responseData?.translatedText;
+  if(typeof primary==='string'&&primary.trim())return primary.trim();
+  if(primary!=null&&typeof primary!=='string')return '';
+  /* MyMemory /get returns translation-memory matches. Use them only when its
+     primary translation is empty, and only for this exact segment/language pair. */
+  const normalize=text=>typeof text==='string'?text.normalize('NFC').replace(/\s+/gu,' ').trim():'';
+  const language=code=>typeof code==='string'?code.toLowerCase().split(/[-_]/)[0]:'';
+  const segment=normalize(query),sourceLanguage=language(source),targetLanguage=language(target);
+  if(!segment||!sourceLanguage||!targetLanguage||!Array.isArray(response.matches))return '';
+  const matches=response.matches.filter(match=>match&&typeof match.translation==='string'&&match.translation.trim()
+    &&normalize(match.segment)===segment&&language(match.target)===targetLanguage
+    &&(!match.source||language(match.source)===sourceLanguage)
+    &&Number.isFinite(Number(match.match))&&Number(match.match)>=0.99&&Number(match.match)<=1);
+  const changed=matches.filter(match=>normalize(match.translation)!==segment);
+  const candidates=changed.length?changed:matches;
+  const quality=match=>Number.isFinite(Number(match.quality))?Number(match.quality):0;
+  candidates.sort((a,b)=>Number(b.match)-Number(a.match)||quality(b)-quality(a));
+  return candidates[0]?.translation.trim()||'';
+}
 async function translateNow(){
   const input=document.getElementById('trIn'),output=document.getElementById('trOut');if(!input||!output)return false;
   const q=input.value.trim();if(!q){toast('כתבו או דברו משפט');return false}
@@ -191,10 +212,11 @@ async function translateNow(){
   translationDraft=q;translationValid=false;translationOutput='';output.textContent=message('מתרגם…');
   try{
     const response=await fetchJSON('https://api.mymemory.translated.net/get?'+new URLSearchParams({q,langpair:src+'|'+dst}));
-    if(Number(response.responseStatus)!==200||response.quotaFinished||!response.responseData?.translatedText)throw Error('translation');
+    const translated=myMemoryTranslation(response,q,src,dst);
+    if(!translated)throw Error('translation');
     if(token!==translationRequest||!output.isConnected)return false;
     /* Decode text entities without treating service output as HTML. */
-    const text=document.createElement('textarea');text.innerHTML=String(response.responseData.translatedText).replace(/</g,'&lt;');
+    const text=document.createElement('textarea');text.innerHTML=translated.replace(/</g,'&lt;');
     translationOutput=text.value;translationLanguage=dst;translationValid=true;output.textContent=translationOutput;return true;
   }catch(error){if(token===translationRequest&&output.isConnected)output.textContent=message('התרגום לא זמין כרגע. בדקו חיבור או נסו שוב מאוחר יותר.');return false}
 }

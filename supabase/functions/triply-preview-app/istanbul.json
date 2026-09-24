@@ -22,9 +22,25 @@
   "latitude": 41.0082,
   "longitude": 28.9784,
   "images": {
-    "hero": "https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?auto=format&fit=crop&w=1400&q=90",
+    "hero": "https://www.navigam.com/preview/assets/places/istanbul-destination-hero.jpg",
     "splash": null,
-    "itinerary": "https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?auto=format&fit=crop&w=1400&q=90"
+    "itinerary": "https://www.navigam.com/preview/assets/places/istanbul-destination-hero.jpg",
+    "hero_original_url": "https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?auto=format&fit=crop&w=1400&q=90",
+    "hero_original_urls": [
+      "https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?auto=format&fit=crop&w=1400&q=90",
+      "https://commons.wikimedia.org/wiki/Special:Redirect/file/Bosphorus%20view%20from%20Galata%20Tower.jpg?width=1600"
+    ],
+    "hero_provenance": {
+      "source": "approved_premium_v2",
+      "original_url": "https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?auto=format&fit=crop&w=1400&q=90",
+      "credit": "Image source: images.unsplash.com",
+      "sha256": "14b3d556ab2b9f8f4f6245d7cc43a439927a80d36c61d849e43ac13dc34ccbea",
+      "width": 1400,
+      "height": 933,
+      "storage": "navigam_self_hosted_original_bytes",
+      "source_url": "https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?auto=format&fit=crop&w=1400&q=90",
+      "note": "Exact-byte self-hosted approved Premium V2 hero; explicit replacement for known current Wikimedia preference, not a byte copy of the Wikimedia image."
+    }
   },
   "places": {
     "e6155b0e-8f92-4acf-9faf-5f96e375ef0a": {
@@ -41,10 +57,20 @@
       "coordinates_approximate": true,
       "coordinates_source": "https://www.openstreetmap.org/way/25542618",
       "image": {
-        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Gulhane_park_Istanbul_2007_002.jpg/1280px-Gulhane_park_Istanbul_2007_002.jpg",
+        "url": "https://www.navigam.com/preview/assets/places/e6155b0e-8f92-4acf-9faf-5f96e375ef0a.jpg",
         "kind": "place",
         "source": "existing_place_registry",
-        "verified": false
+        "verified": true,
+        "original_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Gulhane_park_Istanbul_2007_002.jpg/1280px-Gulhane_park_Istanbul_2007_002.jpg",
+        "known_original_urls": [
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Gulhane_park_Istanbul_2007_002.jpg/1280px-Gulhane_park_Istanbul_2007_002.jpg"
+        ],
+        "credit": "Image source: upload.wikimedia.org",
+        "content_type": "image/jpeg",
+        "width": 1280,
+        "height": 960,
+        "sha256": "dcdecffa768517f423a3f9d282af9fccbdb57d7f5346a5e5e133a0aa90c58ae6",
+        "storage": "navigam_self_hosted_original_bytes"
       },
       "coordinates_kind": "OSM polygon bbox center",
       "coordinates_note": "Verified park feature; area pin, not verified accessible entrance.",
@@ -64,10 +90,20 @@
       "coordinates_approximate": true,
       "coordinates_source": "https://www.openstreetmap.org/way/25512790",
       "image": {
-        "url": "https://serhatengul.com/wp-content/uploads/2023/01/2022-135-Hagia-Sophia-iStock.jpg",
+        "url": "https://www.navigam.com/preview/assets/places/48090ea8-b6a0-4148-8a3e-eba546846e0c.jpg",
         "kind": "place",
         "source": "existing_place_registry",
-        "verified": false
+        "verified": true,
+        "original_url": "https://serhatengul.com/wp-content/uploads/2023/01/2022-135-Hagia-Sophia-iStock.jpg",
+        "known_original_urls": [
+          "https://serhatengul.com/wp-content/uploads/2023/01/2022-135-Hagia-Sophia-iStock.jpg"
+        ],
+        "credit": "Image source: serhatengul.com",
+        "content_type": "image/jpeg",
+        "width": 1024,
+        "height": 575,
+        "sha256": "555571cd8179da83d155f94a99f78ee3d37ce432021204301f102c2b2ce3833b",
+        "storage": "navigam_self_hosted_original_bytes"
       },
       "coordinates_kind": "OSM square polygon bbox center",
       "coordinates_note": "Sultan Ahmed Square/Hippodrome area pin. Single combined stop; does not claim Hagia Sophia doorway.",
@@ -87,10 +123,20 @@
       "coordinates_approximate": true,
       "coordinates_source": "https://online.hafizmustafa.com/en/sirkeci",
       "image": {
-        "url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1c/ad/43/35/hafiz-mustafa-1864-sirkeci.jpg?h=500&s=1&w=900",
+        "url": "https://www.navigam.com/preview/assets/places/47452e99-a933-472f-ad48-06827bb98ec0.jpg",
         "kind": "place",
         "source": "existing_place_registry",
-        "verified": false
+        "verified": true,
+        "original_url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1c/ad/43/35/hafiz-mustafa-1864-sirkeci.jpg?h=500&s=1&w=900",
+        "known_original_urls": [
+          "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1c/ad/43/35/hafiz-mustafa-1864-sirkeci.jpg?h=500&s=1&w=900"
+        ],
+        "credit": "Image source: dynamic-media-cdn.tripadvisor.com",
+        "content_type": "image/jpeg",
+        "width": 900,
+        "height": 500,
+        "sha256": "1931ebece0f949bd9d06acf9c129e6da7dade4904d906af9a45089836bc8677e",
+        "storage": "navigam_self_hosted_original_bytes"
       },
       "coordinates_kind": "Official venue directions destination",
       "coordinates_note": "Official maps direction destination !1d28.9756182!2d41.0146292; OSM surveyed cafe [41.0146124,28.9756509] corroborates within a few metres. Do not confuse Bahcekapi branch [41.0160106,28.9733605].",
@@ -113,10 +159,20 @@
       "coordinates_approximate": true,
       "coordinates_source": "https://www.openstreetmap.org/way/24234971",
       "image": {
-        "url": "https://www.foodie.com/img/gallery/10-food-markets-from-around-the-world-that-inspire-wanderlust/spice-bazaar-istanbul-turkey-1704301790.jpg",
+        "url": "https://www.navigam.com/preview/assets/places/424e1979-215c-4a5f-b4e5-ae6a68a8f02b.jpg",
         "kind": "place",
         "source": "existing_place_registry",
-        "verified": false
+        "verified": true,
+        "original_url": "https://www.foodie.com/img/gallery/10-food-markets-from-around-the-world-that-inspire-wanderlust/spice-bazaar-istanbul-turkey-1704301790.jpg",
+        "known_original_urls": [
+          "https://www.foodie.com/img/gallery/10-food-markets-from-around-the-world-that-inspire-wanderlust/spice-bazaar-istanbul-turkey-1704301790.jpg"
+        ],
+        "credit": "Image source: www.foodie.com",
+        "content_type": "image/jpeg",
+        "width": 780,
+        "height": 438,
+        "sha256": "93a5ee9d6bce6db6227bacccedcad100b83f49be110de74280263b6433478003",
+        "storage": "navigam_self_hosted_original_bytes"
       },
       "coordinates_kind": "OSM marketplace building bbox center",
       "coordinates_note": "Venue center; gate separately mapped at node768687921 [41.017206,28.9712389]. Entrance accessibility not independently audited.",
@@ -136,10 +192,20 @@
       "coordinates_approximate": true,
       "coordinates_source": "https://www.openstreetmap.org/way/280961352",
       "image": {
-        "url": "https://foto.sondakika.com/haber/2021/03/27/eminonu-ndeki-kalabalik-eski-gunlerine-dondu-14024358_amp.jpg",
+        "url": "https://www.navigam.com/preview/assets/places/492e200e-eb7f-438c-a8fa-0e9cf74eeaed.jpg",
         "kind": "place",
         "source": "existing_place_registry",
-        "verified": false
+        "verified": true,
+        "original_url": "https://foto.sondakika.com/haber/2021/03/27/eminonu-ndeki-kalabalik-eski-gunlerine-dondu-14024358_amp.jpg",
+        "known_original_urls": [
+          "https://foto.sondakika.com/haber/2021/03/27/eminonu-ndeki-kalabalik-eski-gunlerine-dondu-14024358_amp.jpg"
+        ],
+        "credit": "Image source: foto.sondakika.com",
+        "content_type": "image/jpeg",
+        "width": 1200,
+        "height": 800,
+        "sha256": "066b408cf622db65386dc253e71cfe9c7d16feb77a45d6874c210c992c913a5c",
+        "storage": "navigam_self_hosted_original_bytes"
       },
       "coordinates_kind": "OSM bridge polygon bbox center",
       "coordinates_note": "Bridge center map pin. Walking external directions should resolve named pedestrian access / sidepath, not imply a vehicle stop at bridge midpoint.",
@@ -159,12 +225,23 @@
       "coordinates_approximate": true,
       "coordinates_source": "https://sehirhatlari.istanbul/tr/iskeleler/eminonu-39",
       "image": {
-        "url": "https://cdn2.goturkiye.com/istanbul-1920x1080-51-900x506.jpg?1775776289413",
+        "url": "https://www.navigam.com/preview/assets/places/0440b839-0092-45b9-830b-4baa7eff879a.jpg",
         "kind": "place",
         "source": "https://goturkiye.com/istanbul/eminonu",
         "verified": true,
         "replaces_url": "https://excursionmania.com/cdn-cgi/image/quality%3D75%2Cformat%3Dwebp%2Cw%3Dauto%2Ch%3Dauto%2Cfit%3Dscale-down%2Ctrim%3Dborder/https%3A/excursionmania.com/uploads/blog/gallery/3728/1762789456.jpg",
-        "note": "Eminonu waterfront/ferry area photograph; do not claim exact Uskudar sailing/vessel"
+        "note": "Eminonu waterfront/ferry area photograph; do not claim exact Uskudar sailing/vessel",
+        "original_url": "https://cdn2.goturkiye.com/istanbul-1920x1080-51-900x506.jpg?1775776289413",
+        "known_original_urls": [
+          "https://excursionmania.com/cdn-cgi/image/quality%3D75%2Cformat%3Dwebp%2Cw%3Dauto%2Ch%3Dauto%2Cfit%3Dscale-down%2Ctrim%3Dborder/https%3A/excursionmania.com/uploads/blog/gallery/3728/1762789456.jpg",
+          "https://cdn2.goturkiye.com/istanbul-1920x1080-51-900x506.jpg?1775776289413"
+        ],
+        "credit": "Image source: cdn2.goturkiye.com",
+        "content_type": "image/jpeg",
+        "width": 900,
+        "height": 506,
+        "sha256": "58202435f31536b95010f887ac9c1b0cb0d688f843889ee15a154a9270b01b97",
+        "storage": "navigam_self_hosted_original_bytes"
       },
       "coordinates_kind": "Official operator embedded marker",
       "coordinates_note": "Hezarfen Ahmet Celebi embed marker DMS 41deg01min03.8N 28deg58min26.6E; latitude/longitude converted. Official embed camera center is offset west and MUST NOT be used as point. OSM Uskudar ferry route begins at [41.0179964,28.974141], ~31m north/water side. Official landward marker preferred for navigation; actual sailing pier still subject to operator changes.",
@@ -194,10 +271,20 @@
       },
       "query": "Tarihi Sultanahmet Köftecisi Selim Usta Istanbul",
       "image": {
-        "url": "https://cdn2.enuygun.com/media/lib/825x620/uploads/image/sultanahmet-koftecisi-38164.webp",
+        "url": "https://www.navigam.com/preview/assets/places/istanbul-selim.webp",
         "kind": "place",
         "source": "approved_premium_v2",
-        "verified": false
+        "verified": true,
+        "original_url": "https://cdn2.enuygun.com/media/lib/825x620/uploads/image/sultanahmet-koftecisi-38164.webp",
+        "known_original_urls": [
+          "https://cdn2.enuygun.com/media/lib/825x620/uploads/image/sultanahmet-koftecisi-38164.webp"
+        ],
+        "credit": "Image source: cdn2.enuygun.com",
+        "content_type": "image/webp",
+        "width": 825,
+        "height": 620,
+        "sha256": "a8781af446df4ede4a39d94ed51b7234a9b026fc532d7d714595b2b615afab57",
+        "storage": "navigam_self_hosted_original_bytes"
       }
     },
     {
@@ -217,10 +304,20 @@
       },
       "query": "Deraliye Restaurant Istanbul",
       "image": {
-        "url": "https://img.turkiyetoday.com/images/2025/12/18/restaurants-you-can-add-to-your-new-year-eve-plans-3211546_photogallery_20251218153249_5.jpg",
+        "url": "https://www.navigam.com/preview/assets/places/istanbul-deraliye.jpg",
         "kind": "place",
         "source": "approved_premium_v2",
-        "verified": false
+        "verified": true,
+        "original_url": "https://img.turkiyetoday.com/images/2025/12/18/restaurants-you-can-add-to-your-new-year-eve-plans-3211546_photogallery_20251218153249_5.jpg",
+        "known_original_urls": [
+          "https://img.turkiyetoday.com/images/2025/12/18/restaurants-you-can-add-to-your-new-year-eve-plans-3211546_photogallery_20251218153249_5.jpg"
+        ],
+        "credit": "Image source: img.turkiyetoday.com",
+        "content_type": "image/jpeg",
+        "width": 1280,
+        "height": 853,
+        "sha256": "cbe14b1a58c8552ea094d31dc8b453b84827c76aca752e73249a25c79d24bf0a",
+        "storage": "navigam_self_hosted_original_bytes"
       }
     },
     {
@@ -240,10 +337,20 @@
       },
       "query": "Hafiz Mustafa 1864 Sirkeci Istanbul",
       "image": {
-        "url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1c/ad/43/35/hafiz-mustafa-1864-sirkeci.jpg?h=500&s=1&w=900",
+        "url": "https://www.navigam.com/preview/assets/places/47452e99-a933-472f-ad48-06827bb98ec0.jpg",
         "kind": "place",
         "source": "approved_premium_v2",
-        "verified": false
+        "verified": true,
+        "original_url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1c/ad/43/35/hafiz-mustafa-1864-sirkeci.jpg?h=500&s=1&w=900",
+        "known_original_urls": [
+          "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1c/ad/43/35/hafiz-mustafa-1864-sirkeci.jpg?h=500&s=1&w=900"
+        ],
+        "credit": "Image source: dynamic-media-cdn.tripadvisor.com",
+        "content_type": "image/jpeg",
+        "width": 900,
+        "height": 500,
+        "sha256": "1931ebece0f949bd9d06acf9c129e6da7dade4904d906af9a45089836bc8677e",
+        "storage": "navigam_self_hosted_original_bytes"
       }
     },
     {
@@ -264,12 +371,23 @@
       },
       "query": "Nar Grill SteakHouse Sultanahmet Istanbul",
       "image": {
-        "url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0b/08/73/e4/nar-grill-steak-house.jpg?w=900&h=500&s=1",
+        "url": "https://www.navigam.com/preview/assets/places/istanbul-nar.jpg",
         "kind": "place",
         "source": "https://www.tripadvisor.com/Restaurant_Review-g293974-d6610519-Reviews-Nar_Grill_SteakHouse-Istanbul.html",
         "verified": true,
         "replaces_url": "https://images.unsplash.com/photo-1544148103-0773bf10d330?auto=format&fit=crop&w=900&q=80",
-        "note": "Restaurant interior from its claimed Tripadvisor listing; sourced and visually distinct"
+        "note": "Restaurant interior from its claimed Tripadvisor listing; sourced and visually distinct",
+        "original_url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0b/08/73/e4/nar-grill-steak-house.jpg?w=900&h=500&s=1",
+        "known_original_urls": [
+          "https://images.unsplash.com/photo-1544148103-0773bf10d330?auto=format&fit=crop&w=900&q=80",
+          "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0b/08/73/e4/nar-grill-steak-house.jpg?w=900&h=500&s=1"
+        ],
+        "credit": "Image source: dynamic-media-cdn.tripadvisor.com",
+        "content_type": "image/jpeg",
+        "width": 900,
+        "height": 500,
+        "sha256": "5858e16ddce3b859186291ccf5bfc85e88ae86e66a009c2278c9219c95879eea",
+        "storage": "navigam_self_hosted_original_bytes"
       }
     },
     {
@@ -289,10 +407,20 @@
       },
       "query": "Istiklal Avenue Istanbul",
       "image": {
-        "url": "https://optim.tildacdn.one/tild3461-3266-4035-b632-393565616166/-/format/webp/___.jpg.webp",
+        "url": "https://www.navigam.com/preview/assets/places/istanbul-istiklal.webp",
         "kind": "place",
         "source": "approved_premium_v2",
-        "verified": false
+        "verified": true,
+        "original_url": "https://optim.tildacdn.one/tild3461-3266-4035-b632-393565616166/-/format/webp/___.jpg.webp",
+        "known_original_urls": [
+          "https://optim.tildacdn.one/tild3461-3266-4035-b632-393565616166/-/format/webp/___.jpg.webp"
+        ],
+        "credit": "Image source: optim.tildacdn.one",
+        "content_type": "image/webp",
+        "width": 760,
+        "height": 500,
+        "sha256": "2e728eb73f1d7b6c347d65e118608855b259b80517058fa2a6704b23438118de",
+        "storage": "navigam_self_hosted_original_bytes"
       }
     },
     {
@@ -313,12 +441,23 @@
       },
       "query": "Ortakoy Square Istanbul",
       "image": {
-        "url": "https://cdn2.goturkiye.com/istanbul-ci-ortakoy-2-1400x788.jpg?2026-04-10T19%3A43%3A36.624Z",
+        "url": "https://www.navigam.com/preview/assets/places/istanbul-ortakoy.jpg",
         "kind": "place",
         "source": "https://goturkiye.com/istanbul/ortakoy",
         "verified": true,
         "replaces_url": "https://images.unsplash.com/photo-1527838832700-5059252407fa?auto=format&fit=crop&w=900&q=80",
-        "note": "Ortakoy Mosque at waterfront; bridge visible"
+        "note": "Ortakoy Mosque at waterfront; bridge visible",
+        "original_url": "https://cdn2.goturkiye.com/istanbul-ci-ortakoy-2-1400x788.jpg?2026-04-10T19%3A43%3A36.624Z",
+        "known_original_urls": [
+          "https://images.unsplash.com/photo-1527838832700-5059252407fa?auto=format&fit=crop&w=900&q=80",
+          "https://cdn2.goturkiye.com/istanbul-ci-ortakoy-2-1400x788.jpg?2026-04-10T19%3A43%3A36.624Z"
+        ],
+        "credit": "Image source: cdn2.goturkiye.com",
+        "content_type": "image/jpeg",
+        "width": 1400,
+        "height": 788,
+        "sha256": "cce2dc3c5f1bc82cec36e2396fbbc4ecfe5c00054ed825bdece10d6d70ed2d59",
+        "storage": "navigam_self_hosted_original_bytes"
       }
     },
     {
@@ -339,10 +478,20 @@
       },
       "query": "Mall of Istanbul",
       "image": {
-        "url": "https://static.getoccupi.com/uploads/mall_photo/photo/39841/e1b0a462-2a80-464c-ade0-c399d2953123.jpg",
+        "url": "https://www.navigam.com/preview/assets/places/istanbul-mall.jpg",
         "kind": "place",
         "source": "approved_premium_v2",
-        "verified": false
+        "verified": true,
+        "original_url": "https://static.getoccupi.com/uploads/mall_photo/photo/39841/e1b0a462-2a80-464c-ade0-c399d2953123.jpg",
+        "known_original_urls": [
+          "https://static.getoccupi.com/uploads/mall_photo/photo/39841/e1b0a462-2a80-464c-ade0-c399d2953123.jpg"
+        ],
+        "credit": "Image source: static.getoccupi.com",
+        "content_type": "image/jpeg",
+        "width": 1920,
+        "height": 1080,
+        "sha256": "582870f7144c8ab019dd402af8034f974aa0e3d803ba631ca3e69c3c0ad502ca",
+        "storage": "navigam_self_hosted_original_bytes"
       }
     },
     {
@@ -362,12 +511,22 @@
       },
       "query": "Grand Bazaar Istanbul",
       "image": {
-        "url": "https://cdn2.goturkiye.com/istanbul-ci-1920x1080-60-1400x788.jpg?2026-04-09T23%3A14%3A20.175Z",
+        "url": "https://www.navigam.com/preview/assets/places/istanbul-grand.jpg",
         "kind": "place",
         "source": "https://goturkiye.com/istanbul/grand-bazaar",
         "verified": true,
         "replaces_url": null,
-        "note": "Grand Bazaar interior verified from official destination page; not duplicated hero"
+        "note": "Grand Bazaar interior verified from official destination page; not duplicated hero",
+        "original_url": "https://cdn2.goturkiye.com/istanbul-ci-1920x1080-60-1400x788.jpg?2026-04-09T23%3A14%3A20.175Z",
+        "known_original_urls": [
+          "https://cdn2.goturkiye.com/istanbul-ci-1920x1080-60-1400x788.jpg?2026-04-09T23%3A14%3A20.175Z"
+        ],
+        "credit": "Image source: cdn2.goturkiye.com",
+        "content_type": "image/jpeg",
+        "width": 1400,
+        "height": 788,
+        "sha256": "3f9a0ee8b68dedb180a4ea87d111c99d7c88e49024696e6f37fbcc5ffce1a7ab",
+        "storage": "navigam_self_hosted_original_bytes"
       }
     },
     {
@@ -387,12 +546,23 @@
       },
       "query": "Arasta Bazaar Istanbul",
       "image": {
-        "url": "https://cdn2.goturkiye.com/istanbul-ci-arasta-bazaar-1400x788.jpg?2026-04-09T23%3A05%3A42.220Z",
+        "url": "https://www.navigam.com/preview/assets/places/istanbul-arasta.jpg",
         "kind": "place",
         "source": "https://goturkiye.com/istanbul/arasta-bazaar",
         "verified": true,
         "replaces_url": "https://images.unsplash.com/photo-1589561454226-796a8aa89b05?auto=format&fit=crop&w=900&q=80",
-        "note": "Arasta Bazaar outdoor shopping passage"
+        "note": "Arasta Bazaar outdoor shopping passage",
+        "original_url": "https://cdn2.goturkiye.com/istanbul-ci-arasta-bazaar-1400x788.jpg?2026-04-09T23%3A05%3A42.220Z",
+        "known_original_urls": [
+          "https://images.unsplash.com/photo-1589561454226-796a8aa89b05?auto=format&fit=crop&w=900&q=80",
+          "https://cdn2.goturkiye.com/istanbul-ci-arasta-bazaar-1400x788.jpg?2026-04-09T23%3A05%3A42.220Z"
+        ],
+        "credit": "Image source: cdn2.goturkiye.com",
+        "content_type": "image/jpeg",
+        "width": 1400,
+        "height": 788,
+        "sha256": "cd4190667eaca51cd5b814e6149389ace00c81200eb365bc473161759bface65",
+        "storage": "navigam_self_hosted_original_bytes"
       }
     },
     {
@@ -412,12 +582,23 @@
       },
       "query": "Basilica Cistern Istanbul",
       "image": {
-        "url": "https://cdn2.goturkiye.com/istanbul-ci-shutterstock384658294-1400x788.jpg?2026-04-02T19%3A40%3A14.879Z",
+        "url": "https://www.navigam.com/preview/assets/places/istanbul-cistern.jpg",
         "kind": "place",
         "source": "https://goturkiye.com/istanbul/basilica-cistern",
         "verified": true,
         "replaces_url": "https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?auto=format&fit=crop&w=900&q=80",
-        "note": "Basilica Cistern columns/interior"
+        "note": "Basilica Cistern columns/interior",
+        "original_url": "https://cdn2.goturkiye.com/istanbul-ci-shutterstock384658294-1400x788.jpg?2026-04-02T19%3A40%3A14.879Z",
+        "known_original_urls": [
+          "https://images.unsplash.com/photo-1541432901042-2d8bd64b4a9b?auto=format&fit=crop&w=900&q=80",
+          "https://cdn2.goturkiye.com/istanbul-ci-shutterstock384658294-1400x788.jpg?2026-04-02T19%3A40%3A14.879Z"
+        ],
+        "credit": "Image source: cdn2.goturkiye.com",
+        "content_type": "image/jpeg",
+        "width": 1400,
+        "height": 788,
+        "sha256": "d015c211092df99751a6b27efe785832f0d81904189f9272b9cd5fc72698e023",
+        "storage": "navigam_self_hosted_original_bytes"
       }
     }
   ]
