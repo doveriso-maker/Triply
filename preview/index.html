@@ -26,13 +26,9 @@
   <header class="top"><img src="/assets/navigam/logo.png" alt="NAVIGAM"><span class="badge">PREVIEW · 24H</span></header>
   <section class="hero"><div class="heroIn"><h1 id="title">NAVIGAM Preview</h1><p id="subtitle"></p><div class="meta"><span class="pill" id="date"></span><span class="pill" id="expiry"></span></div></div></section>
   <div class="previewNote" id="previewNote"></div>
-  <nav class="tabs">
-    <button class="tab active" data-tab="day" id="tabDay"></button>
-    <button class="tab" data-tab="food" id="tabFood"></button>
-    <button class="tab" data-tab="shopping" id="tabShopping"></button>
-    <button class="tab" data-tab="nightlife" id="tabNightlife"></button>
-  </nav>
+  <nav class="tabs" id="tabs"></nav>
   <section class="panel active" id="day"><div class="sectionTitle"><h2 id="dayTitle"></h2><small id="daySummary"></small></div><div class="timeline" id="timeline"></div></section>
+  <section class="panel" id="nearby"><div class="sectionTitle"><h2 id="nearbyTitle"></h2><small id="nearbyHint"></small></div><div class="cards" id="nearbyCards"></div></section>
   <section class="panel" id="food"><div class="sectionTitle"><h2 id="foodTitle"></h2></div><div class="cards" id="foodCards"></div></section>
   <section class="panel" id="shopping"><div class="sectionTitle"><h2 id="shoppingTitle"></h2></div><div class="cards" id="shoppingCards"></div></section>
   <section class="panel" id="nightlife"><div class="sectionTitle"><h2 id="nightlifeTitle"></h2></div><div class="cards" id="nightlifeCards"></div></section>
@@ -44,23 +40,33 @@ const API='https://asnnvwoersrhrgdantll.supabase.co/functions/v1/triply-preview-
 const $=s=>document.querySelector(s);
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const copy={
- ru:{subtitle:'Ваш первый день в персональном приложении NAVIGAM',note:'Это персональный Preview вашего путешествия. Здесь открыт только первый день; ссылка действует 24 часа.',day:'День 1',food:'Еда',shopping:'Шопинг',nightlife:'Вечер',lockedTitle:'Остальные дни уже могут быть построены вокруг вас',lockedText:'Если формат вам подходит, мы дополним маршрут на все дни, сохранив всё, что уже узнали о ваших предпочтениях.',cta:'Хочу открыть всю поездку',expires:'Доступ до'},
- ar:{subtitle:'اليوم الأول داخل تطبيق NAVIGAM الشخصي الخاص بك',note:'هذا Preview شخصي لرحلتك. اليوم الأول فقط مفتوح، والرابط صالح لمدة 24 ساعة.',day:'اليوم 1',food:'الطعام',shopping:'التسوق',nightlife:'المساء',lockedTitle:'باقي الأيام يمكن بناؤها بنفس الأسلوب',lockedText:'إذا أعجبك الشكل، نكمل بقية الرحلة باستخدام كل ما عرفناه بالفعل عن تفضيلاتك.',cta:'أريد فتح الرحلة كاملة',expires:'متاح حتى'},
- he:{subtitle:'היום הראשון בתוך אפליקציית NAVIGAM האישית שלך',note:'זהו Preview אישי לטיול שלך. רק היום הראשון פתוח, והקישור זמין ל־24 שעות.',day:'יום 1',food:'אוכל',shopping:'קניות',nightlife:'ערב',lockedTitle:'שאר הימים יכולים להיבנות בדיוק באותו סגנון',lockedText:'אם הפורמט מתאים לך, נשלים את יתר הטיול תוך שימוש בכל מה שכבר למדנו על ההעדפות שלך.',cta:'אני רוצה לפתוח את כל הטיול',expires:'זמין עד'}
+ ru:{subtitle:'Ваш первый день в персональном приложении NAVIGAM',note:'Это персональный Preview вашего путешествия. Здесь открыт только первый день; ссылка действует 24 часа.',day:'День 1',nearby:'Рядом',nearbyHint:'Варианты по ходу вашего маршрута',food:'Еда рядом',shopping:'Шопинг',nightlife:'Вечер',lockedTitle:'Остальные дни уже могут быть построены вокруг вас',lockedText:'Если формат вам подходит, мы дополним маршрут на все дни, сохранив всё, что уже узнали о ваших предпочтениях.',cta:'Хочу открыть всю поездку',expires:'Доступ до'},
+ ar:{subtitle:'اليوم الأول داخل تطبيق NAVIGAM الشخصي الخاص بك',note:'هذا Preview شخصي لرحلتك. اليوم الأول فقط مفتوح، والرابط صالح لمدة 24 ساعة.',day:'اليوم 1',nearby:'حولك',nearbyHint:'اقتراحات قريبة على طول مسارك',food:'طعام قريب',shopping:'التسوق',nightlife:'المساء',lockedTitle:'باقي الأيام يمكن بناؤها بنفس الأسلوب',lockedText:'إذا أعجبك الشكل، نكمل بقية الرحلة باستخدام كل ما عرفناه بالفعل عن تفضيلاتك.',cta:'أريد فتح الرحلة كاملة',expires:'متاح حتى'},
+ he:{subtitle:'היום הראשון בתוך אפליקציית NAVIGAM האישית שלך',note:'זהו Preview אישי לטיול שלך. רק היום הראשון פתוח, והקישור זמין ל־24 שעות.',day:'יום 1',nearby:'מסביבך',nearbyHint:'אפשרויות רלוונטיות לאורך המסלול שלך',food:'אוכל לידך',shopping:'קניות',nightlife:'ערב',lockedTitle:'שאר הימים יכולים להיבנות בדיוק באותו סגנון',lockedText:'אם הפורמט מתאים לך, נשלים את יתר הטיול תוך שימוש בכל מה שכבר למדנו על ההעדפות שלך.',cta:'אני רוצה לפתוח את כל הטיול',expires:'זמין עד'}
 };
 function card(p){const links=[];if(p.google_maps_url)links.push('<a target="_blank" rel="noopener" href="'+esc(p.google_maps_url)+'">Maps</a>');if(p.website)links.push('<a target="_blank" rel="noopener" href="'+esc(p.website)+'">Website</a>');return '<article class="card"><b>'+esc(p.name||p.title||'')+'</b><p>'+esc(p.description||p.why_match||'')+'</p>'+(links.length?'<div class="links">'+links.join('')+'</div>':'')+'</article>'}
 function event(x){const p=x.place||{};const links=[];if(p.google_maps_url)links.push('<a target="_blank" rel="noopener" href="'+esc(p.google_maps_url)+'">Google Maps</a>');if(p.website)links.push('<a target="_blank" rel="noopener" href="'+esc(p.website)+'">Website</a>');return '<article class="event"><div class="time">'+esc((x.start_time||'').slice(0,5)||'—')+'</div><div><h3>'+esc(x.title||'')+'</h3><p>'+esc(x.description||'')+'</p><span class="tag">'+esc(x.item_type||'')+'</span>'+(links.length?'<div class="links">'+links.join('')+'</div>':'')+'</div></article>'}
 function group(items,type){return items.filter(x=>String(x.item_type||'').toLowerCase().includes(type)).map(x=>({name:x.place?.name||x.title,description:x.description,google_maps_url:x.place?.google_maps_url,website:x.place?.website}))}
+function nearby(items){return items.filter(x=>x.place && !['food','shopping','nightlife','transport','rest'].includes(String(x.item_type||'').toLowerCase())).map(x=>({name:x.place?.name||x.title,description:x.description,google_maps_url:x.place?.google_maps_url,website:x.place?.website}))}
+function makeTabs(t,sets){
+  const defs=[['day',t.day,true],['nearby',t.nearby,sets.nearby.length>0],['food',t.food,sets.food.length>0],['shopping',t.shopping,sets.shopping.length>0],['nightlife',t.nightlife,sets.nightlife.length>0]];
+  $('#tabs').innerHTML=defs.filter(d=>d[2]).map((d,i)=>'<button class="tab'+(i===0?' active':'')+'" data-tab="'+d[0]+'">'+esc(d[1])+'</button>').join('');
+  const visible=new Set(defs.filter(d=>d[2]).map(d=>d[0]));
+  document.querySelectorAll('.panel').forEach(p=>{if(!visible.has(p.id))p.style.display='none'});
+}
 async function load(){
  const token=new URLSearchParams(location.search).get('token');if(!token)throw new Error('missing');
  const r=await fetch(API+'?token='+encodeURIComponent(token),{cache:'no-store'});if(!r.ok)throw new Error('expired');
  const d=await r.json(),lang=d.language||'he',t=copy[lang]||copy.he;document.documentElement.lang=lang;document.documentElement.dir=lang==='ru'?'ltr':'rtl';
  $('#title').textContent=d.trip?.destination||'NAVIGAM Preview';$('#subtitle').textContent=t.subtitle;$('#date').textContent=d.day?.trip_date||'';$('#expiry').textContent=t.expires+' '+new Date(d.expires_at).toLocaleString(lang==='ru'?'ru-RU':lang==='ar'?'ar-IL':'he-IL');
- $('#previewNote').textContent=t.note;$('#tabDay').textContent=t.day;$('#tabFood').textContent=t.food;$('#tabShopping').textContent=t.shopping;$('#tabNightlife').textContent=t.nightlife;
+ $('#previewNote').textContent=t.note;
  $('#dayTitle').textContent=d.day?.title||t.day;$('#daySummary').textContent=d.day?.summary||'';const items=d.items||[];$('#timeline').innerHTML=items.map(event).join('');
- const foods=group(items,'food');$('#foodTitle').textContent=t.food;$('#foodCards').innerHTML=(foods.length?foods:[{name:'NAVIGAM',description:t.note}]).map(card).join('');
- const shops=group(items,'shopping');$('#shoppingTitle').textContent=t.shopping;$('#shoppingCards').innerHTML=(shops.length?shops:[{name:'—',description:t.lockedText}]).map(card).join('');
- const nights=group(items,'nightlife');$('#nightlifeTitle').textContent=t.nightlife;$('#nightlifeCards').innerHTML=(nights.length?nights:[{name:'—',description:t.lockedText}]).map(card).join('');
+ const sets={nearby:nearby(items),food:group(items,'food'),shopping:group(items,'shopping'),nightlife:group(items,'nightlife')};
+ makeTabs(t,sets);
+ $('#nearbyTitle').textContent=t.nearby;$('#nearbyHint').textContent=t.nearbyHint;$('#nearbyCards').innerHTML=sets.nearby.map(card).join('');
+ $('#foodTitle').textContent=t.food;$('#foodCards').innerHTML=sets.food.map(card).join('');
+ $('#shoppingTitle').textContent=t.shopping;$('#shoppingCards').innerHTML=sets.shopping.map(card).join('');
+ $('#nightlifeTitle').textContent=t.nightlife;$('#nightlifeCards').innerHTML=sets.nightlife.map(card).join('');
  $('#lockedTitle').textContent=t.lockedTitle;$('#lockedText').textContent=t.lockedText;$('#ctaLink').textContent=t.cta;$('#ctaLink').href='https://wa.me/972557760288?text='+encodeURIComponent(lang==='ru'?'Мне понравился NAVIGAM Preview, хочу продолжить':lang==='ar'?'أعجبني NAVIGAM Preview وأريد المتابعة':'אהבתי את ה-NAVIGAM Preview ואני רוצה להמשיך');
  document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.panel').forEach(x=>x.classList.toggle('active',x.id===b.dataset.tab));}));
  $('#loading').classList.add('hide');$('#app').hidden=false;$('#cta').hidden=false;
