@@ -1,297 +1,139 @@
 <!doctype html>
-<html lang="he" dir="rtl">
+<html lang="en" dir="ltr" class="notranslate" translate="no">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#07364b">
+<meta name="google" content="notranslate">
 <title>NAVIGAM Preview</title>
 <link rel="icon" href="/assets/navigam/symbol.png">
 <style>
-:root{
-  --navy:#07364b;--navy2:#0a526c;--cyan:#11d6e7;--cyan2:#6eeaf2;
-  --ice:#f5fbfd;--sky:#e7f8fc;--ink:#0b3047;--muted:#708594;--line:#e5eef2;
-  --pink:#f24770;--sand:#fff6e5;--card:#fff;--shadow:0 12px 30px rgba(6,55,77,.08);
-  --shadow2:0 20px 48px rgba(6,55,77,.16);--safeT:env(safe-area-inset-top);--safeB:env(safe-area-inset-bottom)
-}
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;scrollbar-width:none}
-*::-webkit-scrollbar{display:none}
-html,body{margin:0;height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,"Noto Sans Hebrew",sans-serif;background:#eaf5f8;color:var(--ink)}
-button,a,input{font:inherit}button{cursor:pointer}a{color:inherit}
-#app{height:100%;position:relative;overflow:hidden}
-.view{position:absolute;inset:0;display:none;flex-direction:column;background:linear-gradient(180deg,#dff6fc 0,#f9fdff 160px,#fff 380px)}
-.view.active{display:flex}
-
-/* Welcome screen — derived from the uploaded NAVIGAM premium module */
-#splash{background:#b9ddea;overflow:hidden;isolation:isolate}
-#splash.active{display:block}
-.splash-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:-3;filter:saturate(.92) contrast(.97)}
-.splash-wash{position:absolute;inset:0;z-index:-2;background:
-  radial-gradient(ellipse 80% 48% at 50% 13%,rgba(255,255,255,.9),rgba(255,255,255,.28) 54%,transparent 78%),
-  linear-gradient(180deg,rgba(223,248,252,.28),rgba(225,248,251,.18) 47%,rgba(2,36,49,.68) 100%)}
-.splash-content{position:relative;height:100%;min-height:100%;padding:calc(42px + var(--safeT)) 20px calc(24px + var(--safeB));display:flex;flex-direction:column;align-items:center;text-align:center}
-.splash-logo{width:154px;height:auto;object-fit:contain;filter:drop-shadow(0 8px 18px rgba(4,65,82,.08))}
-.splash-kicker{margin-top:4px;font-size:12px;font-weight:850;letter-spacing:.18em;color:#08788c;text-transform:uppercase}
-.splash-copy{margin-top:clamp(22px,5.5vh,58px);width:min(100%,520px);color:#082f45}
-.splash-copy h1{font-size:clamp(38px,11vw,68px);line-height:1.02;margin:0;font-weight:900;letter-spacing:-1.8px;text-wrap:balance}
-.splash-copy h1 em{display:block;color:#078199;font-style:normal}
-.splash-copy p{margin:16px auto 0;max-width:420px;font-size:15px;line-height:1.65;font-weight:650;color:#244e61}
-.splash-bottom{margin-top:auto;width:min(100%,480px)}
-.splash-meta{display:flex;justify-content:center;gap:7px;flex-wrap:wrap;margin-bottom:13px}
-.splash-meta span{background:rgba(255,255,255,.74);border:1px solid rgba(255,255,255,.9);padding:8px 10px;border-radius:999px;font-size:11px;font-weight:800;color:#17465a;backdrop-filter:blur(8px)}
-.start-btn{width:100%;min-height:62px;border:0;border-radius:999px;background:linear-gradient(100deg,#43e6ef,#0bd4e4);color:#06354b;font-size:20px;font-weight:900;box-shadow:0 14px 32px rgba(0,55,70,.25);display:flex;align-items:center;justify-content:center;gap:14px}
-.start-btn b{font-size:25px;font-weight:500}
-@media(max-height:700px){.splash-content{padding-top:calc(30px + var(--safeT))}.splash-logo{width:125px}.splash-copy{margin-top:16px}.splash-copy h1{font-size:clamp(34px,9.8vw,54px)}.splash-copy p{margin-top:9px}.start-btn{min-height:55px}}
-
-/* App chrome */
-.appbar{height:calc(76px + var(--safeT));padding:var(--safeT) 15px 0;display:flex;align-items:center;justify-content:space-between;flex:0 0 auto;background:linear-gradient(180deg,#c9eff9,#f5fbfd);z-index:15}
-.appbar .side{width:42px;height:42px;border:0;border-radius:50%;background:rgba(255,255,255,.76);border:1px solid rgba(255,255,255,.94);color:var(--navy);display:grid;place-items:center;font-size:19px}
-.approved-logo{display:block;width:106px;height:62px;object-fit:contain}
-.preview-chip{position:absolute;left:50%;transform:translateX(-50%);top:calc(var(--safeT) + 55px);font-size:9px;font-weight:900;letter-spacing:.12em;color:#0a7388;white-space:nowrap}
-.main{flex:1;min-height:0;overflow:auto;padding:15px 17px calc(126px + var(--safeB));scroll-behavior:smooth}
-.screen-title{text-align:center;font-size:26px;line-height:1.08;font-weight:800;color:var(--navy);margin:3px 0 20px}
-.card{background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow)}
-.btn{border:0;border-radius:14px;padding:11px 14px;font-weight:800}
-.primary{background:linear-gradient(100deg,var(--cyan),var(--cyan2));color:#07364b}
-.ghost{background:#fff;color:var(--navy);border:1px solid var(--line)}
-.soft{background:#ebf9fc;color:#075b72;border:1px solid #ddf0f5}
-
-/* Home */
-.hero{height:245px;position:relative;border-radius:26px;overflow:hidden;margin-bottom:14px;background:linear-gradient(145deg,#0b6179,#07364b);box-shadow:var(--shadow2)}
-.hero img{width:100%;height:100%;object-fit:cover;display:block}
-.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(3,35,50,.9),rgba(3,35,50,.12) 74%,transparent)}
-.hero-copy{position:absolute;z-index:2;inset:auto 18px 20px;color:#fff;text-align:start}
-.hero-copy small{display:block;font-size:10px;font-weight:900;letter-spacing:.16em;opacity:.8}
-.hero-copy h1{margin:8px 0 7px;font-size:30px;line-height:1.1}
-.hero-copy p{margin:0;font-size:12px;line-height:1.55;opacity:.92}
-.preview-strip{padding:13px 14px;margin-bottom:13px;background:linear-gradient(140deg,#fff,#f0fbfd);display:flex;align-items:center;gap:10px}
-.preview-strip .ico{width:42px;height:42px;border-radius:14px;background:linear-gradient(145deg,#07364b,#0b738a);color:#fff;display:grid;place-items:center;font-size:20px}
-.preview-strip b{display:block;font-size:14px}.preview-strip span{display:block;color:var(--muted);font-size:11px;margin-top:2px;line-height:1.4}
-.next-card{padding:14px;margin-bottom:13px}
-.section-head{display:flex;align-items:end;justify-content:space-between;gap:10px;margin-bottom:10px}
-.section-head h2{font-size:18px;margin:0}.section-head span{font-size:11px;color:var(--muted);font-weight:750}
-.next-row{display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:10px;align-items:center}
-.timebox{background:var(--navy);color:#fff;border-radius:14px;padding:10px 7px;text-align:center;font-weight:900;direction:ltr}
-.next-row strong{display:block;font-size:14px}.next-row small{display:block;margin-top:3px;color:var(--muted);font-size:11px;line-height:1.4}
-.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:14px 0}
-.qbtn{border:1px solid var(--line);background:#fff;border-radius:19px;min-height:91px;padding:10px 6px;color:var(--navy);font-weight:850;box-shadow:0 6px 18px rgba(6,55,77,.045)}
-.qbtn i{display:block;font-style:normal;font-size:25px;color:#078ba5;margin-bottom:7px}.qbtn span{font-size:11px;line-height:1.3}
-.feature-card{padding:15px;display:grid;grid-template-columns:48px minmax(0,1fr) auto;gap:11px;align-items:center;margin-top:12px}
-.feature-icon{width:48px;height:48px;border-radius:16px;background:linear-gradient(145deg,#07364b,#0a6e82 60%,#25dbe9);color:#fff;display:grid;place-items:center;font-size:22px}
-.feature-card h3{font-size:16px;margin:0}.feature-card p{font-size:11px;line-height:1.45;color:var(--muted);margin:4px 0 0}
-
-/* Itinerary */
-.trip-head{background:linear-gradient(145deg,#07516b,#07364b);border-radius:22px;padding:16px;color:#fff;box-shadow:var(--shadow2);margin-bottom:11px}
-.trip-head .topline{display:flex;align-items:start;justify-content:space-between;gap:10px}
-.trip-head h2{font-size:25px;margin:0}.trip-head p{font-size:11px;line-height:1.55;margin:5px 0 0;opacity:.9}
-.trip-cover{height:138px;border-radius:16px;margin-top:13px;overflow:hidden;background:#0b6b83}
-.trip-cover img{width:100%;height:100%;object-fit:cover;display:block}
-.daytabs{display:flex;gap:7px;overflow:auto;padding:2px 0 10px}
-.daytab{border:1px solid #e3edf1;background:#eff6f8;color:var(--navy);border-radius:999px;padding:9px 13px;font-size:11px;font-weight:850;white-space:nowrap}
-.daytab.active{background:var(--navy);color:#fff}.daytab.locked{opacity:.58}
-.day-heading{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:7px 2px 11px}
-.day-heading h3{margin:0;font-size:17px}.day-heading span{font-size:11px;color:var(--muted)}
-.timeline{background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:var(--shadow)}
-.event{display:grid;grid-template-columns:51px 16px minmax(0,1fr) 34px;gap:7px;align-items:start;padding:12px 10px;position:relative;border-bottom:1px solid #edf3f6}
-.event:last-child{border-bottom:0}.event:before{content:"";position:absolute;top:29px;bottom:-13px;inset-inline-start:67px;width:2px;background:#1cc9df}.event:last-child:before{display:none}
-.event-time{font-size:11px;font-weight:850;color:#60798b;direction:ltr;text-align:center;padding-top:3px}
-.dot{width:10px;height:10px;border-radius:50%;background:#fff;border:3px solid #10bfd2;margin-top:3px;z-index:2}
-.event-body strong{display:block;font-size:14px;line-height:1.3}.event-body small{display:block;font-size:11px;line-height:1.55;color:var(--muted);margin-top:4px}
-.navmini{width:32px;height:32px;border:0;border-radius:10px;background:#edf9fc;color:#075c73;font-weight:900}
-
-/* Places */
-.filter-tabs{display:flex;gap:7px;overflow:auto;padding:0 0 11px}
-.tab{border:1px solid #e4edf1;background:#eff6f8;color:var(--navy);border-radius:999px;padding:9px 13px;font-size:11px;font-weight:800;white-space:nowrap}
-.tab.active{background:var(--navy);color:#fff}
-.cards{display:grid;gap:10px}
-.place{display:grid;grid-template-columns:86px minmax(0,1fr) 34px;gap:10px;align-items:center;padding:11px}
-.thumb{width:86px;height:96px;border-radius:15px;overflow:hidden;background:linear-gradient(145deg,#dff6fb,#eff9fb);position:relative}
-.thumb img{width:100%;height:100%;object-fit:cover;display:block}
-.thumb.fallback{display:grid;place-items:center;font-size:32px}
-.place h3{font-size:15px;line-height:1.25;margin:0}.place p{font-size:11px;line-height:1.5;color:var(--muted);margin:4px 0}
-.place-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}.place-actions a{text-decoration:none;font-size:10px;padding:8px 9px;border-radius:10px}
-.heart{border:0;background:transparent;color:var(--pink);font-size:24px;width:32px;height:38px}.heart.saved{color:#d61f53}
-.tag{display:inline-block;background:#e9f9fc;color:#086176;border-radius:999px;padding:5px 7px;font-size:9.5px;font-weight:850}
-
-/* Route */
-.route-card{padding:16px;background:linear-gradient(145deg,#073b58,#0a6b80);color:#fff;border:0;margin-bottom:12px}
-.route-card h3{margin:0 0 5px;font-size:20px}.route-card p{margin:0 0 12px;font-size:11px;opacity:.88}
-.route-actions{display:grid;grid-template-columns:1.3fr .9fr;gap:8px}.route-actions a{text-decoration:none;text-align:center;padding:11px;border-radius:14px;font-size:11px;font-weight:850}
-.route-actions .google{background:linear-gradient(90deg,var(--cyan),var(--cyan2));color:#07364b}.route-actions .waze{background:rgba(255,255,255,.14);color:#fff;border:1px solid rgba(255,255,255,.2)}
-.map-visual{height:250px;border-radius:22px;background:
-  radial-gradient(circle at 18% 25%,rgba(19,211,230,.18) 0 9%,transparent 10%),
-  radial-gradient(circle at 80% 72%,rgba(19,211,230,.16) 0 10%,transparent 11%),
-  linear-gradient(135deg,#e7f8fb,#f9fdfe);border:1px solid var(--line);position:relative;overflow:hidden;margin-bottom:12px}
-.map-visual:before,.map-visual:after{content:"";position:absolute;background:#d8edf2;border-radius:999px;transform:rotate(-22deg)}
-.map-visual:before{width:420px;height:8px;left:-75px;top:118px}.map-visual:after{width:330px;height:5px;left:20px;top:168px;transform:rotate(14deg)}
-.map-pin{position:absolute;width:30px;height:30px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:linear-gradient(145deg,#16d9e9,#087d98);border:2px solid #fff;box-shadow:0 7px 14px rgba(6,55,77,.2);display:grid;place-items:center;color:#fff;font-size:10px;font-weight:900;z-index:2}
-.map-pin span{transform:rotate(45deg)}
-.point-list{display:grid;gap:9px}.point-row{background:#fff;border:1px solid var(--line);border-radius:18px;padding:11px;display:grid;grid-template-columns:50px minmax(0,1fr) auto;gap:8px;align-items:center}
-.point-time{font-size:11px;font-weight:850;color:#60798b;direction:ltr}.point-row strong{font-size:13px;display:block}.point-row small{font-size:10.5px;color:var(--muted);display:block;margin-top:3px}
-
-/* Favorites / locked */
-.empty{text-align:center;padding:28px 18px}.empty b{display:block;font-size:34px}.empty h3{font-size:18px;margin:10px 0 6px}.empty p{color:var(--muted);font-size:12px;line-height:1.6;margin:0}
-.locked-card{margin-top:15px;padding:22px;text-align:center;background:linear-gradient(145deg,#fff,#eff9fb)}
-.locked-card .lock{font-size:30px}.locked-card h3{font-size:20px;margin:9px 0 7px}.locked-card p{font-size:12px;line-height:1.6;color:var(--muted);margin:0 0 13px}
-
-/* Bottom nav */
-.bottom{position:fixed;left:12px;right:12px;bottom:calc(10px + var(--safeB));height:76px;border-radius:24px;background:rgba(255,255,255,.98);border:1px solid #dfedf2;box-shadow:0 8px 36px rgba(6,55,77,.16);display:grid;grid-template-columns:1fr 1fr 1.18fr 1fr 1fr;align-items:center;padding:4px 7px;z-index:40;color:var(--navy)}
-.nav{border:0;background:transparent;color:var(--navy);display:grid;place-items:center;gap:3px;opacity:.66;font-size:9px;font-weight:850;min-width:0;padding:2px}
-.nav b{font-size:20px}.nav.active{opacity:1;color:#007d96}.nav.active b{background:#dcf8fb;border-radius:11px;padding:3px 11px}
-.nav.avia{position:relative;top:-14px;opacity:1}.nav.avia b{width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:#fff;border:3px solid #c9f7fa;box-shadow:0 9px 22px rgba(3,78,95,.16);overflow:hidden}
-.avia-svg{width:48px;height:48px}
-
-/* Sheet */
-.sheetback{position:fixed;inset:0;background:rgba(3,28,42,.5);backdrop-filter:blur(4px);z-index:90;display:none;align-items:flex-end}
-.sheetback.show{display:flex}.sheet{width:100%;max-height:88dvh;overflow:auto;background:#f8fcfe;border-radius:28px 28px 0 0;padding:14px 15px calc(22px + var(--safeB));box-shadow:0 -20px 45px rgba(5,49,75,.17)}
-.sheethead{display:flex;align-items:center;justify-content:space-between;gap:10px}.sheethead h2{font-size:21px;margin:0}.sheethead button{border:0;background:#edf6f9;width:40px;height:40px;border-radius:13px;color:var(--navy)}
-.sheet p{font-size:13px;line-height:1.7;color:var(--muted)}
-.sheet .full{display:block;width:100%;text-decoration:none;text-align:center;margin-top:10px}
-
-/* Loading/error */
-.loading{position:fixed;inset:0;z-index:100;display:grid;place-items:center;background:linear-gradient(160deg,#e3f7fb,#fff);color:var(--navy)}
-.loader{text-align:center}.loader img{width:110px}.loader span{display:block;margin-top:12px;font-size:12px;font-weight:800;color:#5d7a89}
-.hide{display:none}
-@media(min-width:760px){.main{max-width:760px;width:100%;align-self:center;padding-inline:24px}.bottom{max-width:640px;margin:auto}.hero{height:300px}.cards{grid-template-columns:1fr 1fr}.place{grid-template-columns:90px minmax(0,1fr) 34px}}
-@media(max-width:390px){.main{padding-inline:14px}.place{grid-template-columns:72px minmax(0,1fr) 30px}.thumb{width:72px;height:86px}.next-row{grid-template-columns:57px minmax(0,1fr) auto}.event{grid-template-columns:43px 15px minmax(0,1fr) 32px}.event:before{inset-inline-start:58px}.qbtn{min-height:84px}}
+:root{--navy:#07364b;--navy2:#0a506d;--cyan:#0cd6e8;--cyan2:#65e7ef;--ink:#0c2f47;--muted:#6d8291;--line:#e5eef2;--bg:#eef7fb;--card:#fff;--shadow:0 12px 30px rgba(8,56,78,.10);--safeT:env(safe-area-inset-top);--safeB:env(safe-area-inset-bottom)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{margin:0;height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,"Noto Sans",sans-serif;background:var(--bg);color:var(--ink)}button,a{font:inherit}.view{position:absolute;inset:0;display:none;flex-direction:column}.view.active{display:flex}
+#splash{background:linear-gradient(160deg,#c9eef8 0,#eaf9fc 46%,#fff 100%);overflow:hidden}
+.splashGlow{position:absolute;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(12,214,232,.25),transparent 68%);top:-210px;left:50%;transform:translateX(-50%)}
+.splashCard{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;text-align:center;height:100%;padding:calc(42px + var(--safeT)) 22px calc(30px + var(--safeB))}
+.splashLogo{width:150px;height:92px;object-fit:contain}.splashTrip{font-size:13px;font-weight:800;color:#0b7287;background:rgba(255,255,255,.62);border:1px solid rgba(255,255,255,.9);padding:8px 12px;border-radius:999px;margin-top:6px}
+.splashVisual{position:relative;width:min(92vw,430px);height:38vh;min-height:240px;max-height:360px;margin:24px 0 20px;border-radius:34px;overflow:hidden;box-shadow:0 28px 60px rgba(7,54,75,.20);background:linear-gradient(145deg,#0b6c86,#0cd6e8)}
+.splashVisual img{width:100%;height:100%;object-fit:cover;display:block}.splashVisual:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(4,39,56,.72),rgba(4,39,56,.05) 62%)}
+.splashCopy{position:absolute;z-index:2;inset:auto 20px 19px;color:#fff;text-align:start}.splashCopy small{font-size:11px;font-weight:900;letter-spacing:.08em}.splashCopy h1{margin:6px 0 0;font-size:32px;line-height:1.06}
+.start{margin-top:auto;width:min(100%,430px);border:0;border-radius:999px;min-height:58px;background:linear-gradient(100deg,var(--cyan),var(--cyan2));color:#043248;font-weight:900;font-size:18px;box-shadow:0 12px 28px rgba(8,149,169,.22)}
+#live{background:linear-gradient(180deg,#d8f4fb 0,#f8fcfe 135px,#f6fafc 100%)}.appbar{height:calc(72px + var(--safeT));padding:var(--safeT) 14px 0;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}.round{width:42px;height:42px;border:1px solid rgba(255,255,255,.95);background:rgba(255,255,255,.75);border-radius:50%;display:grid;place-items:center;color:var(--navy);font-weight:900}.brandLogo{width:106px;height:62px;object-fit:contain}
+.main{flex:1;overflow:auto;padding:13px 15px calc(116px + var(--safeB));scroll-behavior:smooth}.screen{display:none}.screen.active{display:block}.screenTitle{font-size:27px;font-weight:850;text-align:center;margin:3px 0 18px;color:var(--navy)}.card{background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow)}
+.hero{height:245px;border-radius:27px;overflow:hidden;position:relative;margin-bottom:14px;box-shadow:0 18px 38px rgba(7,54,75,.15);background:#0c6880}.hero img{width:100%;height:100%;object-fit:cover}.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(3,37,54,.84),rgba(3,37,54,.12) 72%)}.heroCopy{position:absolute;z-index:2;inset:auto 18px 18px;color:#fff}.heroCopy small{font-weight:900;font-size:10px;letter-spacing:.08em}.heroCopy h1{margin:7px 0 5px;font-size:31px;line-height:1.05}.heroCopy p{margin:0;font-size:12px;opacity:.94;line-height:1.45}.chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:11px}.chip{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.27);padding:6px 9px;border-radius:999px;font-size:10px;font-weight:800;backdrop-filter:blur(7px)}
+.sectionHead{display:flex;align-items:end;justify-content:space-between;gap:10px;margin:18px 2px 9px}.sectionHead h2{font-size:19px;margin:0;color:var(--navy)}.sectionHead small{color:var(--muted);font-size:11px}.next{padding:13px}.nextRow{display:grid;grid-template-columns:64px 1fr auto;gap:10px;align-items:center}.timebox{background:var(--navy);color:#fff;border-radius:14px;padding:10px 5px;text-align:center;font-weight:900}.nextRow strong{font-size:14px}.nextRow small{display:block;margin-top:4px;color:var(--muted);font-size:11px}.mini{border:0;border-radius:13px;padding:10px 12px;background:#e9f8fc;color:#075a72;font-weight:850}
+.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:14px 0}.q{border:1px solid var(--line);background:#fff;border-radius:19px;min-height:85px;padding:10px 6px;color:var(--navy);font-weight:850;box-shadow:0 7px 20px rgba(8,56,78,.05)}.q b{display:block;font-size:23px;margin-bottom:6px}.q span{font-size:10.5px}
+.previewBanner{padding:14px 15px;background:linear-gradient(135deg,#fff9e9,#fffdf7);border-color:#f4e6b5;margin-top:13px}.previewBanner strong{display:block;margin-bottom:4px}.previewBanner p{margin:0;color:#756e55;font-size:12px;line-height:1.55}
+.tripHead{border-radius:23px;background:linear-gradient(145deg,#075069,#07384f);padding:15px;color:#fff;box-shadow:0 16px 36px rgba(7,54,75,.18)}.tripHead h2{margin:0;font-size:24px}.tripHead p{margin:5px 0 0;opacity:.88;font-size:12px;line-height:1.5}.tripCover{height:145px;border-radius:17px;overflow:hidden;margin-top:13px;position:relative}.tripCover img{width:100%;height:100%;object-fit:cover}.tripCover:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(4,38,57,.38),transparent 60%)}
+.daytabs{display:flex;gap:7px;overflow:auto;padding:11px 0 9px}.daytab{border:0;border-radius:999px;padding:9px 13px;background:#eef6f8;color:var(--navy);white-space:nowrap;font-size:11px;font-weight:850}.daytab.active{background:var(--navy);color:#fff}.daytab.locked{opacity:.56}.timeline{background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:var(--shadow)}.event{display:grid;grid-template-columns:51px 14px minmax(0,1fr) 36px;gap:7px;padding:12px 10px;border-bottom:1px solid #edf3f6;align-items:start}.event:last-child{border-bottom:0}.etime{font-size:11px;color:#5f7787;font-weight:900;padding-top:3px;direction:ltr}.dot{width:10px;height:10px;border-radius:50%;background:#079eb9;margin-top:4px;box-shadow:0 0 0 3px #d9f7fb}.ebody strong{font-size:14px;line-height:1.25}.ebody small{display:block;margin-top:4px;color:var(--muted);font-size:11px;line-height:1.45}.navbtn{width:34px;height:34px;border:0;border-radius:11px;background:#edf9fc;color:#087089;font-weight:900}
+.routeCard{margin-top:12px;padding:14px;background:linear-gradient(145deg,#073b58,#0b6982);color:#fff;border-radius:22px}.routeCard h3{margin:0 0 4px}.routeCard p{margin:0 0 11px;font-size:11px;opacity:.88}.routeBtns{display:grid;grid-template-columns:1.25fr .75fr;gap:8px}.routeBtns a{display:block;text-align:center;text-decoration:none;border-radius:14px;padding:10px;font-size:11px;font-weight:900}.routeBtns a:first-child{background:linear-gradient(100deg,var(--cyan),var(--cyan2));color:#07364b}.routeBtns a:last-child{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.20);color:#fff}
+.placeList{display:grid;gap:10px}.place{display:grid;grid-template-columns:84px minmax(0,1fr) 36px;gap:10px;padding:11px;align-items:center}.thumb{width:84px;height:92px;border-radius:15px;overflow:hidden;background:#dceff4;position:relative}.thumb img{width:100%;height:100%;object-fit:cover}.atmo{position:absolute;bottom:4px;left:4px;background:rgba(3,37,54,.72);color:#fff;border-radius:999px;padding:3px 6px;font-size:8px}.place h3{font-size:15px;margin:0 0 4px;line-height:1.25}.place p{margin:0;color:var(--muted);font-size:10.5px;line-height:1.45}.tag{display:inline-block;margin-top:6px;background:#eaf9fc;color:#0a5672;border-radius:999px;padding:5px 8px;font-size:9px;font-weight:900}.go{width:36px;height:36px;border:0;border-radius:12px;background:#ecf9fc;color:#07647d;font-weight:900}
+.infoGrid{display:grid;gap:10px}.info{padding:15px;display:grid;grid-template-columns:42px 1fr;gap:12px;align-items:center}.ico{width:42px;height:42px;border-radius:14px;background:#e8f8fc;color:#09657e;display:grid;place-items:center;font-size:20px}.info strong{font-size:14px}.info p{margin:3px 0 0;color:var(--muted);font-size:11px;line-height:1.45}
+.lockedBox{margin-top:14px;padding:22px;text-align:center;background:linear-gradient(145deg,#fff,#eef8fb);border:1px dashed #b9d7de;border-radius:23px}.lockedBox b{font-size:28px}.lockedBox h3{margin:9px 0 5px}.lockedBox p{margin:0;color:var(--muted);font-size:12px;line-height:1.55}
+.bottom{position:fixed;z-index:30;left:12px;right:12px;bottom:calc(9px + var(--safeB));height:74px;border-radius:24px;background:rgba(255,255,255,.98);border:1px solid #deedf2;box-shadow:0 12px 34px rgba(6,55,77,.18);display:grid;grid-template-columns:1fr 1fr 1.12fr 1fr 1fr;align-items:center;padding:4px 7px}.nav{border:0;background:transparent;color:var(--navy);opacity:.68;display:grid;place-items:center;gap:2px;font-size:9px;font-weight:850}.nav b{font-size:20px}.nav.active{opacity:1;color:#007b95}.nav.active b{background:#dcf9fc;border-radius:11px;padding:3px 11px}.nav.avia{position:relative;top:-13px;opacity:1}.nav.avia b{width:55px;height:55px;border-radius:50%;background:#fff;border:3px solid #c5f5f8;display:grid;place-items:center;box-shadow:0 8px 20px rgba(4,89,108,.16);overflow:hidden}.nav.avia img{width:46px;height:46px;object-fit:contain}.nav.avia span{margin-top:-3px}
+.sheetBack{position:fixed;inset:0;background:rgba(4,28,43,.48);backdrop-filter:blur(4px);z-index:60;display:none;align-items:flex-end}.sheetBack.show{display:flex}.sheet{width:100%;max-height:80dvh;overflow:auto;background:#f8fcfe;border-radius:28px 28px 0 0;padding:14px 15px calc(24px + var(--safeB));box-shadow:0 -18px 42px rgba(5,49,75,.18)}.sheetHead{display:flex;justify-content:space-between;align-items:center}.sheetHead h2{margin:0;font-size:23px}.close{width:38px;height:38px;border:0;border-radius:12px;background:#edf6f9}.aviaCard{text-align:center;padding:12px 4px 4px}.aviaCard img{width:84px;height:84px;object-fit:contain}.aviaCard p{color:var(--muted);font-size:13px;line-height:1.65}.cta{display:block;text-decoration:none;text-align:center;margin-top:12px;padding:13px;border-radius:15px;background:linear-gradient(100deg,var(--cyan),var(--cyan2));color:#06354b;font-weight:900}
+.loading{position:fixed;inset:0;z-index:100;display:grid;place-items:center;background:#eef8fb;color:var(--navy);font-weight:900}.loading.hide{display:none}.error{padding:28px;text-align:center}
+@media(min-width:760px){.main{max-width:720px;width:100%;align-self:center;padding-inline:22px}.bottom{max-width:620px;margin:auto}.hero{height:310px}.sheet{max-width:620px;margin:auto}}
 </style>
 </head>
 <body>
-<div id="loading" class="loading"><div class="loader"><img src="/assets/navigam/logo.png" alt="NAVIGAM"><span>NAVIGAM Preview…</span></div></div>
-<div id="app" hidden>
-  <section id="splash" class="view active">
-    <img id="splashImage" class="splash-bg" alt="">
-    <div class="splash-wash"></div>
-    <div class="splash-content">
-      <img class="splash-logo" src="/assets/navigam/logo.png" alt="NAVIGAM">
-      <div class="splash-kicker">PREVIEW · 24H</div>
-      <div class="splash-copy"><h1 id="welcomeTitle"></h1><p id="welcomeText"></p></div>
-      <div class="splash-bottom"><div class="splash-meta"><span id="splashDate"></span><span id="splashExpiry"></span></div><button class="start-btn" id="startBtn"><span></span><b>›</b></button></div>
-    </div>
-  </section>
-
-  <section id="live" class="view">
-    <header class="appbar">
-      <button class="side" id="profileBtn" aria-label="Preview info">◎</button>
-      <img class="approved-logo" src="/assets/navigam/logo.png" alt="NAVIGAM">
-      <button class="side" id="shareBtn" aria-label="Share">↗</button>
-      <span class="preview-chip">NAVIGAM PREVIEW</span>
-    </header>
-    <main id="main" class="main"></main>
-    <nav class="bottom">
-      <button class="nav active" data-route="home"><b>⌂</b><span id="navHome"></span></button>
-      <button class="nav" data-route="itinerary"><b>🗓</b><span id="navTrip"></span></button>
-      <button class="nav avia" id="aviaBtn"><b><svg class="avia-svg" viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="31" fill="#eefbff"/><circle cx="32" cy="28" r="14" fill="#f2c9aa"/><path d="M18 25c1-10 7-17 14-17 8 0 14 7 14 17-3-3-8-5-14-5s-11 2-14 5z" fill="#113e59"/><path d="M18 25c0-7 6-16 14-16" fill="none" stroke="#113e59" stroke-width="8" stroke-linecap="round"/><path d="M46 25c0-7-6-16-14-16" fill="none" stroke="#113e59" stroke-width="8" stroke-linecap="round"/><circle cx="27" cy="29" r="1.5" fill="#1d3141"/><circle cx="37" cy="29" r="1.5" fill="#1d3141"/><path d="M28 36c2 1.7 6 1.7 8 0" fill="none" stroke="#b36a5d" stroke-width="2" stroke-linecap="round"/><path d="M17 57c3-9 11-13 15-13s12 4 15 13" fill="#2ad1e4"/></svg></b><span>Avia</span></button>
-      <button class="nav" data-route="route"><b>⌖</b><span id="navMap"></span></button>
-      <button class="nav" data-route="favorites"><b>♡</b><span id="navFav"></span></button>
-    </nav>
-  </section>
+<div class="loading" id="loading">NAVIGAM Preview…</div>
+<div id="app">
+<section id="splash" class="view">
+  <div class="splashGlow"></div>
+  <div class="splashCard">
+    <img class="splashLogo" src="/assets/navigam/logo.png" alt="NAVIGAM">
+    <div class="splashTrip" id="splashBadge">PREVIEW · 24H</div>
+    <div class="splashVisual"><img id="splashImage" alt=""><div class="splashCopy"><small>NAVIGAM PREVIEW</small><h1 id="splashTitle">Your trip. Personally navigated.</h1></div></div>
+    <button class="start" id="startBtn">Start Preview</button>
+  </div>
+</section>
+<section id="live" class="view">
+  <header class="appbar"><button class="round" id="backBtn">‹</button><img class="brandLogo" src="/assets/navigam/logo.png" alt="NAVIGAM"><button class="round" id="homeBtn">⌂</button></header>
+  <main class="main">
+    <section class="screen active" data-screen="home" id="home"></section>
+    <section class="screen" data-screen="itinerary" id="itinerary"></section>
+    <section class="screen" data-screen="places" id="places"></section>
+    <section class="screen" data-screen="info" id="info"></section>
+  </main>
+  <nav class="bottom" aria-label="NAVIGAM">
+    <button class="nav active" data-route="home"><b>⌂</b><span id="navHome"></span></button>
+    <button class="nav" data-route="itinerary"><b>≡</b><span id="navTrip"></span></button>
+    <button class="nav avia" id="aviaBtn"><b><img src="/assets/navigam/symbol.png" alt=""></b><span>Avia</span></button>
+    <button class="nav" data-route="places"><b>⌖</b><span id="navPlaces"></span></button>
+    <button class="nav" data-route="info"><b>ⓘ</b><span id="navInfo"></span></button>
+  </nav>
+</section>
 </div>
-<div id="sheetback" class="sheetback"><div id="sheet" class="sheet"></div></div>
-
+<div class="sheetBack" id="sheetBack"><div class="sheet"><div class="sheetHead"><h2 id="aviaTitle">Avia</h2><button class="close" id="closeSheet">✕</button></div><div class="aviaCard"><img src="/assets/navigam/symbol.png" alt="Avia"><p id="aviaText"></p><a class="cta" id="fullCta" href="#"></a></div></div></div>
 <script>
 const API='https://asnnvwoersrhrgdantll.supabase.co/functions/v1/triply-preview-app';
-const $=s=>document.querySelector(s);
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const copy={
-he:{dir:'rtl',home:'בית',trip:'המסלול',map:'מפה',fav:'שמורים',start:'לצפייה ביום הראשון',headline1:'הטיול שלך',headline2:'כבר מתחיל כאן.',welcome:'יום ראשון אישי בתוך אפליקציית NAVIGAM — לפני תשלום.',day:'יום',selected:'היום שנבחר',first:'התחנה הראשונה',navigate:'ניווט',nearby:'מקומות לאורך היום',all:'הכל',activity:'מקומות',food:'אוכל',shopping:'קניות',nightlife:'ערב',transport:'דרך',rest:'הפסקה',saved:'המועדפים שלי',none:'עדיין לא שמרת מקומות.',route:'המסלול על המפה',routeAll:'פתח מסלול מלא ב-Google Maps',waze:'התחל ב-Waze',preview:'Preview אישי',previewText:'רק יום 1 פתוח. שאר הימים נשמרים נעולים עד שממשיכים לטיול המלא.',translation:'תרגום חי',translationText:'בגרסה המלאה NAVIGAM Translate נמצא איתך לאורך הטיול.',aviaTitle:'אביה איתך בטיול',aviaText:'בגרסה המלאה אביה מלווה אותך, עונה תוך כדי הטיול ועוזרת בשינויים.',full:'אני רוצה להמשיך לטיול המלא',locked:'המשך הטיול נעול',lockedText:'אם אהבת את הכיוון, נמשיך לבנות את שאר הימים סביב כל מה שכבר למדנו עליך.',expires:'זמין עד',close:'סגירה',info:'על ה-Preview',infoText:'זהו NAVIGAM Preview אישי שנבנה מתוך ההעדפות שלך. הקישור זמין ל-24 שעות ואינו כולל את שאר ימי הטיול.'},
-ru:{dir:'ltr',home:'Главная',trip:'Маршрут',map:'Карта',fav:'Сохранённые',start:'Посмотреть первый день',headline1:'Ваша поездка',headline2:'начинается здесь.',welcome:'Персональный первый день в приложении NAVIGAM — до оплаты.',day:'День',selected:'Выбранный день',first:'Первая точка',navigate:'Маршрут',nearby:'Места по ходу дня',all:'Все',activity:'Места',food:'Еда',shopping:'Шопинг',nightlife:'Вечер',transport:'Дорога',rest:'Пауза',saved:'Сохранённые места',none:'Вы ещё ничего не сохранили.',route:'Маршрут дня',routeAll:'Открыть весь маршрут в Google Maps',waze:'Начать в Waze',preview:'Персональный Preview',previewText:'Открыт только День 1. Остальные дни остаются закрытыми до продолжения полной поездки.',translation:'Живой перевод',translationText:'В полной версии NAVIGAM Translate сопровождает вас во время поездки.',aviaTitle:'Avia во время поездки',aviaText:'В полной версии Avia помогает во время поездки и отвечает на изменения по ходу маршрута.',full:'Хочу продолжить всю поездку',locked:'Остальные дни закрыты',lockedText:'Если вам подходит этот формат, мы продолжим остальные дни, используя всё, что уже узнали о ваших предпочтениях.',expires:'Доступ до',close:'Закрыть',info:'О Preview',infoText:'Это персональный NAVIGAM Preview, созданный на основе ваших предпочтений. Ссылка доступна 24 часа и открывает только первый день.'},
-ar:{dir:'rtl',home:'الرئيسية',trip:'المسار',map:'الخريطة',fav:'المحفوظات',start:'شاهد اليوم الأول',headline1:'رحلتك',headline2:'تبدأ من هنا.',welcome:'اليوم الأول بشكل شخصي داخل تطبيق NAVIGAM — قبل الدفع.',day:'اليوم',selected:'اليوم المختار',first:'المحطة الأولى',navigate:'التنقل',nearby:'أماكن على طول اليوم',all:'الكل',activity:'أماكن',food:'الطعام',shopping:'التسوق',nightlife:'المساء',transport:'الطريق',rest:'استراحة',saved:'الأماكن المحفوظة',none:'لم تحفظ أماكن بعد.',route:'مسار اليوم',routeAll:'افتح المسار الكامل في Google Maps',waze:'ابدأ في Waze',preview:'Preview شخصي',previewText:'اليوم الأول فقط مفتوح. باقي الأيام تبقى مقفلة حتى تتابع الرحلة الكاملة.',translation:'ترجمة مباشرة',translationText:'في النسخة الكاملة يكون NAVIGAM Translate معك طوال الرحلة.',aviaTitle:'آفيا معك في الرحلة',aviaText:'في النسخة الكاملة تساعدك آفيا أثناء الرحلة وتتعامل مع التغييرات على طول الطريق.',full:'أريد متابعة الرحلة كاملة',locked:'باقي الأيام مقفلة',lockedText:'إذا أعجبك هذا الأسلوب، نكمل باقي الأيام باستخدام كل ما عرفناه بالفعل عن تفضيلاتك.',expires:'متاح حتى',close:'إغلاق',info:'عن الـ Preview',infoText:'هذا NAVIGAM Preview شخصي تم بناؤه حسب تفضيلاتك. الرابط متاح 24 ساعة ويفتح اليوم الأول فقط.'}
+const FALLBACK={
+ city:'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=1200&q=86',
+ food:'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=900&q=84',
+ activity:'https://images.unsplash.com/photo-1523731407965-2430cd12f5e4?auto=format&fit=crop&w=900&q=84',
+ shopping:'https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=900&q=84',
+ nightlife:'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=900&q=84',
+ rest:'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=84'
 };
-let D=null,L='he',T=copy.he,routeName='home',filter='all',favorites=new Set();
-function lang(){return D?.language==='ru'?'ru':D?.language==='ar'?'ar':'he'}
-function fmtDate(v){try{return new Date(v+'T12:00:00').toLocaleDateString(L==='ru'?'ru-RU':L==='ar'?'ar-IL':'he-IL',{day:'2-digit',month:'2-digit',year:'numeric'})}catch{return v||''}}
-function fmtExpiry(v){try{return new Date(v).toLocaleString(L==='ru'?'ru-RU':L==='ar'?'ar-IL':'he-IL',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})}catch{return ''}}
-function dayCount(){const a=new Date(D.trip.start_date+'T12:00:00'),b=new Date(D.trip.end_date+'T12:00:00');return Math.max(1,Math.round((b-a)/86400000)+1)}
-function cat(x){const k=String(x.item_type||'activity').toLowerCase();return ['food','shopping','nightlife','transport','rest'].includes(k)?k:'activity'}
-function catLabel(k){return T[k]||k}
-function catIcon(k){return {activity:'✦',food:'🍽',shopping:'🛍',nightlife:'♪',transport:'➜',rest:'☕'}[k]||'✦'}
-function hero(){return D.trip.hero_image_url||D.items.find(x=>x.place?.preview_image_url)?.place.preview_image_url||''}
-function qOf(x){return x.place?.address||[x.place?.name,x.place?.city,x.place?.country].filter(Boolean).join(' ')||x.title}
-function mapsUrl(q){return 'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q)}
-function wazeUrl(q){return 'https://www.waze.com/ul?q='+encodeURIComponent(q)+'&navigate=yes'}
-function fullRouteUrl(){
- const pts=D.items.map(qOf).filter(Boolean); if(!pts.length)return '#';
- const p=new URLSearchParams({api:'1',origin:pts[0],destination:pts[pts.length-1],travelmode:'walking'});
- if(pts.length>2)p.set('waypoints',pts.slice(1,-1).join('|')); return 'https://www.google.com/maps/dir/?'+p.toString()
-}
-function waUrl(){const msg=L==='ru'?'Мне понравился NAVIGAM Preview, хочу продолжить':L==='ar'?'أعجبني NAVIGAM Preview وأريد المتابعة':'אהבתי את ה-NAVIGAM Preview ואני רוצה להמשיך';return 'https://wa.me/972557760288?text='+encodeURIComponent(msg)}
-function imageTag(x,cls=''){const u=x?.place?.preview_image_url;if(u)return '<img class="'+cls+'" src="'+esc(u)+'" alt="'+esc(x.place?.name||x.title)+'" loading="lazy" referrerpolicy="no-referrer">';return '<div class="thumb fallback">'+catIcon(cat(x))+'</div>'}
-function openSheet(title,body){$('#sheet').innerHTML='<div class="sheethead"><h2>'+esc(title)+'</h2><button id="sheetClose">✕</button></div>'+body;$('#sheetback').classList.add('show');$('#sheetClose').onclick=closeSheet}
-function closeSheet(){$('#sheetback').classList.remove('show')}
-function setRoute(r){routeName=r;document.querySelectorAll('.nav[data-route]').forEach(n=>n.classList.toggle('active',n.dataset.route===r));render()}
-function lockDay(n){openSheet(T.locked,'<p>'+esc(T.lockedText)+'</p><a class="btn primary full" href="'+waUrl()+'">'+esc(T.full)+'</a>')}
-function toggleFav(id){favorites.has(id)?favorites.delete(id):favorites.add(id);render()}
-function quickButton(r,icon,label){return '<button class="qbtn" data-go="'+r+'"><i>'+icon+'</i><span>'+esc(label)+'</span></button>'}
-function lockedCard(){return '<div class="card locked-card"><div class="lock">🔒</div><h3>'+esc(T.locked)+'</h3><p>'+esc(T.lockedText)+'</p><a class="btn primary" href="'+waUrl()+'" style="display:inline-block;text-decoration:none">'+esc(T.full)+'</a></div>'}
+const C={
+ ru:{home:'Главная',trip:'Маршрут',places:'Места',info:'Инфо',start:'Открыть Preview',preview:'Персональный Preview · день 1',next:'Дальше по маршруту',view:'Открыть',route:'Маршрут дня',allMaps:'Весь день в Google Maps',firstWaze:'Первая точка в Waze',day:'День',locked:'закрыт',spots:'Места дня',atmo:'Фото для атмосферы',around:'По вашему маршруту',fullTitle:'Остальные дни остаются закрыты',fullText:'Это демонстрация первого дня. После продолжения мы достроим остальные дни вокруг ваших предпочтений.',avia:'Avia в полной версии помогает во время поездки: маршрут, подсказки, перевод и изменения по ходу дня.',cta:'Хочу продолжить с NAVIGAM',dates:'Даты',expires:'Preview доступен до',personal:'Ваш первый день в приложении NAVIGAM',food:'Еда',map:'Навигация',lockedTab:'🔒',info1:'Только день 1 открыт в Preview',info2:'Все собранные предпочтения сохраняются — повторять анкету не нужно.',info3:'Полная версия открывает остальные дни и сопровождение Avia.'},
+ ar:{home:'الرئيسية',trip:'المسار',places:'الأماكن',info:'معلومات',start:'افتح الـ Preview',preview:'Preview شخصي · اليوم الأول',next:'المحطة التالية',view:'فتح',route:'مسار اليوم',allMaps:'اليوم كله في Google Maps',firstWaze:'أول نقطة في Waze',day:'اليوم',locked:'مغلق',spots:'أماكن اليوم',atmo:'صورة توضيحية',around:'على طول مسارك',fullTitle:'باقي الأيام تبقى مقفلة',fullText:'هذه معاينة لليوم الأول. بعد المتابعة نبني باقي الأيام حسب تفضيلاتك.',avia:'في النسخة الكاملة تساعدك Avia أثناء الرحلة: المسار، التوصيات، الترجمة والتغييرات أثناء اليوم.',cta:'أريد المتابعة مع NAVIGAM',dates:'التواريخ',expires:'الـ Preview متاح حتى',personal:'يومك الأول داخل تطبيق NAVIGAM',food:'الطعام',map:'التنقل',lockedTab:'🔒',info1:'اليوم الأول فقط مفتوح في الـ Preview',info2:'كل ما أخبرتنا به محفوظ — لن نعيد نفس الأسئلة.',info3:'النسخة الكاملة تفتح باقي الأيام ومرافقة Avia.'},
+ he:{home:'בית',trip:'המסלול',places:'מקומות',info:'מידע',start:'פתח את ה־Preview',preview:'Preview אישי · יום 1',next:'הבא במסלול',view:'פתח',route:'מסלול היום',allMaps:'כל היום ב־Google Maps',firstWaze:'הנקודה הראשונה ב־Waze',day:'יום',locked:'נעול',spots:'מקומות ביום',atmo:'תמונת אווירה',around:'לאורך המסלול שלך',fullTitle:'שאר הימים נשארים נעולים',fullText:'זו הדגמה של היום הראשון. אחרי שממשיכים אנחנו משלימים את יתר הימים סביב ההעדפות שלך.',avia:'בגרסה המלאה אביה מלווה אותך בזמן הטיול: מסלול, המלצות, תרגום ושינויים תוך כדי היום.',cta:'אני רוצה להמשיך עם NAVIGAM',dates:'תאריכים',expires:'ה־Preview פתוח עד',personal:'היום הראשון שלך באפליקציית NAVIGAM',food:'אוכל',map:'ניווט',lockedTab:'🔒',info1:'רק יום 1 פתוח ב־Preview',info2:'כל מה שכבר סיפרת לנו נשמר — לא שואלים שוב.',info3:'הגרסה המלאה פותחת את שאר הימים ואת הליווי של אביה.'}
+};
+let D=null,L='he',T=C.he,route='home';
+function daysBetween(a,b){const x=new Date(a+'T12:00:00Z'),y=new Date(b+'T12:00:00Z');return Math.max(1,Math.round((y-x)/86400000)+1)}
+function imgFor(x){return x?.place?.metadata?.image_url||FALLBACK[String(x?.item_type||'').toLowerCase()]||FALLBACK.activity}
+function hero(){return D?.trip?.preferences?.hero_image||imgFor(D?.items?.[0])||FALLBACK.city}
+function mapsUrl(x){return x?.place?.google_maps_url||('https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(x?.place?.address||x?.place?.name||x?.title||D.trip.destination))}
+function wazeUrl(x){return 'https://www.waze.com/ul?q='+encodeURIComponent(x?.place?.address||x?.place?.name||x?.title||D.trip.destination)+'&navigate=yes'}
+function allMaps(){const a=D.items||[];if(!a.length)return '#';const qs=a.map(x=>x.place?.address||x.place?.name||x.title).filter(Boolean);const u=new URL('https://www.google.com/maps/dir/');u.searchParams.set('api','1');u.searchParams.set('origin',qs[0]);u.searchParams.set('destination',qs[qs.length-1]);if(qs.length>2)u.searchParams.set('waypoints',qs.slice(1,-1).join('|'));return u.toString()}
+function fmtDate(v){try{return new Intl.DateTimeFormat(L==='ru'?'ru-RU':L==='ar'?'ar-IL':'he-IL',{day:'numeric',month:'short'}).format(new Date(v+'T12:00:00Z'))}catch(e){return v||''}}
+function fmtExpiry(v){try{return new Intl.DateTimeFormat(L==='ru'?'ru-RU':L==='ar'?'ar-IL':'he-IL',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}).format(new Date(v))}catch(e){return ''}}
+function setChrome(){document.documentElement.lang=L;document.documentElement.dir=L==='ru'?'ltr':'rtl';$('#navHome').textContent=T.home;$('#navTrip').textContent=T.trip;$('#navPlaces').textContent=T.places;$('#navInfo').textContent=T.info;$('#startBtn').textContent=T.start;$('#aviaTitle').textContent='Avia · NAVIGAM';$('#aviaText').textContent=T.avia;$('#fullCta').textContent=T.cta;$('#fullCta').href='https://wa.me/972557760288?text='+encodeURIComponent(L==='ru'?'Мне понравился NAVIGAM Preview, хочу продолжить':L==='ar'?'أعجبني NAVIGAM Preview وأريد المتابعة':'אהבתי את ה-NAVIGAM Preview ואני רוצה להמשיך')}
 function renderHome(){
- const first=D.items[0]||{},h=hero();
- return '<div class="hero">'+(h?'<img src="'+esc(h)+'" alt="'+esc(D.trip.destination)+'" referrerpolicy="no-referrer">':'')+'<div class="hero-copy"><small>NAVIGAM · PREVIEW</small><h1>'+esc(D.trip.destination)+'</h1><p>'+fmtDate(D.trip.start_date)+' · '+dayCount()+' '+esc(T.day)+'</p></div></div>'+
- '<div class="card preview-strip"><div class="ico">◎</div><div><b>'+esc(T.preview)+'</b><span>'+esc(T.previewText)+'</span></div></div>'+
- '<div class="card next-card"><div class="section-head"><h2>'+esc(T.selected)+'</h2><span>'+esc(T.day)+' 1 · '+fmtDate(D.day.trip_date)+'</span></div><div class="next-row"><div class="timebox">'+esc(String(first.start_time||'').slice(0,5)||'—')+'</div><div><strong>'+esc(first.title||D.day.title)+'</strong><small>'+esc(first.description||D.day.summary||'')+'</small></div><button class="btn ghost" id="firstNav">'+esc(T.navigate)+'</button></div></div>'+
- '<div class="quick">'+quickButton('itinerary','🗓',T.trip)+quickButton('route','⌖',T.map)+quickButton('places','♧',T.nearby)+
- (D.items.some(x=>cat(x)==='food')?quickButton('places-food','🍽',T.food):'')+
- (D.items.some(x=>cat(x)==='shopping')?quickButton('places-shopping','🛍',T.shopping):'')+
- (D.items.some(x=>cat(x)==='nightlife')?quickButton('places-nightlife','♫',T.nightlife):'')+'</div>'+
- '<div class="card feature-card"><div class="feature-icon">◎</div><div><h3>'+esc(T.translation)+'</h3><p>'+esc(T.translationText)+'</p></div><button class="btn soft" id="translationInfo">+</button></div>'+
- lockedCard()
+ const first=D.items?.[0]||{}, total=daysBetween(D.trip.start_date,D.trip.end_date);
+ $('#home').innerHTML=`<div class="hero"><img src="${esc(hero())}" alt=""><div class="heroCopy"><small>${esc(T.preview)}</small><h1>${esc(D.trip.destination)}</h1><p>${esc(T.personal)}</p><div class="chips"><span class="chip">${fmtDate(D.day.trip_date)}</span><span class="chip">${total} ${esc(T.day.toLowerCase())}</span><span class="chip">24H Preview</span></div></div></div>
+ <div class="sectionHead"><h2>${esc(T.next)}</h2><small>${esc(D.day.title||'')}</small></div>
+ <div class="card next"><div class="nextRow"><div class="timebox">${esc((first.start_time||'').slice(0,5)||'—')}</div><div><strong>${esc(first.title||D.day.title)}</strong><small>${esc(first.place?.name||first.description||'')}</small></div><button class="mini" onclick="go('itinerary')">${esc(T.view)}</button></div></div>
+ <div class="quick"><button class="q" onclick="go('itinerary')"><b>≡</b><span>${esc(T.trip)}</span></button><button class="q" onclick="window.open(allMaps(),'_blank')"><b>⌖</b><span>${esc(T.map)}</span></button><button class="q" onclick="go('places')"><b>♡</b><span>${esc(T.places)}</span></button></div>
+ <div class="card previewBanner"><strong>NAVIGAM Preview</strong><p>${esc(T.fullText)}</p></div>`}
 }
+function tabs(){const n=daysBetween(D.trip.start_date,D.trip.end_date);let out='<div class="daytabs"><button class="daytab active">'+esc(T.day)+' 1</button>';for(let i=2;i<=Math.min(n,7);i++)out+='<button class="daytab locked" type="button">'+esc(T.lockedTab)+' '+esc(T.day)+' '+i+'</button>';return out+'</div>'}
 function renderItinerary(){
- const h=hero(),n=dayCount(),tabs=Array.from({length:n},(_,i)=>'<button class="daytab '+(i===0?'active':'locked')+'" data-day="'+(i+1)+'">'+(i===0?'': '🔒 ')+esc(T.day)+' '+(i+1)+'</button>').join('');
- const events=D.items.map((x,i)=>'<div class="event"><div class="event-time">'+esc(String(x.start_time||'').slice(0,5)||'—')+'</div><div class="dot"></div><div class="event-body"><strong>'+esc(x.title)+'</strong><small>'+esc(x.description||'')+'</small></div><button class="navmini" data-map="'+i+'">G</button></div>').join('');
- return '<div class="screen-title">'+esc(T.trip)+'</div><div class="trip-head"><div class="topline"><div><h2>'+esc(D.trip.destination)+'</h2><p>'+fmtDate(D.trip.start_date)+' — '+fmtDate(D.trip.end_date)+'</p></div><span class="tag">1 / '+n+'</span></div><div class="trip-cover">'+(h?'<img src="'+esc(h)+'" alt="" referrerpolicy="no-referrer">':'')+'</div></div><div class="daytabs">'+tabs+'</div><div class="day-heading"><h3>'+esc(D.day.title||T.day+' 1')+'</h3><span>'+fmtDate(D.day.trip_date)+'</span></div><div class="timeline">'+events+'</div>'+lockedCard()
+ const items=D.items||[];
+ $('#itinerary').innerHTML=`<div class="screenTitle">${esc(T.trip)}</div><div class="tripHead"><h2>${esc(D.trip.destination)}</h2><p>${esc(D.day.title||'')}</p><div class="tripCover"><img src="${esc(hero())}" alt=""></div></div>${tabs()}
+ <div class="timeline">${items.map(x=>`<div class="event"><div class="etime">${esc((x.start_time||'').slice(0,5)||'—')}</div><div class="dot"></div><div class="ebody"><strong>${esc(x.title)}</strong><small>${esc(x.description||'')}</small></div><button class="navbtn" onclick="window.open('${esc(mapsUrl(x))}','_blank')">⌖</button></div>`).join('')}</div>
+ <div class="routeCard"><h3>${esc(T.route)}</h3><p>${esc(D.day.summary||'')}</p><div class="routeBtns"><a target="_blank" rel="noopener" href="${esc(allMaps())}">${esc(T.allMaps)}</a><a target="_blank" rel="noopener" href="${esc(items[0]?wazeUrl(items[0]):'#')}">${esc(T.firstWaze)}</a></div></div>
+ <div class="lockedBox"><b>🔒</b><h3>${esc(T.fullTitle)}</h3><p>${esc(T.fullText)}</p></div>`}
 }
 function renderPlaces(){
- const cats=['all',...new Set(D.items.filter(x=>x.place).map(cat))];
- if(!cats.includes(filter))filter='all';
- const tabs=cats.map(k=>'<button class="tab '+(k===filter?'active':'')+'" data-filter="'+k+'">'+esc(k==='all'?T.all:catLabel(k))+'</button>').join('');
- const list=D.items.filter(x=>x.place&&(filter==='all'||cat(x)===filter));
- const cards=list.map((x,i)=>'<article class="card place"><div class="thumb">'+(x.place?.preview_image_url?'<img src="'+esc(x.place.preview_image_url)+'" alt="'+esc(x.place.name||x.title)+'" loading="lazy" referrerpolicy="no-referrer">':'<div class="thumb fallback">'+catIcon(cat(x))+'</div>')+'</div><div><span class="tag">'+esc(catLabel(cat(x)))+'</span><h3>'+esc(x.place?.name||x.title)+'</h3><p>'+esc(x.description||'')+'</p><div class="place-actions"><a class="btn ghost" target="_blank" rel="noopener" href="'+mapsUrl(qOf(x))+'">Google Maps</a><a class="btn soft" target="_blank" rel="noopener" href="'+wazeUrl(qOf(x))+'">Waze</a></div></div><button class="heart '+(favorites.has(x.id)?'saved':'')+'" data-fav="'+esc(x.id)+'">'+(favorites.has(x.id)?'♥':'♡')+'</button></article>').join('');
- return '<div class="screen-title">'+esc(T.nearby)+'</div><div class="filter-tabs">'+tabs+'</div><div class="cards">'+(cards||'<div class="card empty"><b>◎</b><h3>'+esc(T.nearby)+'</h3></div>')+'</div>'+lockedCard()
+ const items=(D.items||[]).filter(x=>x.place);
+ $('#places').innerHTML=`<div class="screenTitle">${esc(T.spots)}</div><div class="placeList">${items.map(x=>`<div class="card place"><div class="thumb"><img src="${esc(imgFor(x))}" alt=""><span class="atmo">${esc(x.place?.metadata?.image_url?'NAVIGAM':T.atmo)}</span></div><div><h3>${esc(x.place?.name||x.title)}</h3><p>${esc(x.description||'')}</p><span class="tag">${esc(x.place?.category||x.item_type||'')}</span></div><button class="go" onclick="window.open('${esc(mapsUrl(x))}','_blank')">⌖</button></div>`).join('')}</div>`}
 }
-function renderRoute(){
- const pts=D.items.slice(0,7),pins=pts.map((x,i)=>{const pos=[['16%','23%'],['48%','36%'],['74%','21%'],['30%','60%'],['66%','67%'],['83%','49%'],['51%','80%']][i];return '<div class="map-pin" style="left:'+pos[0]+';top:'+pos[1]+'"><span>'+(i+1)+'</span></div>'}).join('');
- const rows=D.items.map((x,i)=>'<div class="point-row"><div class="point-time">'+esc(String(x.start_time||'').slice(0,5)||'—')+'</div><div><strong>'+(i+1)+'. '+esc(x.place?.name||x.title)+'</strong><small>'+esc(x.description||'')+'</small></div><a class="btn soft" target="_blank" rel="noopener" href="'+mapsUrl(qOf(x))+'">G</a></div>').join('');
- return '<div class="screen-title">'+esc(T.route)+'</div><div class="card route-card"><h3>'+esc(D.day.title||D.trip.destination)+'</h3><p>'+fmtDate(D.day.trip_date)+' · '+D.items.length+' '+esc(T.nearby)+'</p><div class="route-actions"><a class="google" target="_blank" rel="noopener" href="'+fullRouteUrl()+'">'+esc(T.routeAll)+'</a><a class="waze" target="_blank" rel="noopener" href="'+wazeUrl(qOf(D.items[0]||{}))+'">'+esc(T.waze)+'</a></div></div><div class="map-visual">'+pins+'</div><div class="point-list">'+rows+'</div>'+lockedCard()
+function renderInfo(){
+ $('#info').innerHTML=`<div class="screenTitle">${esc(T.info)}</div><div class="infoGrid">
+ <div class="card info"><div class="ico">◷</div><div><strong>${esc(T.expires)}</strong><p>${esc(fmtExpiry(D.expires_at))}</p></div></div>
+ <div class="card info"><div class="ico">1</div><div><strong>${esc(T.info1)}</strong><p>${esc(D.day.title||'')}</p></div></div>
+ <div class="card info"><div class="ico">✓</div><div><strong>${esc(T.info2)}</strong><p>${esc(T.around)}</p></div></div>
+ <div class="card info"><div class="ico">◎</div><div><strong>${esc(T.info3)}</strong><p>NAVIGAM + Avia</p></div></div></div>
+ <div class="lockedBox"><b>🔒</b><h3>${esc(T.fullTitle)}</h3><p>${esc(T.fullText)}</p></div>`}
 }
-function renderFavorites(){
- const list=D.items.filter(x=>favorites.has(x.id));
- if(!list.length)return '<div class="screen-title">'+esc(T.saved)+'</div><div class="card empty"><b>♡</b><h3>'+esc(T.saved)+'</h3><p>'+esc(T.none)+'</p></div>'+lockedCard();
- return '<div class="screen-title">'+esc(T.saved)+'</div><div class="cards">'+list.map(x=>'<article class="card place"><div class="thumb">'+(x.place?.preview_image_url?'<img src="'+esc(x.place.preview_image_url)+'" alt="" referrerpolicy="no-referrer">':'<div class="thumb fallback">'+catIcon(cat(x))+'</div>')+'</div><div><h3>'+esc(x.place?.name||x.title)+'</h3><p>'+esc(x.description||'')+'</p><div class="place-actions"><a class="btn ghost" target="_blank" rel="noopener" href="'+mapsUrl(qOf(x))+'">Google Maps</a></div></div><button class="heart saved" data-fav="'+esc(x.id)+'">♥</button></article>').join('')+'</div>'+lockedCard()
-}
-function render(){
- const m=$('#main');m.scrollTop=0;
- m.innerHTML=routeName==='itinerary'?renderItinerary():routeName==='places'?renderPlaces():routeName==='route'?renderRoute():routeName==='favorites'?renderFavorites():renderHome();
- wire()
-}
-function wire(){
- document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>{const v=b.dataset.go;if(v.startsWith('places-')){filter=v.split('-')[1];setRoute('places')}else setRoute(v)});
- document.querySelectorAll('[data-filter]').forEach(b=>b.onclick=()=>{filter=b.dataset.filter;render()});
- document.querySelectorAll('[data-fav]').forEach(b=>b.onclick=()=>toggleFav(b.dataset.fav));
- document.querySelectorAll('[data-map]').forEach(b=>b.onclick=()=>window.open(mapsUrl(qOf(D.items[Number(b.dataset.map)])),'_blank','noopener'));
- document.querySelectorAll('[data-day]').forEach(b=>b.onclick=()=>{if(Number(b.dataset.day)>1)lockDay(Number(b.dataset.day))});
- const fn=$('#firstNav');if(fn)fn.onclick=()=>window.open(mapsUrl(qOf(D.items[0]||{})),'_blank','noopener');
- const ti=$('#translationInfo');if(ti)ti.onclick=()=>openSheet(T.translation,'<p>'+esc(T.translationText)+'</p><a class="btn primary full" href="'+waUrl()+'">'+esc(T.full)+'</a>')
-}
-function init(){
- L=lang();T=copy[L]||copy.he;document.documentElement.lang=L;document.documentElement.dir=T.dir;
- $('#navHome').textContent=T.home;$('#navTrip').textContent=T.trip;$('#navMap').textContent=T.map;$('#navFav').textContent=T.fav;
- $('#welcomeTitle').innerHTML=esc(T.headline1)+'<em>'+esc(T.headline2)+'</em>';
- $('#welcomeText').textContent=T.welcome;$('#splashDate').textContent=fmtDate(D.trip.start_date);$('#splashExpiry').textContent=T.expires+' '+fmtExpiry(D.expires_at);
- $('#startBtn span').textContent=T.start;const h=hero();if(h){$('#splashImage').src=h}else{$('#splashImage').style.display='none'}
- $('#startBtn').onclick=()=>{$('#splash').classList.remove('active');$('#live').classList.add('active');render()};
- document.querySelectorAll('.nav[data-route]').forEach(b=>b.onclick=()=>setRoute(b.dataset.route));
- $('#aviaBtn').onclick=()=>openSheet(T.aviaTitle,'<p>'+esc(T.aviaText)+'</p><a class="btn primary full" href="'+waUrl()+'">'+esc(T.full)+'</a>');
- $('#profileBtn').onclick=()=>openSheet(T.info,'<p>'+esc(T.infoText)+'</p><p><b>'+esc(D.trip.destination)+'</b><br>'+fmtDate(D.trip.start_date)+' — '+fmtDate(D.trip.end_date)+'</p>');
- $('#shareBtn').onclick=async()=>{try{if(navigator.share)await navigator.share({title:'NAVIGAM Preview',url:location.href});else await navigator.clipboard.writeText(location.href)}catch{}};
- $('#sheetback').onclick=e=>{if(e.target.id==='sheetback')closeSheet()};
- $('#loading').classList.add('hide');$('#app').hidden=false
-}
+function render(){renderHome();renderItinerary();renderPlaces();renderInfo()}
+function go(r){route=r;$$('.screen').forEach(x=>x.classList.toggle('active',x.dataset.screen===r));$$('.nav[data-route]').forEach(x=>x.classList.toggle('active',x.dataset.route===r));$('.main').scrollTop=0}
 async function load(){
- const token=new URLSearchParams(location.search).get('token');if(!token)throw new Error('missing');
- const r=await fetch(API+'?token='+encodeURIComponent(token),{cache:'no-store'});if(!r.ok)throw new Error('bad');
- D=await r.json();init()
+ const token=new URLSearchParams(location.search).get('token');if(!token)throw Error('missing');
+ const r=await fetch(API+'?token='+encodeURIComponent(token),{cache:'no-store'});if(!r.ok)throw Error('expired');
+ D=await r.json();L=D.language||'he';T=C[L]||C.he;setChrome();render();
+ $('#splashImage').src=hero();$('#splashTitle').textContent=D.trip.destination;$('#splashBadge').textContent='NAVIGAM PREVIEW · '+fmtDate(D.day.trip_date);
+ $('#loading').classList.add('hide');$('#splash').classList.add('active');
 }
-load().catch(()=>{$('#loading').innerHTML='<div class="loader"><img src="/assets/navigam/logo.png" alt="NAVIGAM"><span>Preview unavailable or expired</span></div>'});
+$('#startBtn').onclick=()=>{$('#splash').classList.remove('active');$('#live').classList.add('active');go('home')};
+$$('.nav[data-route]').forEach(b=>b.onclick=()=>go(b.dataset.route));$('#homeBtn').onclick=()=>go('home');$('#backBtn').onclick=()=>history.length>1?history.back():go('home');
+$('#aviaBtn').onclick=()=>$('#sheetBack').classList.add('show');$('#closeSheet').onclick=()=>$('#sheetBack').classList.remove('show');$('#sheetBack').onclick=e=>{if(e.target===$('#sheetBack'))$('#sheetBack').classList.remove('show')};
+load().catch(()=>{$('#loading').innerHTML='<div class="error"><img src="/assets/navigam/logo.png" style="width:140px"><h2>NAVIGAM Preview</h2><p>This preview link is unavailable or has expired.</p></div>'});
 </script>
 </body>
 </html>
