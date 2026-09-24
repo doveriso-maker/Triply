@@ -15,7 +15,7 @@
 .splashCard{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;text-align:center;height:100%;padding:calc(42px + var(--safeT)) 22px calc(30px + var(--safeB))}
 .splashLogo{width:150px;height:92px;object-fit:contain}.splashTrip{font-size:13px;font-weight:800;color:#0b7287;background:rgba(255,255,255,.62);border:1px solid rgba(255,255,255,.9);padding:8px 12px;border-radius:999px;margin-top:6px}
 .splashVisual{position:relative;width:min(92vw,430px);height:38vh;min-height:240px;max-height:360px;margin:24px 0 20px;border-radius:34px;overflow:hidden;box-shadow:0 28px 60px rgba(7,54,75,.20);background:linear-gradient(145deg,#0b6c86,#0cd6e8)}
-.splashVisual img{width:100%;height:100%;object-fit:cover;display:block}.splashVisual:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(4,39,56,.72),rgba(4,39,56,.05) 62%)}
+.splashVisual img{width:100%;height:100%;object-fit:cover;display:block}.splashVisual.noimage{height:180px;min-height:180px}.splashVisual:after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(4,39,56,.72),rgba(4,39,56,.05) 62%)}
 .splashCopy{position:absolute;z-index:2;inset:auto 20px 19px;color:#fff;text-align:start}.splashCopy small{font-size:11px;font-weight:900;letter-spacing:.08em}.splashCopy h1{margin:6px 0 0;font-size:32px;line-height:1.06}
 .start{margin-top:auto;width:min(100%,430px);border:0;border-radius:999px;min-height:58px;background:linear-gradient(100deg,var(--cyan),var(--cyan2));color:#043248;font-weight:900;font-size:18px;box-shadow:0 12px 28px rgba(8,149,169,.22)}
 #live{background:linear-gradient(180deg,#d8f4fb 0,#f8fcfe 135px,#f6fafc 100%)}.appbar{height:calc(72px + var(--safeT));padding:var(--safeT) 14px 0;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}.round{width:42px;height:42px;border:1px solid rgba(255,255,255,.95);background:rgba(255,255,255,.75);border-radius:50%;display:grid;place-items:center;color:var(--navy);font-weight:900}.brandLogo{width:106px;height:62px;object-fit:contain}
@@ -140,7 +140,7 @@ async function load(){
  try{
    D=await fetchPreview(token||code,token?'token':'code');
    L=D.language||'he';T=C[L]||C.he;setChrome();
-   if(splashImage()){$('#splashImage').src=splashImage();$('#splashImage').onerror=()=>{$('#splashImage').style.display='none'}}else{$('#splashImage').style.display='none'}
+   if(splashImage()){$('#splashImage').src=splashImage();$('#splashImage').onerror=()=>{$('#splashImage').style.display='none';$('#splashImage').parentElement.classList.add('noimage')}}else{$('#splashImage').style.display='none'}
    $('#splashTitle').textContent=D.trip.destination;$('#splashBadge').textContent='NAVIGAM PREVIEW · '+fmtDate(D.day.trip_date);
    render();
    const b=$('#startBtn');b.disabled=false;b.style.opacity='1';b.textContent=T.start;
