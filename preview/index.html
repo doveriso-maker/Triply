@@ -143,8 +143,9 @@ async function load(){
    if(splashImage()){$('#splashImage').src=splashImage();$('#splashImage').onerror=()=>{$('#splashImage').style.display='none';$('#splashImage').parentElement.classList.add('noimage')}}else{$('#splashImage').style.display='none'}
    $('#splashTitle').textContent=D.trip.destination;$('#splashBadge').textContent='NAVIGAM PREVIEW · '+fmtDate(D.day.trip_date);
    render();
-   const b=$('#startBtn');b.disabled=false;b.style.opacity='1';b.textContent=T.start;
-   b.onclick=()=>{$('#splash').classList.remove('active');$('#live').classList.add('active');go('home')};
+   const enter=()=>{$('#splash').classList.remove('active');$('#live').classList.add('active');go('home')};
+   const b=$('#startBtn');b.disabled=false;b.style.opacity='1';b.textContent=T.start;b.onclick=enter;
+   setTimeout(()=>{if($('#splash').classList.contains('active'))enter()},1200);
  }catch(e){
    console.error('NAVIGAM preview load failed',e);
    showLoadError();
