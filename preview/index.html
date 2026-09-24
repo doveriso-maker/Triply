@@ -85,8 +85,8 @@ const C={
 };
 let D=null,L='he',T=C.he,route='home';
 function daysBetween(a,b){const x=new Date(a+'T12:00:00Z'),y=new Date(b+'T12:00:00Z');return Math.max(1,Math.round((y-x)/86400000)+1)}
-function imgFor(x){return x?.place?.metadata?.image_url||FALLBACK[String(x?.item_type||'').toLowerCase()]||FALLBACK.activity}
-function hero(){return D?.trip?.preferences?.hero_image||imgFor(D?.items?.[0])||FALLBACK.city}
+function imgFor(x){return x?.place?.preview_image_url||x?.place?.metadata?.preview_image_url||x?.place?.metadata?.image_url||null}
+function hero(){return D?.trip?.hero_image_url||D?.trip?.preferences?.hero_image||null}
 function mapsUrl(x){return x?.place?.google_maps_url||('https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(x?.place?.address||x?.place?.name||x?.title||D.trip.destination))}
 function wazeUrl(x){return 'https://www.waze.com/ul?q='+encodeURIComponent(x?.place?.address||x?.place?.name||x?.title||D.trip.destination)+'&navigate=yes'}
 function allMaps(){const a=D.items||[];if(!a.length)return '#';const qs=a.map(x=>x.place?.address||x.place?.name||x.title).filter(Boolean);const u=new URL('https://www.google.com/maps/dir/');u.searchParams.set('api','1');u.searchParams.set('origin',qs[0]);u.searchParams.set('destination',qs[qs.length-1]);if(qs.length>2)u.searchParams.set('waypoints',qs.slice(1,-1).join('|'));return u.toString()}
@@ -104,14 +104,14 @@ function renderHome(){
 function tabs(){const n=daysBetween(D.trip.start_date,D.trip.end_date);let out='<div class="daytabs"><button class="daytab active">'+esc(T.day)+' 1</button>';for(let i=2;i<=Math.min(n,7);i++)out+='<button class="daytab locked" type="button">'+esc(T.lockedTab)+' '+esc(T.day)+' '+i+'</button>';return out+'</div>'}
 function renderItinerary(){
  const items=D.items||[];
- $('#itinerary').innerHTML=`<div class="screenTitle">${esc(T.trip)}</div><div class="tripHead"><h2>${esc(D.trip.destination)}</h2><p>${esc(D.day.title||'')}</p><div class="tripCover"><img src="${esc(hero())}" alt=""></div></div>${tabs()}
+ $('#itinerary').innerHTML=`<div class="screenTitle">${esc(T.trip)}</div><div class="tripHead"><h2>${esc(D.trip.destination)}</h2><p>${esc(D.day.title||'')}</p>${hero()?`<div class="tripCover"><img src="${esc(hero())}" alt=""></div>`:''}</div>${tabs()}
  <div class="timeline">${items.map(x=>`<div class="event"><div class="etime">${esc((x.start_time||'').slice(0,5)||'—')}</div><div class="dot"></div><div class="ebody"><strong>${esc(x.title)}</strong><small>${esc(x.description||'')}</small></div><button class="navbtn" onclick="window.open('${esc(mapsUrl(x))}','_blank')">⌖</button></div>`).join('')}</div>
  <div class="routeCard"><h3>${esc(T.route)}</h3><p>${esc(D.day.summary||'')}</p><div class="routeBtns"><a target="_blank" rel="noopener" href="${esc(allMaps())}">${esc(T.allMaps)}</a><a target="_blank" rel="noopener" href="${esc(items[0]?wazeUrl(items[0]):'#')}">${esc(T.firstWaze)}</a></div></div>
  <div class="lockedBox"><b>🔒</b><h3>${esc(T.fullTitle)}</h3><p>${esc(T.fullText)}</p></div>`;
 }
 function renderPlaces(){
  const items=(D.items||[]).filter(x=>x.place);
- $('#places').innerHTML=`<div class="screenTitle">${esc(T.spots)}</div><div class="placeList">${items.map(x=>`<div class="card place"><div class="thumb"><img src="${esc(imgFor(x))}" alt=""><span class="atmo">${esc(x.place?.metadata?.image_url?'NAVIGAM':T.atmo)}</span></div><div><h3>${esc(x.place?.name||x.title)}</h3><p>${esc(x.description||'')}</p><span class="tag">${esc(x.place?.category||x.item_type||'')}</span></div><button class="go" onclick="window.open('${esc(mapsUrl(x))}','_blank')">⌖</button></div>`).join('')}</div>`;
+ $('#places').innerHTML=`<div class="screenTitle">${esc(T.spots)}</div><div class="placeList">${items.map(x=>`<div class="card place">${imgFor(x)?`<div class="thumb"><img src="${esc(imgFor(x))}" alt=""><span class="atmo">NAVIGAM</span></div>`:'' }<div><h3>${esc(x.place?.name||x.title)}</h3><p>${esc(x.description||'')}</p><span class="tag">${esc(x.place?.category||x.item_type||'')}</span></div><button class="go" onclick="window.open('${esc(mapsUrl(x))}','_blank')">⌖</button></div>`).join('')}</div>`;
 }
 function renderInfo(){
  $('#info').innerHTML=`<div class="screenTitle">${esc(T.info)}</div><div class="infoGrid">
@@ -148,7 +148,7 @@ async function load(){
  try{
    D=await fetchPreview(token||code,token?'token':'code');
    L=D.language||'he';T=C[L]||C.he;setChrome();
-   $('#splashImage').src=hero();$('#splashImage').onerror=()=>{$('#splashImage').src=FALLBACK.city};
+   if(hero()){$('#splashImage').src=hero();$('#splashImage').onerror=()=>{$('#splashImage').style.display='none'}}else{$('#splashImage').style.display='none'}
    $('#splashTitle').textContent=D.trip.destination;$('#splashBadge').textContent='NAVIGAM PREVIEW · '+fmtDate(D.day.trip_date);
    render();
    const b=$('#startBtn');b.disabled=false;b.style.opacity='1';b.textContent=T.start;
