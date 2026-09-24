@@ -115,7 +115,7 @@ function renderPlaces(){
 }
 function renderInfo(){
  $('#info').innerHTML=`<div class="screenTitle">${esc(T.info)}</div><div class="infoGrid">
- <div class="card info"><div class="ico">◷</div><div><strong>${esc(T.expires)}</strong><p>${esc(fmtExpiry(D.expires_at))}</p></div></div>
+ <div class="card info"><div class="ico">◷</div><div><strong>${esc(T.expires)}</strong><p>${esc(D.expires_at?fmtExpiry(D.expires_at):(L==='ru'?'24 часа начнутся после отправки клиенту':L==='ar'?'تبدأ الـ24 ساعة بعد إرسال الرابط للعميل':'24 השעות יתחילו מרגע שליחת הקישור ללקוח'))}</p></div></div>
  <div class="card info"><div class="ico">1</div><div><strong>${esc(T.info1)}</strong><p>${esc(D.day.title||'')}</p></div></div>
  <div class="card info"><div class="ico">✓</div><div><strong>${esc(T.info2)}</strong><p>${esc(T.around)}</p></div></div>
  <div class="card info"><div class="ico">◎</div><div><strong>${esc(T.info3)}</strong><p>NAVIGAM + Avia</p></div></div></div>
@@ -123,14 +123,14 @@ function renderInfo(){
 }
 function render(){renderHome();renderItinerary();renderPlaces();renderInfo()}
 function go(r){route=r;$$('.screen').forEach(x=>x.classList.toggle('active',x.dataset.screen===r));$$('.nav[data-route]').forEach(x=>x.classList.toggle('active',x.dataset.route===r));$('.main').scrollTop=0}
-async function fetchPreview(token,attempt=1){
+async function fetchPreview(linkValue,kind='token',attempt=1){
  const ctl=new AbortController();const timer=setTimeout(()=>ctl.abort(),9000);
  try{
-   const r=await fetch(API+'?token='+encodeURIComponent(token),{cache:'no-store',signal:ctl.signal});
+   const r=await fetch(API+'?'+kind+'='+encodeURIComponent(linkValue),{cache:'no-store',signal:ctl.signal});
    if(!r.ok)throw Error(r.status===401?'expired':'http_'+r.status);
    return await r.json();
  }catch(e){
-   if(attempt<2){await new Promise(res=>setTimeout(res,650));return fetchPreview(token,attempt+1)}
+   if(attempt<2){await new Promise(res=>setTimeout(res,650));return fetchPreview(linkValue,kind,attempt+1)}
    throw e;
  }finally{clearTimeout(timer)}
 }
@@ -140,10 +140,12 @@ function showLoadError(){
  b.onclick=()=>{b.disabled=true;b.style.opacity='.65';b.textContent='NAVIGAM Preview…';load()};
 }
 async function load(){
- const token=new URLSearchParams(location.search).get('token');
- if(!token){showLoadError();return}
+ const params=new URLSearchParams(location.search);
+ const token=params.get('token');
+ const code=params.get('code');
+ if(!token&&!code){showLoadError();return}
  try{
-   D=await fetchPreview(token);
+   D=await fetchPreview(token||code,token?'token':'code');
    L=D.language||'he';T=C[L]||C.he;setChrome();
    $('#splashImage').src=hero();$('#splashImage').onerror=()=>{$('#splashImage').src=FALLBACK.city};
    $('#splashTitle').textContent=D.trip.destination;$('#splashBadge').textContent='NAVIGAM PREVIEW · '+fmtDate(D.day.trip_date);
