@@ -99,7 +99,7 @@ function renderHome(){
  <div class="sectionHead"><h2>${esc(T.next)}</h2><small>${esc(D.day.title||'')}</small></div>
  <div class="card next"><div class="nextRow"><div class="timebox">${esc((first.start_time||'').slice(0,5)||'—')}</div><div><strong>${esc(first.title||D.day.title)}</strong><small>${esc(first.place?.name||first.description||'')}</small></div><button class="mini" onclick="go('itinerary')">${esc(T.view)}</button></div></div>
  <div class="quick"><button class="q" onclick="go('itinerary')"><b>≡</b><span>${esc(T.trip)}</span></button><button class="q" onclick="window.open(allMaps(),'_blank')"><b>⌖</b><span>${esc(T.map)}</span></button><button class="q" onclick="go('places')"><b>♡</b><span>${esc(T.places)}</span></button></div>
- <div class="card previewBanner"><strong>NAVIGAM Preview</strong><p>${esc(T.fullText)}</p></div>`}
+ <div class="card previewBanner"><strong>NAVIGAM Preview</strong><p>${esc(T.fullText)}</p></div>`;
 }
 function tabs(){const n=daysBetween(D.trip.start_date,D.trip.end_date);let out='<div class="daytabs"><button class="daytab active">'+esc(T.day)+' 1</button>';for(let i=2;i<=Math.min(n,7);i++)out+='<button class="daytab locked" type="button">'+esc(T.lockedTab)+' '+esc(T.day)+' '+i+'</button>';return out+'</div>'}
 function renderItinerary(){
@@ -107,11 +107,11 @@ function renderItinerary(){
  $('#itinerary').innerHTML=`<div class="screenTitle">${esc(T.trip)}</div><div class="tripHead"><h2>${esc(D.trip.destination)}</h2><p>${esc(D.day.title||'')}</p><div class="tripCover"><img src="${esc(hero())}" alt=""></div></div>${tabs()}
  <div class="timeline">${items.map(x=>`<div class="event"><div class="etime">${esc((x.start_time||'').slice(0,5)||'—')}</div><div class="dot"></div><div class="ebody"><strong>${esc(x.title)}</strong><small>${esc(x.description||'')}</small></div><button class="navbtn" onclick="window.open('${esc(mapsUrl(x))}','_blank')">⌖</button></div>`).join('')}</div>
  <div class="routeCard"><h3>${esc(T.route)}</h3><p>${esc(D.day.summary||'')}</p><div class="routeBtns"><a target="_blank" rel="noopener" href="${esc(allMaps())}">${esc(T.allMaps)}</a><a target="_blank" rel="noopener" href="${esc(items[0]?wazeUrl(items[0]):'#')}">${esc(T.firstWaze)}</a></div></div>
- <div class="lockedBox"><b>🔒</b><h3>${esc(T.fullTitle)}</h3><p>${esc(T.fullText)}</p></div>`}
+ <div class="lockedBox"><b>🔒</b><h3>${esc(T.fullTitle)}</h3><p>${esc(T.fullText)}</p></div>`;
 }
 function renderPlaces(){
  const items=(D.items||[]).filter(x=>x.place);
- $('#places').innerHTML=`<div class="screenTitle">${esc(T.spots)}</div><div class="placeList">${items.map(x=>`<div class="card place"><div class="thumb"><img src="${esc(imgFor(x))}" alt=""><span class="atmo">${esc(x.place?.metadata?.image_url?'NAVIGAM':T.atmo)}</span></div><div><h3>${esc(x.place?.name||x.title)}</h3><p>${esc(x.description||'')}</p><span class="tag">${esc(x.place?.category||x.item_type||'')}</span></div><button class="go" onclick="window.open('${esc(mapsUrl(x))}','_blank')">⌖</button></div>`).join('')}</div>`}
+ $('#places').innerHTML=`<div class="screenTitle">${esc(T.spots)}</div><div class="placeList">${items.map(x=>`<div class="card place"><div class="thumb"><img src="${esc(imgFor(x))}" alt=""><span class="atmo">${esc(x.place?.metadata?.image_url?'NAVIGAM':T.atmo)}</span></div><div><h3>${esc(x.place?.name||x.title)}</h3><p>${esc(x.description||'')}</p><span class="tag">${esc(x.place?.category||x.item_type||'')}</span></div><button class="go" onclick="window.open('${esc(mapsUrl(x))}','_blank')">⌖</button></div>`).join('')}</div>`;
 }
 function renderInfo(){
  $('#info').innerHTML=`<div class="screenTitle">${esc(T.info)}</div><div class="infoGrid">
@@ -119,7 +119,7 @@ function renderInfo(){
  <div class="card info"><div class="ico">1</div><div><strong>${esc(T.info1)}</strong><p>${esc(D.day.title||'')}</p></div></div>
  <div class="card info"><div class="ico">✓</div><div><strong>${esc(T.info2)}</strong><p>${esc(T.around)}</p></div></div>
  <div class="card info"><div class="ico">◎</div><div><strong>${esc(T.info3)}</strong><p>NAVIGAM + Avia</p></div></div></div>
- <div class="lockedBox"><b>🔒</b><h3>${esc(T.fullTitle)}</h3><p>${esc(T.fullText)}</p></div>`}
+ <div class="lockedBox"><b>🔒</b><h3>${esc(T.fullTitle)}</h3><p>${esc(T.fullText)}</p></div>`;
 }
 function render(){renderHome();renderItinerary();renderPlaces();renderInfo()}
 function go(r){route=r;$$('.screen').forEach(x=>x.classList.toggle('active',x.dataset.screen===r));$$('.nav[data-route]').forEach(x=>x.classList.toggle('active',x.dataset.route===r));$('.main').scrollTop=0}
