@@ -37,15 +37,15 @@
 </style>
 </head>
 <body>
-<div class="loading" id="loading">NAVIGAM Preview…</div>
+<div class="loading hide" id="loading">NAVIGAM Preview…</div>
 <div id="app">
-<section id="splash" class="view">
+<section id="splash" class="view active">
   <div class="splashGlow"></div>
   <div class="splashCard">
     <img class="splashLogo" src="/assets/navigam/logo.png" alt="NAVIGAM">
     <div class="splashTrip" id="splashBadge">PREVIEW · 24H</div>
     <div class="splashVisual"><img id="splashImage" alt=""><div class="splashCopy"><small>NAVIGAM PREVIEW</small><h1 id="splashTitle">Your trip. Personally navigated.</h1></div></div>
-    <button class="start" id="startBtn">Start Preview</button>
+    <button class="start" id="startBtn" disabled style="opacity:.65">NAVIGAM Preview…</button>
   </div>
 </section>
 <section id="live" class="view">
@@ -123,14 +123,40 @@ function renderInfo(){
 }
 function render(){renderHome();renderItinerary();renderPlaces();renderInfo()}
 function go(r){route=r;$$('.screen').forEach(x=>x.classList.toggle('active',x.dataset.screen===r));$$('.nav[data-route]').forEach(x=>x.classList.toggle('active',x.dataset.route===r));$('.main').scrollTop=0}
-async function load(){
- const token=new URLSearchParams(location.search).get('token');if(!token)throw Error('missing');
- const r=await fetch(API+'?token='+encodeURIComponent(token),{cache:'no-store'});if(!r.ok)throw Error('expired');
- D=await r.json();L=D.language||'he';T=C[L]||C.he;setChrome();render();
- $('#splashImage').src=hero();$('#splashTitle').textContent=D.trip.destination;$('#splashBadge').textContent='NAVIGAM PREVIEW · '+fmtDate(D.day.trip_date);
- $('#loading').classList.add('hide');$('#splash').classList.add('active');
+async function fetchPreview(token,attempt=1){
+ const ctl=new AbortController();const timer=setTimeout(()=>ctl.abort(),9000);
+ try{
+   const r=await fetch(API+'?token='+encodeURIComponent(token),{cache:'no-store',signal:ctl.signal});
+   if(!r.ok)throw Error(r.status===401?'expired':'http_'+r.status);
+   return await r.json();
+ }catch(e){
+   if(attempt<2){await new Promise(res=>setTimeout(res,650));return fetchPreview(token,attempt+1)}
+   throw e;
+ }finally{clearTimeout(timer)}
 }
-$('#startBtn').onclick=()=>{$('#splash').classList.remove('active');$('#live').classList.add('active');go('home')};
+function showLoadError(){
+ const b=$('#startBtn');b.disabled=false;b.style.opacity='1';b.textContent=L==='ru'?'Повторить загрузку':L==='ar'?'إعادة المحاولة':'נסה שוב';
+ $('#splashTitle').textContent=L==='ru'?'Не удалось загрузить Preview':L==='ar'?'تعذر تحميل الـ Preview':'לא הצלחנו לטעון את ה־Preview';
+ b.onclick=()=>{b.disabled=true;b.style.opacity='.65';b.textContent='NAVIGAM Preview…';load()};
+}
+async function load(){
+ const token=new URLSearchParams(location.search).get('token');
+ if(!token){showLoadError();return}
+ try{
+   D=await fetchPreview(token);
+   L=D.language||'he';T=C[L]||C.he;setChrome();
+   $('#splashImage').src=hero();$('#splashImage').onerror=()=>{$('#splashImage').src=FALLBACK.city};
+   $('#splashTitle').textContent=D.trip.destination;$('#splashBadge').textContent='NAVIGAM PREVIEW · '+fmtDate(D.day.trip_date);
+   render();
+   const b=$('#startBtn');b.disabled=false;b.style.opacity='1';b.textContent=T.start;
+   b.onclick=()=>{$('#splash').classList.remove('active');$('#live').classList.add('active');go('home')};
+ }catch(e){
+   console.error('NAVIGAM preview load failed',e);
+   showLoadError();
+ }
+}
+window.addEventListener('error',e=>{console.error('NAVIGAM runtime error',e.error||e.message)});
+
 $$('.nav[data-route]').forEach(b=>b.onclick=()=>go(b.dataset.route));$('#homeBtn').onclick=()=>go('home');$('#backBtn').onclick=()=>history.length>1?history.back():go('home');
 $('#aviaBtn').onclick=()=>$('#sheetBack').classList.add('show');$('#closeSheet').onclick=()=>$('#sheetBack').classList.remove('show');$('#sheetBack').onclick=e=>{if(e.target===$('#sheetBack'))$('#sheetBack').classList.remove('show')};
 load().catch(()=>{$('#loading').innerHTML='<div class="error"><img src="/assets/navigam/logo.png" style="width:140px"><h2>NAVIGAM Preview</h2><p>This preview link is unavailable or has expired.</p></div>'});
