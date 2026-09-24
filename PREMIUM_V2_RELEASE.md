@@ -3,7 +3,7 @@
 The approved source is preserved on branch `PREMIUM_V2_STABLE_20260924`, commit `ff1fe03c8f7675dd59671f1348bb0c02ec9a5c55`.
 Approved HTML SHA-256: `78b1b9b19ec125fbfe6641ec49b65c5cce22a8dad42a5a7b1c46fef04ef280cf`.
 
-The NEXT engine extracts the approved CSS, three identical embedded PNG assets, UI components and language packs into reusable files. Customer data is fetched only after server authorization and normalized by `preview/adapter.js`. The shell contains no customer code or itinerary.
+The stable engine extracts the approved CSS, three identical embedded PNG assets, UI components and language packs into reusable files. Customer data is fetched only after server authorization and normalized by `preview/adapter.js`. The shell contains no customer code or itinerary.
 
 Entry: `/p/{code}` → `preview/index.html`. Boot checks `triply-preview-app`, loads the canonical shell modules and revalidates access. A separate monotonic deadline closes access while a slow refresh is pending. No device clock or cached response can grant authorization. Legacy service worker authorization caches are purged.
 
@@ -30,6 +30,12 @@ An expired QA record produced the real Arabic premium expiry screen and was then
 
 The original embedded map failure was traced to CSP blocking its external Leaflet dependency. Leaflet is now served from the same origin. Failed map loading retains a compact explanation and stop/navigation list.
 
-Desktop responsive checks do not constitute physical Android Chrome testing. Device microphone capture, installed speech voices and audible playback remain unverified. The engine remains PREMIUM_V2_NEXT; PREMIUM_V2_STABLE has not been promoted.
+Desktop responsive checks do not constitute physical Android Chrome testing. After testing the production application at commit `a97f61b1a1ad0d43843663c5580e90e1ca71f7f6`, the owner replied "עבר" (passed) to the physical Android Chrome checklist: translation microphone capture, translated audio playback and direction swap; Google Maps and Waze; end-of-day scrolling, Avia and bottom navigation clearance. This is owner-reported device acceptance, recorded separately from agent browser verification.
 
 The synthetic boot regression suite (`tests/preview-boot.test.cjs`, with jsdom available) covers transport-only continuity, the unchanged hard deadline, denials and malformed responses, script timeouts, and fresh authorization after visibility/BFCache restore. Network loss was simulated in this suite; it was not presented as a physical-device test.
+
+## Stable promotion
+
+The owner acceptance completes the release gate for `PREMIUM_V2_STABLE`. Promotion changes only this release record and the `X-NAVIGAM-Engine` release marker; application code and assets remain identical to the tested commit above. `PREMIUM_V2_STABLE` identifies the accepted canonical engine after final production verification. The original approved source backup `PREMIUM_V2_STABLE_20260924` remains unchanged.
+
+Server-side authorization and the current preview expiry are unchanged. Future work starts from this canonical engine, with customer and destination changes supplied as data.

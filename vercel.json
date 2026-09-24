@@ -77,7 +77,7 @@
         },
         {
           "key": "X-NAVIGAM-Engine",
-          "value": "PREMIUM_V2_NEXT"
+          "value": "PREMIUM_V2_STABLE"
         },
         {
           "key": "X-Frame-Options",
@@ -102,7 +102,7 @@
         },
         {
           "key": "X-NAVIGAM-Engine",
-          "value": "PREMIUM_V2_NEXT"
+          "value": "PREMIUM_V2_STABLE"
         },
         {
           "key": "X-Frame-Options",
