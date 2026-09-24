@@ -76,6 +76,15 @@
           "value": "no-cache, no-store, must-revalidate"
         }
       ]
+    },
+    {
+      "source": "/order/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
+        }
+      ]
     }
   ],
   "redirects": [
@@ -93,6 +102,18 @@
     }
   ],
   "rewrites": [
+    {
+      "source": "/order/",
+      "destination": "/order/index.html"
+    },
+    {
+      "source": "/order",
+      "destination": "/order/index.html"
+    },
+    {
+      "source": "/order/:code",
+      "destination": "/order/index.html"
+    },
     {
       "source": "/p/:code",
       "destination": "/preview/?code=:code"
