@@ -142,7 +142,8 @@ function showLoadError(){
 async function load(){
  const params=new URLSearchParams(location.search);
  const token=params.get('token');
- const code=params.get('code');
+ const pathCode=location.pathname.startsWith('/p/')?location.pathname.slice(3).split('/')[0]:null;
+ const code=params.get('code')||pathCode;
  if(!token&&!code){showLoadError();return}
  try{
    D=await fetchPreview(token||code,token?'token':'code');
