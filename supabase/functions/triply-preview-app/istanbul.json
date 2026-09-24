@@ -36,16 +36,19 @@
         "family"
       ],
       "area": "Gülhane",
-      "latitude": 41.0137,
-      "longitude": 28.981,
+      "latitude": 41.0131234,
+      "longitude": 28.9823101,
       "coordinates_approximate": true,
-      "coordinates_source": "approved_premium_v2_unverified",
+      "coordinates_source": "https://www.openstreetmap.org/way/25542618",
       "image": {
         "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Gulhane_park_Istanbul_2007_002.jpg/1280px-Gulhane_park_Istanbul_2007_002.jpg",
         "kind": "place",
         "source": "existing_place_registry",
         "verified": false
-      }
+      },
+      "coordinates_kind": "OSM polygon bbox center",
+      "coordinates_note": "Verified park feature; area pin, not verified accessible entrance.",
+      "coordinates_checked_at": "2026-09-24"
     },
     "48090ea8-b6a0-4148-8a3e-eba546846e0c": {
       "id": "48090ea8-b6a0-4148-8a3e-eba546846e0c",
@@ -56,16 +59,19 @@
         "family"
       ],
       "area": "Sultanahmet",
-      "latitude": 41.0054,
-      "longitude": 28.9768,
+      "latitude": 41.0065205,
+      "longitude": 28.9760528,
       "coordinates_approximate": true,
-      "coordinates_source": "approved_premium_v2_unverified",
+      "coordinates_source": "https://www.openstreetmap.org/way/25512790",
       "image": {
         "url": "https://serhatengul.com/wp-content/uploads/2023/01/2022-135-Hagia-Sophia-iStock.jpg",
         "kind": "place",
         "source": "existing_place_registry",
         "verified": false
-      }
+      },
+      "coordinates_kind": "OSM square polygon bbox center",
+      "coordinates_note": "Sultan Ahmed Square/Hippodrome area pin. Single combined stop; does not claim Hagia Sophia doorway.",
+      "coordinates_checked_at": "2026-09-24"
     },
     "47452e99-a933-472f-ad48-06827bb98ec0": {
       "id": "47452e99-a933-472f-ad48-06827bb98ec0",
@@ -76,16 +82,22 @@
         "family"
       ],
       "area": "Sirkeci",
-      "latitude": 41.0146,
-      "longitude": 28.9749,
+      "latitude": 41.0146292,
+      "longitude": 28.9756182,
       "coordinates_approximate": true,
-      "coordinates_source": "approved_premium_v2_unverified",
+      "coordinates_source": "https://online.hafizmustafa.com/en/sirkeci",
       "image": {
         "url": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/1c/ad/43/35/hafiz-mustafa-1864-sirkeci.jpg?h=500&s=1&w=900",
         "kind": "place",
         "source": "existing_place_registry",
         "verified": false
-      }
+      },
+      "coordinates_kind": "Official venue directions destination",
+      "coordinates_note": "Official maps direction destination !1d28.9756182!2d41.0146292; OSM surveyed cafe [41.0146124,28.9756509] corroborates within a few metres. Do not confuse Bahcekapi branch [41.0160106,28.9733605].",
+      "coordinates_checked_at": "2026-09-24",
+      "coordinates_corroborating_sources": [
+        "https://www.openstreetmap.org/node/3104180391"
+      ]
     },
     "424e1979-215c-4a5f-b4e5-ae6a68a8f02b": {
       "id": "424e1979-215c-4a5f-b4e5-ae6a68a8f02b",
@@ -96,16 +108,19 @@
         "family"
       ],
       "area": "Eminönü",
-      "latitude": 41.0166,
-      "longitude": 28.9705,
+      "latitude": 41.0164632,
+      "longitude": 28.9710981,
       "coordinates_approximate": true,
-      "coordinates_source": "approved_premium_v2_unverified",
+      "coordinates_source": "https://www.openstreetmap.org/way/24234971",
       "image": {
         "url": "https://www.foodie.com/img/gallery/10-food-markets-from-around-the-world-that-inspire-wanderlust/spice-bazaar-istanbul-turkey-1704301790.jpg",
         "kind": "place",
         "source": "existing_place_registry",
         "verified": false
-      }
+      },
+      "coordinates_kind": "OSM marketplace building bbox center",
+      "coordinates_note": "Venue center; gate separately mapped at node768687921 [41.017206,28.9712389]. Entrance accessibility not independently audited.",
+      "coordinates_checked_at": "2026-09-24"
     },
     "492e200e-eb7f-438c-a8fa-0e9cf74eeaed": {
       "id": "492e200e-eb7f-438c-a8fa-0e9cf74eeaed",
@@ -116,16 +131,19 @@
         "family"
       ],
       "area": "Galata",
-      "latitude": 41.0199,
-      "longitude": 28.9733,
+      "latitude": 41.0200523,
+      "longitude": 28.9731829,
       "coordinates_approximate": true,
-      "coordinates_source": "approved_premium_v2_unverified",
+      "coordinates_source": "https://www.openstreetmap.org/way/280961352",
       "image": {
         "url": "https://foto.sondakika.com/haber/2021/03/27/eminonu-ndeki-kalabalik-eski-gunlerine-dondu-14024358_amp.jpg",
         "kind": "place",
         "source": "existing_place_registry",
         "verified": false
-      }
+      },
+      "coordinates_kind": "OSM bridge polygon bbox center",
+      "coordinates_note": "Bridge center map pin. Walking external directions should resolve named pedestrian access / sidepath, not imply a vehicle stop at bridge midpoint.",
+      "coordinates_checked_at": "2026-09-24"
     },
     "0440b839-0092-45b9-830b-4baa7eff879a": {
       "id": "0440b839-0092-45b9-830b-4baa7eff879a",
@@ -136,10 +154,10 @@
         "family"
       ],
       "area": "Eminönü",
-      "latitude": 41.0169,
-      "longitude": 28.9708,
+      "latitude": 41.0177222,
+      "longitude": 28.9740556,
       "coordinates_approximate": true,
-      "coordinates_source": "approved_premium_v2_unverified",
+      "coordinates_source": "https://sehirhatlari.istanbul/tr/iskeleler/eminonu-39",
       "image": {
         "url": "https://cdn2.goturkiye.com/istanbul-1920x1080-51-900x506.jpg?1775776289413",
         "kind": "place",
@@ -147,7 +165,15 @@
         "verified": true,
         "replaces_url": "https://excursionmania.com/cdn-cgi/image/quality%3D75%2Cformat%3Dwebp%2Cw%3Dauto%2Ch%3Dauto%2Cfit%3Dscale-down%2Ctrim%3Dborder/https%3A/excursionmania.com/uploads/blog/gallery/3728/1762789456.jpg",
         "note": "Eminonu waterfront/ferry area photograph; do not claim exact Uskudar sailing/vessel"
-      }
+      },
+      "coordinates_kind": "Official operator embedded marker",
+      "coordinates_note": "Hezarfen Ahmet Celebi embed marker DMS 41deg01min03.8N 28deg58min26.6E; latitude/longitude converted. Official embed camera center is offset west and MUST NOT be used as point. OSM Uskudar ferry route begins at [41.0179964,28.974141], ~31m north/water side. Official landward marker preferred for navigation; actual sailing pier still subject to operator changes.",
+      "coordinates_checked_at": "2026-09-24",
+      "coordinates_corroborating_sources": [
+        "https://www.openstreetmap.org/node/3457463792",
+        "https://www.openstreetmap.org/way/321201984",
+        "https://www.openstreetmap.org/relation/305508"
+      ]
     }
   },
   "recommendations": [

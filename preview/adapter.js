@@ -5,7 +5,7 @@ function adaptPreview(payload, code) {
   const language = languages.includes(payload.language) ? payload.language : 'en';
   const trip = payload.trip;
   const destination = payload.destination || trip.destination_meta || {};
-  const title = trip.title || destination.name || trip.destination;
+  const title = /^NAVIGAM Preview(?:\s|·|$)/i.test(trip.title||'') ? Object.fromEntries(languages.map(l=>[l,'NAVIGAM · '+(destination.name?.[l]||destination.name?.en||trip.destination||'')])) : trip.title || destination.name || trip.destination;
   const startDate = trip.start_date || trip.dates?.start;
   const endDate = trip.end_date || trip.dates?.end;
   if (!/^\d{4}-\d{2}-\d{2}$/.test(startDate || '') || !/^\d{4}-\d{2}-\d{2}$/.test(endDate || '')) throw new Error('invalid_dates');

@@ -1,5 +1,35 @@
 <!doctype html>
-<html lang="en"><meta charset="utf-8"><meta name="robots" content="noindex,nofollow"><meta name="viewport" content="width=device-width,initial-scale=1"><title>NAVIGAM responsive QA</title>
-<style>body{font:16px/1.6 system-ui;padding:32px;background:#f5fafc;color:#073752}button{padding:14px 22px;border:0;border-radius:16px;background:#073752;color:white;cursor:pointer}</style>
-<h1>NAVIGAM responsive QA</h1><p>Open the existing preview in a narrow browser window. This checks responsive layout; it does not emulate an Android device.</p><button id="open">Open 390 × 844 preview</button>
-<script>document.getElementById('open').onclick=()=>{const code=(new URLSearchParams(location.search).get('code')||'').toUpperCase();if(!/^[23456789ABCDEFGHJKLMNPQRSTUVWXYZ]{6,16}$/.test(code))return;window.open('/p/'+encodeURIComponent(code),'navigam-mobile-qa','popup,width=390,height=844,resizable=yes,scrollbars=yes');};</script></html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>NAVIGAM responsive QA</title>
+  <style>
+    *{box-sizing:border-box}body{margin:0;padding:16px;background:#edf4f7;color:#073752;font:14px/1.5 system-ui}
+    header{max-width:680px;margin:0 auto 16px}h1{font-size:20px;margin:0 0 4px}p{margin:4px 0}
+    a{color:#075576}.viewport{width:390px;margin:0 auto;background:white;box-shadow:0 2px 24px #07375226}
+    iframe{display:block;width:390px;height:844px;border:0;background:#f6fbfd}iframe[hidden]{display:none}
+    #status{font-weight:600}.frame-area{overflow-x:auto;padding-bottom:20px}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>NAVIGAM responsive QA</h1>
+    <p>Actual customer URL in a 390 × 844 CSS-pixel viewport. This checks responsive layout; it does not emulate Android or a physical device.</p>
+    <p id="status" role="status">A valid preview code is required in the URL.</p>
+    <a id="direct" hidden target="_blank" rel="noopener noreferrer">Open the same customer URL directly</a>
+  </header>
+  <div class="frame-area"><div class="viewport">
+    <iframe id="preview" hidden width="390" height="844" title="NAVIGAM customer preview at mobile viewport width" allow="microphone; geolocation"></iframe>
+  </div></div>
+  <script>
+    const code=(new URLSearchParams(location.search).get('code')||'').toUpperCase();
+    if(/^[23456789ABCDEFGHJKLMNPQRSTUVWXYZ]{6,16}$/.test(code)){
+      const path='/p/'+encodeURIComponent(code),frame=document.getElementById('preview'),link=document.getElementById('direct');
+      frame.src=path;frame.hidden=false;link.href=path;link.hidden=false;
+      document.getElementById('status').textContent='Responsive viewport: 390 × 844';
+    }
+  </script>
+</body>
+</html>
