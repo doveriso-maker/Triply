@@ -58,6 +58,24 @@
           "value": "/app/"
         }
       ]
+    },
+    {
+      "source": "/preview/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/p/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
+        }
+      ]
     }
   ],
   "redirects": [
@@ -75,6 +93,10 @@
     }
   ],
   "rewrites": [
+    {
+      "source": "/p/:code",
+      "destination": "/preview/?code=:code"
+    },
     {
       "source": "/admin",
       "destination": "/admin-login.html"
