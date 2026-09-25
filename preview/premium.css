@@ -494,3 +494,8 @@ html[lang=ar] #splash h1.splash-headline{font-size:clamp(38px,11.8vw,67px);line-
   .cards .place h3{font-size:17px!important}
   .cards .place>.heart{width:40px!important;height:40px!important}
 }
+
+
+/* Itinerary media: every resolved stop can show its place photo. */
+.event-photo{width:100%;aspect-ratio:16/9;border-radius:16px;overflow:hidden;background:#edf5f7;margin:0 0 11px}
+.event-photo img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
