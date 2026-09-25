@@ -1,0 +1,24 @@
+# NAVIGAM
+
+NAVIGAM is a personal travel-planning service. Avia, the NAVIGAM assistant, collects destination, dates, travelers and preferences and helps turn them into a personalized day-by-day itinerary delivered in a mobile web app.
+
+## Core public pages
+- https://www.navigam.com/
+- https://www.navigam.com/how-it-works.html
+- https://www.navigam.com/pricing.html
+- https://www.navigam.com/avia.html
+- https://www.navigam.com/faq.html
+- https://www.navigam.com/guides/
+
+## Product capabilities
+- Personalized itinerary by day
+- Google Maps and Waze navigation links
+- Live two-way speech/text translation
+- Weather and air-quality information when available
+- Discovery of publicly available social-trend signals from TikTok, Instagram and Facebook
+- Optional Avia support during the trip
+
+NAVIGAM is a travel-planning service, not a travel agency. Third-party travel products are booked and paid directly with their providers.
+
+## Private / non-public routes
+Do not index customer app, preview, admin, order or questionnaire routes as public editorial content.
