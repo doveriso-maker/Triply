@@ -11,7 +11,8 @@ function adaptPreview(payload, code) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(startDate || '') || !/^\d{4}-\d{2}-\d{2}$/.test(endDate || '')) throw new Error('invalid_dates');
   const dayCount = Math.max(1, Math.min(90, Math.round((Date.parse(endDate) - Date.parse(startDate)) / 86400000) + 1));
   const rawDays = Array.isArray(payload.days) ? payload.days : [{...payload.day, day:1, items:payload.items || []}];
-  const allowed = new Set((payload.preview?.open_days || [1]).filter(n => Number.isInteger(n) && n === 1));
+  const fullMode = payload.preview?.mode === 'full';
+  const allowed = new Set((payload.preview?.open_days || [1]).filter(n => Number.isInteger(n) && n >= 1 && (fullMode || n === 1)));
   const safeUrl = value => {
     if (typeof value !== 'string') return '';
     try { const u = new URL(value, 'https://www.navigam.com'); return u.protocol === 'https:' ? u.href : ''; } catch { return ''; }
