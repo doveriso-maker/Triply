@@ -138,7 +138,9 @@ function memoryPhotoCard(m){
 }
 function renderMemories(m){
   if(!memoryEnabled()){m.innerHTML=emptyCard('NAVIGAM Memories');return}
-  memoryLoad().then(()=>{if(S.route==='memories'&&!memoryState.loading)renderMemories(document.getElementById('main'))});
+  if(!memoryState.loaded&&!memoryState.loading){
+    memoryLoad().then(()=>{if(S.route==='memories')renderMemories(document.getElementById('main'))});
+  }
   const items=memoryState.items;
   const reel=memoryState.reels[0];
   m.innerHTML='<div class="screen-title">NAVIGAM Memories</div>'+
