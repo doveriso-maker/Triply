@@ -194,6 +194,12 @@ function dailyRows(rows){
   }).join('')+'</div>';
 }
 
+async function copyAnalyticsLink(source,medium){
+  const url='https://www.navigam.com/?utm_source='+encodeURIComponent(source)+'&utm_medium='+encodeURIComponent(medium||'social')+'&utm_campaign=navigam_share';
+  try{await navigator.clipboard.writeText(url);alert('הקישור הועתק ✅\n'+url)}
+  catch(e){window.prompt('העתק את הקישור:',url)}
+}
+
 function installAnalyticsPanel(){
   if(document.querySelector('#webAnalytics'))return;
   const payments=document.querySelector('#launchPayments');
@@ -214,10 +220,21 @@ function installAnalyticsPanel(){
         <button class="btn soft" id="refreshAnalytics">רענן</button>
       </div>
     </div>
-    <div id="analyticsBody" style="margin-top:12px"><div class="empty">טוען Analytics…</div></div>`;
+    <div id="analyticsBody" style="margin-top:12px"><div class="empty">טוען Analytics…</div></div>
+    <div class="match-card" style="margin-top:10px">
+      <h3>🔗 קישורים מסומנים לפרסום</h3>
+      <div style="font-size:9px;color:#738a91;margin-bottom:9px">השתמש בקישור המתאים בכל ערוץ כדי שמקור התנועה יזוהה במדויק.</div>
+      <div class="actions">
+        <button class="btn soft" data-copy-source="whatsapp" data-copy-medium="share">העתק WhatsApp</button>
+        <button class="btn soft" data-copy-source="facebook" data-copy-medium="social">העתק Facebook</button>
+        <button class="btn soft" data-copy-source="instagram" data-copy-medium="social">העתק Instagram</button>
+        <button class="btn soft" data-copy-source="tiktok" data-copy-medium="social">העתק TikTok</button>
+      </div>
+    </div>`;
   if(payments)payments.insertAdjacentElement('afterend',wrap); else anchor.insertAdjacentElement('beforebegin',wrap);
   document.querySelector('#analyticsRange')?.addEventListener('change',e=>{analyticsRangeDays=Number(e.target.value)||7;loadAnalytics()});
   document.querySelector('#refreshAnalytics')?.addEventListener('click',loadAnalytics);
+  wrap.querySelectorAll('[data-copy-source]').forEach(btn=>btn.addEventListener('click',()=>copyAnalyticsLink(btn.dataset.copySource,btn.dataset.copyMedium)));
   loadAnalytics();
   clearInterval(analyticsTimer);
   analyticsTimer=setInterval(()=>{if(!document.hidden&&document.querySelector('#webAnalytics'))loadAnalytics(true)},15000);
