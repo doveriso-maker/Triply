@@ -39,7 +39,14 @@ function renderItinerary(m){const d=DATA.tripDays[S.day];m.innerHTML=`<div class
 function placeHtml(p){const saved=S.favorites.has(p.id),url=IMG.places[p.id];return `<div class="card place" data-place-id="${escapeHtml(p.id)}"><div class="place-thumb">${url?`<img src="${escapeHtml(url)}" alt="${escapeHtml(p.name)}" loading="lazy" onerror="imageFailed(this)">`:`<div class="image-placeholder" role="img" aria-label="${escapeHtml(p.name)}"><span>◇</span><small>${escapeHtml(p.name)}</small></div>`}</div><div><h3>${escapeHtml(p.name)}</h3><p>${escapeHtml(p.area)} · ${typeLabel(p.type)}</p><p>${escapeHtml(p.tag)}</p>${photoNote(CONFIG.imagePresentation?.places?.[p.id])}${navButtons(p.q)}</div><button class="heart ${saved?'saved':''}" aria-label="${t('savePlace')}" aria-pressed="${saved}" onclick="toggleFav('${jsq(p.id)}')">${saved?'♥':'♡'}</button></div>`}
 
 function openNightlife(){S.placeFilter='nightlife';route('places')}
-function renderPlaces(m){const types=['all','restaurant','shopping','attractions','nature','family','nightlife'],list=DATA.places.filter(p=>S.placeFilter==='all'||p.type===S.placeFilter||(S.placeFilter==='family'&&p.familyFriendly));m.innerHTML=`<div class="screen-title">${t('places')}</div><div class="tabs">${types.map(v=>`<button class="tab ${v===S.placeFilter?'active':''}" onclick="S.placeFilter='${v}';render()">${typeLabel(v)}</button>`).join('')}</div><div class="cards">${list.map(placeHtml).join('')||emptyCard(t('noPlaces'))}</div>`}
+function renderPlaces(m){
+  const useful=DATA.places.filter(p=>!['transport','hotel','rest'].includes(p.type));
+  const order=['restaurant','shopping','attractions','culture','nature','wellness','family','nightlife'];
+  const types=['all',...order.filter(type=>useful.some(p=>p.type===type||(type==='family'&&p.familyFriendly)))];
+  if(!types.includes(S.placeFilter))S.placeFilter='all';
+  const list=useful.filter(p=>S.placeFilter==='all'||p.type===S.placeFilter||(S.placeFilter==='family'&&p.familyFriendly));
+  m.innerHTML=`<div class="screen-title">${t('places')}</div><div class="tabs">${types.map(v=>`<button class="tab ${v===S.placeFilter?'active':''}" onclick="S.placeFilter='${v}';render()">${typeLabel(v)}</button>`).join('')}</div><div class="cards">${list.map(placeHtml).join('')||emptyCard(t('noPlaces'))}</div>`;
+}
 function platformName(p){return ({tiktok:'TikTok',instagram:'Instagram',facebook:'Facebook'})[p]||p}
 function trendCard(item){
   const badges=(item.platforms||[]).map(p=>`<span class="trend-badge ${escapeHtml(p)}">${escapeHtml(platformName(p))}</span>`).join('');
