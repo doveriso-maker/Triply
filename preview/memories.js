@@ -309,3 +309,18 @@ function memoryButton(ctx,compact=false){
   };
   return memoryMiniButton(normalized,compact);
 }
+
+
+let memoryAutoReelStarted=false;
+async function memoryMaybeAutoReel(){
+  if(!memoryEnabled()||memoryAutoReelStarted)return;
+  const end=Date.parse(CONFIG.trip.endDate+'T23:59:59');
+  if(!Number.isFinite(end)||Date.now()<=end)return;
+  const key='navigam:'+CONFIG.id+':memories:auto-reel-v1';
+  try{if(sessionStorage.getItem(key)==='1')return}catch{}
+  memoryAutoReelStarted=true;
+  await memoryLoad(true);
+  if(memoryState.reels.length||memoryState.items.length<3)return;
+  try{sessionStorage.setItem(key,'1')}catch{}
+  await memoryCreateReel(false);
+}
