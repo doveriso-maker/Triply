@@ -140,12 +140,131 @@ document.addEventListener('click',async e=>{
   if(publish){e.preventDefault();e.stopImmediatePropagation();await createClientLink(publish.dataset.status);}
 },true);
 
-const observer=new MutationObserver(()=>{installPaymentsPanel();rewriteTripActions();});
+const observer=new MutationObserver(()=>{installPaymentsPanel();installAnalyticsPanel();rewriteTripActions();});
 observer.observe(document.documentElement,{subtree:true,childList:true});
 
 (async()=>{
   if(await adminSession()){
     installPaymentsPanel();
+    installAnalyticsPanel();
     rewriteTripActions();
   }
 })();
+
+
+/* NAVIGAM Web Analytics dashboard */
+let analyticsRangeDays=7;
+let analyticsTimer=null;
+
+function fmtNum(v){return new Intl.NumberFormat('he-IL',{maximumFractionDigits:2}).format(Number(v)||0)}
+function fmtPct(v){return fmtNum(v)+'%'}
+function fmtDuration(seconds){
+  const s=Math.max(0,Math.round(Number(seconds)||0));
+  if(s<60)return s+' שנ׳';
+  const m=Math.floor(s/60),r=s%60;
+  return m+' דק׳'+(r?' '+r+' שנ׳':'');
+}
+function analyticsRows(rows,labelKey,valueKey){
+  const list=Array.isArray(rows)?rows:[];
+  if(!list.length)return '<div class="empty">אין עדיין נתונים.</div>';
+  const max=Math.max(...list.map(x=>Number(x[valueKey])||0),1);
+  return '<div style="display:grid;gap:9px">'+list.slice(0,12).map(x=>{
+    const val=Number(x[valueKey])||0,p=Math.max(3,Math.round(val/max*100));
+    return '<div><div style="display:flex;justify-content:space-between;gap:10px;font-size:10px"><strong>'+esc(x[labelKey]||'—')+'</strong><span>'+fmtNum(val)+'</span></div><div style="height:7px;background:#eef5f7;border-radius:999px;overflow:hidden;margin-top:5px"><div style="height:100%;width:'+p+'%;background:linear-gradient(90deg,#0b7c90,#00cfdf);border-radius:999px"></div></div></div>';
+  }).join('')+'</div>';
+}
+function liveRows(rows){
+  const list=Array.isArray(rows)?rows:[];
+  if(!list.length)return '<div class="empty">אין כרגע צופים פעילים.</div>';
+  return '<div style="overflow:auto"><table style="width:100%;border-collapse:collapse;font-size:10px"><thead><tr><th style="text-align:right;padding:8px">עמוד</th><th style="text-align:right;padding:8px">מקור</th><th style="text-align:right;padding:8px">מכשיר</th><th style="text-align:right;padding:8px">שפה</th><th style="text-align:right;padding:8px">זמן פעיל</th></tr></thead><tbody>'+list.map(x=>'<tr style="border-top:1px solid #e8f0f2"><td style="padding:8px">'+esc(x.path||'/')+'</td><td style="padding:8px">'+esc(x.source||'direct')+'</td><td style="padding:8px">'+esc(x.device||'—')+'</td><td style="padding:8px">'+esc(x.language||'—')+'</td><td style="padding:8px">'+esc(fmtDuration(x.activeSeconds))+'</td></tr>').join('')+'</tbody></table></div>';
+}
+function pageRows(rows){
+  const list=Array.isArray(rows)?rows:[];
+  if(!list.length)return '<div class="empty">אין עדיין נתוני עמודים.</div>';
+  return '<div style="overflow:auto"><table style="width:100%;border-collapse:collapse;font-size:10px"><thead><tr><th style="text-align:right;padding:8px">עמוד</th><th style="padding:8px">צפיות</th><th style="padding:8px">ביקורים</th><th style="padding:8px">WhatsApp</th></tr></thead><tbody>'+list.slice(0,15).map(x=>'<tr style="border-top:1px solid #e8f0f2"><td style="padding:8px">'+esc(x.path||'/')+'</td><td style="padding:8px;text-align:center">'+fmtNum(x.pageviews)+'</td><td style="padding:8px;text-align:center">'+fmtNum(x.sessions)+'</td><td style="padding:8px;text-align:center">'+fmtNum(x.whatsappClicks)+'</td></tr>').join('')+'</tbody></table></div>';
+}
+function dailyRows(rows){
+  const list=Array.isArray(rows)?rows:[];
+  if(!list.length)return '<div class="empty">אין עדיין היסטוריה.</div>';
+  const max=Math.max(...list.map(x=>Number(x.sessions)||0),1);
+  return '<div style="display:flex;align-items:flex-end;gap:5px;height:120px;padding-top:10px;overflow:auto">'+list.map(x=>{
+    const h=Math.max(4,Math.round((Number(x.sessions)||0)/max*92));
+    const d=String(x.day||'').slice(5);
+    return '<div title="'+esc(d)+' · '+fmtNum(x.sessions)+' ביקורים" style="min-width:20px;flex:1;max-width:42px;text-align:center"><div style="height:'+h+'px;background:linear-gradient(180deg,#00cfdf,#0b7c90);border-radius:7px 7px 3px 3px"></div><small style="font-size:7px;color:#738a91">'+esc(d)+'</small></div>';
+  }).join('')+'</div>';
+}
+
+function installAnalyticsPanel(){
+  if(document.querySelector('#webAnalytics'))return;
+  const payments=document.querySelector('#launchPayments');
+  const tripsToolbar=document.querySelector('#app .toolbar');
+  const anchor=payments||tripsToolbar;
+  if(!anchor)return;
+  const wrap=document.createElement('section');
+  wrap.id='webAnalytics';
+  wrap.className='card';
+  wrap.style.marginTop='14px';
+  wrap.innerHTML=`
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+      <div><h2 style="margin:0;font-size:18px">📊 NAVIGAM Analytics</h2><div style="font-size:10px;color:#738a91;margin-top:4px">תנועה באתר, זמן שהייה, מקורות והמרה ל-WhatsApp · נתונים אנונימיים</div></div>
+      <div style="display:flex;gap:7px;align-items:center">
+        <select id="analyticsRange" style="border:1px solid #cfe0e4;border-radius:10px;padding:8px;background:#fff">
+          <option value="1">24 שעות</option><option value="7" selected>7 ימים</option><option value="30">30 ימים</option><option value="90">90 ימים</option>
+        </select>
+        <button class="btn soft" id="refreshAnalytics">רענן</button>
+      </div>
+    </div>
+    <div id="analyticsBody" style="margin-top:12px"><div class="empty">טוען Analytics…</div></div>`;
+  if(payments)payments.insertAdjacentElement('afterend',wrap); else anchor.insertAdjacentElement('beforebegin',wrap);
+  document.querySelector('#analyticsRange')?.addEventListener('change',e=>{analyticsRangeDays=Number(e.target.value)||7;loadAnalytics()});
+  document.querySelector('#refreshAnalytics')?.addEventListener('click',loadAnalytics);
+  loadAnalytics();
+  clearInterval(analyticsTimer);
+  analyticsTimer=setInterval(()=>{if(!document.hidden&&document.querySelector('#webAnalytics'))loadAnalytics(true)},15000);
+}
+
+async function loadAnalytics(silent=false){
+  const box=document.querySelector('#analyticsBody');
+  if(!box)return;
+  if(!silent)box.innerHTML='<div class="empty">טוען Analytics…</div>';
+  const {data,error}=await supabase.rpc('triply_admin_web_analytics',{p_days:analyticsRangeDays});
+  if(error||!data){box.innerHTML='<div class="empty">לא ניתן לטעון Analytics: '+esc(error?.message||'שגיאה')+'</div>';return}
+  const live=data.live||{},today=data.today||{},p=data.period||{};
+  box.innerHTML=`
+    <div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px" class="analytics-kpis">
+      <div class="stat" style="border:2px solid #bfecef;background:#f1fcfd"><strong style="color:#087d8b">${fmtNum(live.activeNow)}</strong><span>צופים עכשיו</span></div>
+      <div class="stat"><strong>${fmtNum(today.visitors)}</strong><span>מבקרים היום</span></div>
+      <div class="stat"><strong>${fmtNum(today.sessions)}</strong><span>ביקורים היום</span></div>
+      <div class="stat"><strong>${fmtNum(today.pageviews)}</strong><span>צפיות היום</span></div>
+      <div class="stat"><strong>${fmtNum(today.whatsappClicks)}</strong><span>לחיצות WhatsApp היום</span></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:8px" class="analytics-kpis">
+      <div class="stat"><strong>${fmtDuration(p.avgSessionSeconds)}</strong><span>זמן ממוצע באתר</span></div>
+      <div class="stat"><strong>${fmtPct(p.whatsappCTR)}</strong><span>ביקורים שלחצו WhatsApp</span></div>
+      <div class="stat"><strong>${fmtNum(p.avgPagesPerSession)}</strong><span>עמודים לביקור</span></div>
+      <div class="stat"><strong>${fmtPct(p.bounceRate)}</strong><span>יציאה מהירה</span></div>
+    </div>
+    <div style="font-size:9px;color:#738a91;margin:10px 2px">בטווח: ${fmtNum(p.visitors)} מבקרים ייחודיים · ${fmtNum(p.sessions)} ביקורים · ${fmtNum(p.pageviews)} צפיות · ${fmtNum(p.whatsappClicks)} לחיצות WhatsApp</div>
+
+    <div style="display:grid;grid-template-columns:1.15fr .85fr;gap:10px;margin-top:10px" class="analytics-two">
+      <div class="match-card"><h3>👀 צופים פעילים עכשיו</h3>${liveRows(live.viewers)}</div>
+      <div class="match-card"><h3>📈 ביקורים לפי יום</h3>${dailyRows(data.daily)}</div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px" class="analytics-three">
+      <div class="match-card"><h3>🔗 מאיפה הגיעו</h3>${analyticsRows(data.sources,'source','sessions')}</div>
+      <div class="match-card"><h3>📱 מכשירים</h3>${analyticsRows(data.devices,'device','sessions')}</div>
+      <div class="match-card"><h3>🌐 שפות</h3>${analyticsRows(data.languages,'language','sessions')}</div>
+      <div class="match-card"><h3>🧭 דפדפנים</h3>${analyticsRows(data.browsers,'browser','sessions')}</div>
+      <div class="match-card"><h3>💻 מערכות הפעלה</h3>${analyticsRows(data.os,'os','sessions')}</div>
+      <div class="match-card"><h3>🎯 מקורות שהביאו WhatsApp</h3>${analyticsRows((data.sources||[]).filter(x=>Number(x.whatsappClicks)>0),'source','whatsappClicks')}</div>
+    </div>
+    <div class="match-card"><h3>📄 עמודים מובילים</h3>${pageRows(data.pages)}</div>
+    <div class="notice">מקור תנועה מזוהה לפי UTM, referrer או מזהי קמפיין זמינים (למשל fbclid/ttclid/gclid). כאשר אפליקציה או דפדפן מסתירים את המקור, הביקור מסומן Direct — המערכת לא מנחשת.</div>
+  `;
+  if(!document.querySelector('#analyticsResponsive')){
+    const style=document.createElement('style');style.id='analyticsResponsive';
+    style.textContent='@media(max-width:760px){.analytics-kpis{grid-template-columns:1fr 1fr!important}.analytics-two,.analytics-three{grid-template-columns:1fr!important}}';
+    document.head.append(style);
+  }
+}
