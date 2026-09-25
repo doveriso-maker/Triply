@@ -1,53 +1,51 @@
 <!doctype html>
 <html lang="he" dir="rtl">
 <head>
-<script id="triply-admin-auth-bridge">
-(function(){
-  var h=window.location.hash||'',q=window.location.search||'';
-  var hasAuthHash=/(^|[&#])(access_token|refresh_token|error_description|error_code|type)=/i.test(h);
-  var hasAuthQuery=/(^|[?&])(code|token_hash)=/i.test(q);
-  if((hasAuthHash||hasAuthQuery)&&window.location.pathname==='/'){window.location.replace('/admin'+q+h);}
-})();
-</script>
+<script id="triply-admin-auth-bridge">(function(){var h=window.location.hash||'',q=window.location.search||'';var hasAuthHash=/(^|[&#])(access_token|refresh_token|error_description|error_code|type)=/i.test(h);var hasAuthQuery=/(^|[?&])(code|token_hash)=/i.test(q);if((hasAuthHash||hasAuthQuery)&&window.location.pathname==='/'){window.location.replace('/admin'+q+h);}})();</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>NAVIGAM — הטיול שלכם, בדיוק כמו שאתם רוצים</title>
-<meta name="description" content="NAVIGAM בונה עבורכם טיול אישי לפי הרצונות, התקציב והסגנון שלכם — עם מסלול מלא, המלצות ואפליקציית טיול אישית.">
+<title>NAVIGAM — אביה עושה את החיפוש, התרגום והסדר</title>
+<meta name="description" content="NAVIGAM מתכננת טיול אישי ומרכזת אותו באפליקציה אחת עם מסלול, תרגום חי, איכות אוויר, מפות ומקומות טרנדיים מ-TikTok, Instagram ו-Facebook.">
 <meta name="theme-color" content="#0b2f57">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="he_IL">
 <meta property="og:site_name" content="NAVIGAM">
-<meta property="og:title" content="NAVIGAM — הטיול שלכם, בדיוק כמו שאתם רוצים">
-<meta property="og:description" content="מערכת לתכנון טיולים אישיים: מספרים לאביה מה אתם מחפשים, ואנחנו בונים מסלול ואפליקציה שמתאימים לכם.">
-<meta property="og:url" content="https://mytriply.co.il/">
-<meta property="og:image" content="https://mytriply.co.il/assets/navigam/logo.png">
+<meta property="og:title" content="NAVIGAM — אביה עושה את החיפוש, התרגום והסדר">
+<meta property="og:description" content="NAVIGAM מתכננת טיול אישי ומרכזת אותו באפליקציה אחת עם מסלול, תרגום חי, איכות אוויר, מפות ומקומות טרנדיים מ-TikTok, Instagram ו-Facebook.">
+<meta property="og:url" content="https://www.navigam.com/">
+<meta property="og:image" content="https://www.navigam.com/assets/navigam/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700;800;900&family=Rubik:wght@600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/assets/navigam/brand.css?v=1">
-<link rel="stylesheet" href="/marketing.css?v=20260922-2">
+<link rel="stylesheet" href="/marketing.css?v=20260925-avia">
 <link rel="icon" type="image/svg+xml" href="/assets/navigam/icon.svg">
 <link rel="apple-touch-icon" href="/assets/navigam/symbol.png">
-<link rel="alternate" hreflang="he" href="https://mytriply.co.il/">
-<link rel="alternate" hreflang="ar" href="https://mytriply.co.il/ar.html">
-<link rel="alternate" hreflang="ru" href="https://mytriply.co.il/ru.html">
+<link rel="alternate" hreflang="he" href="https://www.navigam.com/">
+<link rel="alternate" hreflang="en" href="https://www.navigam.com/en.html">
+<link rel="alternate" hreflang="ar" href="https://www.navigam.com/ar.html">
+<link rel="alternate" hreflang="ru" href="https://www.navigam.com/ru.html">
+<link rel="alternate" hreflang="x-default" href="https://www.navigam.com/">
 </head>
 <body>
 <header class="site-header">
   <div class="container nav">
     <a href="/"><img class="logo" src="/assets/navigam/logo.png" alt="NAVIGAM"></a>
-    <button class="hamb" aria-label="פתיחת תפריט" aria-expanded="false">☰</button>
+    <button class="hamb" aria-label="Menu" aria-expanded="false">☰</button>
     <nav class="nav-links">
-      <a class="active" href="/">דף הבית</a>
-      <a href="/how-it-works.html">איך זה עובד</a>
-      <a href="/trip-types.html">סוגי טיולים</a>
-      <a href="/pricing.html">מחירים</a>
-      <a href="/avia.html">אביה</a>
-      <a href="/faq.html">שאלות נפוצות</a>
+      <a href="#features">מה אביה עושה</a>
+      <a href="#how">איך זה עובד</a>
+      <a href="#pricing">מחיר</a>
+      <a href="#avia">אביה</a>
     </nav>
     <div class="nav-actions">
-      <div class="langs"><a href="/ar.html">AR</a><span>•</span><a href="/ru.html">RU</a></div>
-      <a class="btn btn-primary" href="https://wa.me/972557760288?text=%D7%94%D7%99%D7%99%20%D7%90%D7%91%D7%99%D7%94%2C%20%D7%90%D7%A0%D7%99%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%9C%D7%91%D7%A0%D7%95%D7%AA%20%D7%98%D7%99%D7%95%D7%9C%20%D7%A2%D7%9D%20NAVIGAM">מתחילים ב‑WhatsApp</a>
+      <div class="langs">
+        <a class="current" href="/">HE</a><span>•</span>
+        <a class="" href="/en.html">EN</a><span>•</span>
+        <a class="" href="/ar.html">AR</a><span>•</span>
+        <a class="" href="/ru.html">RU</a>
+      </div>
+      <a class="btn btn-primary" href="https://wa.me/972557760288?text=%D7%94%D7%99%D7%99%20%D7%90%D7%91%D7%99%D7%94%2C%20%D7%90%D7%A0%D7%99%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%9C%D7%94%D7%AA%D7%97%D7%99%D7%9C%20%D7%9C%D7%AA%D7%9B%D7%A0%D7%9F%20%D7%90%D7%AA%20%D7%94%D7%98%D7%99%D7%95%D7%9C%20%D7%A9%D7%9C%D7%99%20%D7%A2%D7%9D%20NAVIGAM%20%F0%9F%8C%8D">דברו עם אביה ב‑WhatsApp</a>
     </div>
   </div>
 </header>
@@ -56,46 +54,53 @@
 <section class="hero">
   <div class="container hero-grid">
     <div>
-      <span class="eyebrow">תכנון טיול אישי. בלי ללכת לאיבוד בין עשרות טאבים.</span>
-      <h1>הטיול שלכם,<br>בדיוק כמו שאתם רוצים</h1>
-      <p>NAVIGAM היא מערכת לתכנון טיולים אישיים. אתם מספרים לאביה מה חשוב לכם — היעד, התקציב, הקצב, האוכל, עם מי נוסעים ומה אתם רוצים לחוות — ואנחנו בונים עבורכם מסלול מלא. <strong>בסוף התהליך אתם מקבלים אפליקציית טיול אישית לנייד, שנבנתה במיוחד עבור הטיול שלכם.</strong></p>
-      <div style="display:flex;gap:12px;flex-wrap:wrap">
-        <a class="btn btn-primary" href="https://wa.me/972557760288?text=%D7%94%D7%99%D7%99%20%D7%90%D7%91%D7%99%D7%94%2C%20%D7%90%D7%A0%D7%99%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%9C%D7%91%D7%A0%D7%95%D7%AA%20%D7%98%D7%99%D7%95%D7%9C%20%D7%A2%D7%9D%20NAVIGAM">מתחילים עם אביה ב‑WhatsApp</a>
-        <a class="btn btn-secondary" href="/how-it-works.html">איך זה עובד?</a>
+      <span class="eyebrow">פחות לחפש. יותר לטייל.</span>
+      <h1>אתם מטיילים.<br>אביה עושה את כל השאר.</h1>
+      <p>ספרו לאביה לאן אתם טסים, עם מי ומה אתם אוהבים. היא עוזרת לבנות מסלול אישי, מרכזת הכול באפליקציה אחת, מתרגמת שיחות בזמן אמת, מציגה איכות אוויר עדכנית ומחפשת עבורכם את המקומות הטרנדיים ברשת.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="https://wa.me/972557760288?text=%D7%94%D7%99%D7%99%20%D7%90%D7%91%D7%99%D7%94%2C%20%D7%90%D7%A0%D7%99%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%9C%D7%94%D7%AA%D7%97%D7%99%D7%9C%20%D7%9C%D7%AA%D7%9B%D7%A0%D7%9F%20%D7%90%D7%AA%20%D7%94%D7%98%D7%99%D7%95%D7%9C%20%D7%A9%D7%9C%D7%99%20%D7%A2%D7%9D%20NAVIGAM%20%F0%9F%8C%8D">דברו עם אביה ב‑WhatsApp</a>
+        <a class="btn btn-secondary" href="#features">ראו מה אביה עושה</a>
       </div>
-      <div class="hero-note"><span>✓ מחיר נגיש</span><span>✓ תכנון אישי</span><span>✓ אפליקציה אישית לנייד</span></div>
+      <div class="trust-bar"><span class="trust-chip"><i>✨</i>Preview אישי לפני תשלום</span><span class="trust-chip"><i>◎</i>תרגום חי לשיחה</span><span class="trust-chip"><i>☀️</i>AQI שמתעדכן אוטומטית</span><span class="trust-chip"><i>🔥</i>TikTok · Instagram · Facebook</span></div>
     </div>
     <div class="hero-visual">
-      <div class="hero-photo" style="background-image:url('https://images.unsplash.com/photo-1533104816931-20fa691ff6ca?auto=format&fit=crop&w=1400&q=84')"></div>
+      <div class="hero-photo" style="background-image:url('https://images.unsplash.com/photo-1530789253388-582c481c54b0?auto=format&fit=crop&w=1500&q=86')"></div>
       <div class="avia-bubble">
-        <img class="avia-avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=180&q=82" alt="">
-        <div><b>היי, אני אביה 👋</b><span>ספרו לי איזה טיול אתם רוצים, ואני אעזור לדייק אותו.</span></div>
+        <img class="brand-avatar" src="/assets/navigam/symbol.png" alt="NAVIGAM">
+        <div><b>היי, אני אביה 👋</b><span>לאן טסים? אני אעשה סדר בכל השאר.</span></div>
       </div>
       <div class="phone-card">
         <div class="phone-top">NAVIGAM · הטיול שלכם</div>
-        <div class="phone-cover" style="background-image:url('https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=700&q=82')"></div>
+        <div class="phone-cover" style="background-image:url('https://images.unsplash.com/photo-1533104816931-20fa691ff6ca?auto=format&fit=crop&w=800&q=84')"></div>
         <div class="phone-content">
-          <strong>יום 3 · הדרך שלכם</strong>
-          <small>מסלול, זמנים, המלצות וניווט במקום אחד.</small>
-          <div class="phone-icons"><span>🗺️</span><span>🍽️</span><span>📍</span><span>♡</span></div>
+          <div class="phone-feature-list">
+            <div class="phone-feature"><span>🔥 טרנדי ברשת</span><b>עד 20 מקומות באפליקציה מלאה</b></div><div class="phone-feature"><span>◎ תרגום חי</span><b>עברית ⇄ שפת היעד</b></div><div class="phone-feature"><span>AQI איכות אוויר</span><b>מתעדכן אוטומטית</b></div><div class="phone-feature"><span>🗺️ המסלול שלי</span><b>ימים, שעות וניווט</b></div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="section soft">
+<section id="features" class="section soft">
   <div class="container">
     <div class="section-head">
-      <span class="kicker">מה אתם מקבלים?</span>
-      <h2>בסוף מחכה לכם אפליקציית טיול אישית בנייד.</h2>
-      <p>לא PDF, לא קובץ מפוזר ולא רק רשימת המלצות. אנחנו לוקחים את כל מה שאתם רוצים מהחופשה והופכים אותו למסלול מסודר בתוך <strong>אפליקציה אישית לנייד</strong> — עם הימים, הזמנים, המפות, המסעדות, האטרקציות, הקישורים והמידע של הטיול שלכם.</p>
+      <span class="kicker">שלושה דברים שלא צריך לעשות לבד יותר</span>
+      <h2>אביה חוסכת לכם את החיפושים, את מחסום השפה ואת חוסר הוודאות.</h2>
     </div>
-    <div class="grid-4">
-      <div class="card"><div class="card-icon">🎯</div><h3>מסלול אישי באמת</h3><p>התכנון נבנה לפי ההרכב, הקצב, התקציב, תחומי העניין וההעדפות שלכם.</p></div>
-      <div class="card"><div class="card-icon">📱</div><h3>אפליקציה אישית לנייד</h3><p>המוצר הסופי שאתם מקבלים: אפליקציית NAVIGAM אישית לטיול שלכם, עם ימים, שעות, מפות, מסעדות, אטרקציות, עצירות וקישורים במקום אחד.</p></div>
-      <div class="card"><div class="card-icon">♡</div><h3>המלצות שמתאימות לכם</h3><p>לא רשימה גנרית של “מה חובה לראות”, אלא בחירות שמתחברות למה שאתם אוהבים.</p></div>
-      <div class="card"><div class="card-icon">💬</div><h3>אביה איתכם</h3><p>שיחה אישית ב‑WhatsApp לפני הטיול, ואפשרות לליווי גם במהלך החופשה.</p></div>
+    <div class="feature-showcase">
+      <article class="feature-card">
+        <div class="feature-icon">◎</div><h3>שיחה שלמה, בלי לשבור את הלשון</h3><p>פותחים תרגום חי, בוחרים מי מדבר, ואביה מתרגמת דיבור וטקסט הלוך וחזור בין השפה שלכם לשפת היעד. בלי להכין משפטים מראש ובלי לקפוץ בין אפליקציות.</p>
+        <div class="feature-bottom"><span class="feature-ribbon"><span class="pulse"></span>NAVIGAM Translate</span></div>
+      </article>
+      <article class="feature-card feature-dark">
+        <div class="feature-icon">🔥</div><h3>במקום שעות בטיקטוק — אביה כבר חיפשה</h3><p>NAVIGAM מחפשת ומצליבה אותות ציבוריים מ‑TikTok, Instagram ו‑Facebook, מסננת לפי היעד, העונה והסגנון שלכם ומציגה מקומות שבאמת שווה לבדוק — לצילום, אוכל, חיי ערב, שווקים, hidden gems ועוד.</p>
+        <div class="feature-bottom"><div class="social-badges"><span class="social-badge">TikTok</span><span class="social-badge">Instagram</span><span class="social-badge">Facebook</span></div><p class="microcopy">באפליקציה מלאה NAVIGAM יכולה להציג עד 20 מקומות טרנדיים, עם תגיות TikTok / Instagram / Facebook רק כשיש מקור ציבורי מאומת.</p></div>
+      </article>
+      <article class="feature-card">
+        <div class="feature-icon">☀️</div><h3>יודעים גם איך האוויר לפני שיוצאים</h3><p>מדד איכות האוויר האירופי (AQI) ו‑PM2.5 מתעדכנים אוטומטית לפי היעד בתוך מסך מזג האוויר, לצד התחזית העדכנית.</p>
+        <div class="feature-bottom"><span class="feature-ribbon"><span class="pulse"></span>AQI + PM2.5</span></div>
+      </article>
     </div>
   </div>
 </section>
@@ -103,80 +108,61 @@
 <section class="section">
   <div class="container">
     <div class="section-head">
-      <span class="kicker">מתאים לכל הרכב ולכל מטרה</span>
-      <h2>יש טיול שמתאים בדיוק לכם</h2>
+      <span class="kicker">הכול במקום אחד</span>
+      <h2>זו לא רשימת המלצות. זו אפליקציית הטיול שלכם.</h2>
+      <p>המסלול, המקומות, המפות והכלים החיים נמצאים יחד — בדיוק במקום שבו צריך אותם במהלך הטיול.</p>
     </div>
-    <div class="trip-strip">
-      <a class="trip-card" href="/trip-types.html" style="background-image:url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=800&q=82')"><div class="txt"><h3>חברים</h3><p>חוויות, חיי לילה, אוכל ואטרקציות</p></div></a>
-      <a class="trip-card" href="/trip-types.html" style="background-image:url('https://images.unsplash.com/photo-1504150558240-0b4fd8946624?auto=format&fit=crop&w=800&q=82')"><div class="txt"><h3>משפחות</h3><p>קצב נכון ופעילויות שמתאימות לכולם</p></div></a>
-      <a class="trip-card" href="/trip-types.html" style="background-image:url('https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=800&q=82')"><div class="txt"><h3>יחידים</h3><p>חופש, גמישות ותכנון בדרך שלכם</p></div></a>
-      <a class="trip-card" href="/trip-types.html" style="background-image:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=82')"><div class="txt"><h3>זוגות</h3><p>רומנטיקה, נופים ורגעים בלי לחץ</p></div></a>
+    <div class="grid-3">
+      <div class="card"><div class="card-icon">🗓️</div><h3>מסלול לפי ימים</h3><p>שעות, עצירות, מנוחה ואוכל בקצב שמתאים לכם.</p></div><div class="card"><div class="card-icon">📍</div><h3>Google Maps + Waze</h3><p>כל נקודה במסלול עם ניווט בלחיצה.</p></div><div class="card"><div class="card-icon">◎</div><h3>NAVIGAM Translate</h3><p>שיחה דו־כיוונית בדיבור ובטקסט לפי שפת היעד.</p></div><div class="card"><div class="card-icon">☀️</div><h3>מזג אוויר + AQI</h3><p>תחזית, תנאים נוכחיים ואיכות אוויר שמתעדכנת אוטומטית.</p></div><div class="card"><div class="card-icon">🔥</div><h3>טרנדי ברשת</h3><p>מקומות שנמצאו ב-TikTok, Instagram ו-Facebook ומותאמים אליכם.</p></div><div class="card"><div class="card-icon">💬</div><h3>אביה איתכם</h3><p>הטיול נשאר מרוכז סביב העדפותיכם, עם אפשרות לליווי במהלך החופשה.</p></div>
     </div>
   </div>
 </section>
 
 <section class="section sand">
-  <div class="container split">
-    <div class="panel">
-      <span class="eyebrow">טיסות ומלונות</span>
-      <h2>אנחנו עוזרים למצוא. אתם סוגרים.</h2>
-      <p>אם תרצו, NAVIGAM יכולה לעזור באיתור טיסות ומלונות שמתאימים לטיול שלכם ולשלוח קישורים ישירים. הבחירה, ההזמנה והתשלום מתבצעים על ידכם ישירות מול הספק.</p>
-      <div class="note-box"><strong>חשוב:</strong> NAVIGAM אינה סוכנות נסיעות. המוצר שלנו הוא בניית הטיול האישי והאפליקציה שמרכזת אותו.</div>
-    </div>
-    <div class="panel featured">
-      <span class="eyebrow" style="background:rgba(255,255,255,.12);color:#fff">החוויה</span>
-      <h2>אתם לא קונים “מסלול”. אתם קונים שקט.</h2>
-      <p>במקום שעות של חיפושים, השוואות והתלבטויות, אתם מקבלים טיול שכבר חשבו עליו כמכלול: מה עושים, מתי, איפה אוכלים, איך מגיעים ומה מתאים לכם בדרך.</p>
+  <div class="container">
+    <div class="section-head"><span class="kicker">לפני ואחרי NAVIGAM</span><h2>החופשה לא צריכה להתחיל בעבודה.</h2></div>
+    <div class="compare-band">
+      <div class="compare-side before"><h3>בלי NAVIGAM</h3><div class="compare-list"><div class="compare-item"><span>×</span><div>עשרות טאבים פתוחים</div></div><div class="compare-item"><span>×</span><div>חיפוש נפרד ב‑TikTok, Instagram ו‑Facebook</div></div><div class="compare-item"><span>×</span><div>Google Translate באמצע שיחה</div></div><div class="compare-item"><span>×</span><div>מפות, מסעדות והזמנות מפוזרות</div></div></div></div>
+      <div class="compare-side after"><h3>עם NAVIGAM</h3><div class="compare-list"><div class="compare-item"><span>✓</span><div>אפליקציה אישית אחת</div></div><div class="compare-item"><span>✓</span><div>אביה מסננת טרנדים בשבילכם</div></div><div class="compare-item"><span>✓</span><div>תרגום חי בתוך האפליקציה</div></div><div class="compare-item"><span>✓</span><div>מסלול, ניווט ומידע חי במקום אחד</div></div></div></div>
     </div>
   </div>
 </section>
 
-<section class="section soft">
+<section id="how" class="section soft">
+  <div class="container">
+    <div class="section-head"><span class="kicker">איך זה עובד</span><h2>שלושה צעדים — מההודעה הראשונה לטיול מוכן.</h2></div>
+    <div class="grid-3"><div class="card"><div class="card-icon">1</div><h3>מדברים עם אביה ב‑WhatsApp</h3><p>ספרו יעד, תאריכים, מי נוסע ומה חשוב לכם. אפשר גם בהודעה קולית.</p></div><div class="card"><div class="card-icon">2</div><h3>מקבלים Preview אישי</h3><p>כשיש מספיק מידע, NAVIGAM בונה יום ראשון אישי כדי שתראו את המוצר לפני שממשיכים.</p></div><div class="card"><div class="card-icon">3</div><h3>מקבלים את האפליקציה המלאה</h3><p>כל ימי הטיול, המקומות והכלים החיים מסודרים באפליקציה אישית אחת.</p></div></div>
+  </div>
+</section>
+
+<section id="pricing" class="section">
   <div class="container">
     <div class="price-band">
-      <div>
-        <h2>מחיר פשוט וברור</h2>
-        <p>בניית טיול אישי ל‑4 ימים, כולל <strong>אפליקציית טיול אישית לנייד</strong> שבה מרוכז כל המסלול. כל יום נוסף: 25 ₪. ליווי של אביה במהלך הטיול: תוספת של 10 ₪ ליום.</p>
-        <div style="margin-top:18px"><a class="btn btn-primary" href="/pricing.html">לכל פרטי המחיר</a></div>
-      </div>
-      <div class="price-big"><strong>169 ₪</strong><span>ל‑4 ימי טיול</span></div>
+      <div><span class="feature-ribbon">מחיר פשוט</span><h2>169 ₪ ל‑4 ימי טיול</h2><p>כל יום נוסף: 25 ₪. ליווי של אביה במהלך הטיול: 10 ₪ ליום. המחיר כולל תכנון אישי ואפליקציית NAVIGAM.</p><div style="margin-top:18px"><a class="btn btn-primary" href="https://wa.me/972557760288?text=%D7%94%D7%99%D7%99%20%D7%90%D7%91%D7%99%D7%94%2C%20%D7%90%D7%A0%D7%99%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%9C%D7%94%D7%AA%D7%97%D7%99%D7%9C%20%D7%9C%D7%AA%D7%9B%D7%A0%D7%9F%20%D7%90%D7%AA%20%D7%94%D7%98%D7%99%D7%95%D7%9C%20%D7%A9%D7%9C%D7%99%20%D7%A2%D7%9D%20NAVIGAM%20%F0%9F%8C%8D">מתחילים עם אביה</a></div></div>
+      <div class="price-big"><strong>169 ₪</strong><span>4 days</span></div>
     </div>
   </div>
 </section>
 
-<section class="section">
+<section id="avia" class="section soft">
   <div class="container">
-    <div class="section-head">
-      <span class="kicker">איך זה עובד?</span>
-      <h2>מהרצונות שלכם לטיול מוכן</h2>
+    <div class="avia-cta">
+      <div><h2>פשוט כתבו לאביה לאן אתם רוצים לטוס.</h2><p>לא צריך להכין שאלון, לא צריך לדעת בדיוק מה אתם רוצים. מתחילים בשיחה — ואביה עושה סדר משם.</p></div>
+      <a class="btn" href="https://wa.me/972557760288?text=%D7%94%D7%99%D7%99%20%D7%90%D7%91%D7%99%D7%94%2C%20%D7%90%D7%A0%D7%99%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%9C%D7%94%D7%AA%D7%97%D7%99%D7%9C%20%D7%9C%D7%AA%D7%9B%D7%A0%D7%9F%20%D7%90%D7%AA%20%D7%94%D7%98%D7%99%D7%95%D7%9C%20%D7%A9%D7%9C%D7%99%20%D7%A2%D7%9D%20NAVIGAM%20%F0%9F%8C%8D">דברו עם אביה ב‑WhatsApp</a>
     </div>
-    <div class="grid-3">
-      <div class="card"><div class="card-icon">1</div><h3>מספרים לאביה</h3><p>מדברים ב‑WhatsApp על היעד, ההרכב, התקציב ומה אתם אוהבים.</p></div>
-      <div class="card"><div class="card-icon">2</div><h3>אנחנו בונים</h3><p>מחקר, בחירת מקומות, מסלול יומי, זמנים והמלצות שמתחברות אחת לשנייה.</p></div>
-      <div class="card"><div class="card-icon">3</div><h3>אתם מטיילים</h3><p>מקבלים אפליקציה מסודרת ויוצאים לדרך בלי לפתוח שוב עשרות טאבים.</p></div>
-    </div>
-    <div style="text-align:center;margin-top:28px"><a class="btn btn-secondary" href="/how-it-works.html">לכל התהליך</a></div>
   </div>
 </section>
 </main>
-
-<section class="cta-section">
-  <div class="container cta-row">
-    <div><h2>בואו נבנה את הטיול שלכם</h2><p>ספרו לאביה מה אתם רוצים מהחופשה. משם אנחנו מתחילים.</p></div>
-    <a class="btn btn-primary" href="https://wa.me/972557760288?text=%D7%94%D7%99%D7%99%20%D7%90%D7%91%D7%99%D7%94%2C%20%D7%90%D7%A0%D7%99%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%9C%D7%91%D7%A0%D7%95%D7%AA%20%D7%98%D7%99%D7%95%D7%9C%20%D7%A2%D7%9D%20NAVIGAM">מתחילים עם אביה</a>
-  </div>
-</section>
 
 <footer class="footer">
   <div class="container">
     <div class="footer-grid">
       <img class="logo" src="/assets/navigam/logo.png" alt="NAVIGAM">
-      <div class="footer-links"><a href="/">דף הבית</a><a href="/how-it-works.html">איך זה עובד</a><a href="/trip-types.html">סוגי טיולים</a><a href="/pricing.html">מחירים</a><a href="/avia.html">אביה</a><a href="/faq.html">שאלות נפוצות</a></div>
+      <div class="footer-links"><a href="#features">מה אביה עושה</a><a href="#how">איך זה עובד</a><a href="#pricing">מחיר</a><a href="https://wa.me/972557760288?text=%D7%94%D7%99%D7%99%20%D7%90%D7%91%D7%99%D7%94%2C%20%D7%90%D7%A0%D7%99%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%9C%D7%94%D7%AA%D7%97%D7%99%D7%9C%20%D7%9C%D7%AA%D7%9B%D7%A0%D7%9F%20%D7%90%D7%AA%20%D7%94%D7%98%D7%99%D7%95%D7%9C%20%D7%A9%D7%9C%D7%99%20%D7%A2%D7%9D%20NAVIGAM%20%F0%9F%8C%8D">אביה</a></div>
     </div>
-    <div class="legal">NAVIGAM היא מערכת לתכנון טיולים ואינה סוכנות נסיעות. טיסות, מלונות ושירותי צד שלישי מוזמנים ומשולמים על ידי הלקוח ישירות מול הספק.</div>
+    <div class="legal">NAVIGAM היא מערכת לתכנון טיולים ואינה סוכנות נסיעות. טיסות, מלונות ושירותי צד שלישי מוזמנים ומשולמים ישירות מול הספקים. תרגום חי, מזג אוויר ואיכות אוויר דורשים חיבור לאינטרנט; אותות טרנד ברשת מבוססים על מקורות ציבוריים זמינים.</div>
   </div>
 </footer>
-<a class="mobile-sticky" href="https://wa.me/972557760288?text=%D7%94%D7%99%D7%99%20%D7%90%D7%91%D7%99%D7%94%2C%20%D7%90%D7%A0%D7%99%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%9C%D7%91%D7%A0%D7%95%D7%AA%20%D7%98%D7%99%D7%95%D7%9C%20%D7%A2%D7%9D%20NAVIGAM">💬 מתחילים עם אביה ב‑WhatsApp</a>
-<script src="/marketing.js?v=20260922-2" defer></script>
-</body>
-</html>
+<a class="mobile-sticky" href="https://wa.me/972557760288?text=%D7%94%D7%99%D7%99%20%D7%90%D7%91%D7%99%D7%94%2C%20%D7%90%D7%A0%D7%99%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%9C%D7%94%D7%AA%D7%97%D7%99%D7%9C%20%D7%9C%D7%AA%D7%9B%D7%A0%D7%9F%20%D7%90%D7%AA%20%D7%94%D7%98%D7%99%D7%95%D7%9C%20%D7%A9%D7%9C%D7%99%20%D7%A2%D7%9D%20NAVIGAM%20%F0%9F%8C%8D">💬 דברו עם אביה ב‑WhatsApp</a>
+<script src="/marketing.js?v=20260925-avia" defer></script>
+</body></html>
