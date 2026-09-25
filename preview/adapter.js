@@ -27,14 +27,30 @@ function adaptPreview(payload, code) {
     return Number.isFinite(latitude) && Number.isFinite(longitude) && Math.abs(latitude) <= 90 && Math.abs(longitude) <= 180 ? {latitude, longitude} : {latitude:null, longitude:null};
   };
   const category = p => {
-    const raw = p.category_key || p.type || p.category || '';
-    const known = { 'מסעדה':'restaurant', 'קניות':'shopping', 'טבע':'nature', 'חיי לילה':'nightlife', 'יקב':'winery', attraction:'attractions', family_friendly:'family' };
+    const raw = String(p.category_key || p.type || p.category || '').trim();
+    const known = {
+      'מסעדה':'restaurant','אוכל יווני':'restaurant','ארוחת ערב חגיגית':'restaurant',
+      'קניות':'shopping','טבע':'nature','חיי לילה':'nightlife','יקב':'winery',
+      attraction:'attractions',family_friendly:'family',
+      history:'culture',museum:'culture',culture:'culture',stadium:'culture',
+      cafe:'restaurant',cafes:'restaurant',rooftop:'nightlife',
+      gym:'wellness',fitness:'wellness',wellness:'wellness',
+      park:'nature',lake:'nature',seaside:'nature',viewpoint:'nature',
+      square:'attractions',neighborhood:'attractions',
+      hotel:'hotel',rest:'rest',transport:'transport',
+      'הגעה':'transport','מנוחה':'rest','תרבות והיסטוריה':'culture',
+      'טיול עירוני':'attractions','תצפית':'nature'
+    };
     if (known[raw]) return known[raw];
-    if (/مطعم|حلويات|cafe|restaurant|dessert/i.test(raw)) return 'restaurant';
-    if (/سوق|تسوق|shopping|market/i.test(raw)) return 'shopping';
-    if (/حديقة|park|nature/i.test(raw)) return 'nature';
-    if (/مسائية|evening|nightlife/i.test(raw)) return 'nightlife';
-    return ['restaurant','shopping','nature','nightlife','family','winery'].includes(raw) ? raw : 'attractions';
+    if (/مطعم|حلويات|cafe|restaurant|dessert|food|dining|אוכל|מסעד/i.test(raw)) return 'restaurant';
+    if (/سوق|تسوق|shopping|market|שוק|קניות/i.test(raw)) return 'shopping';
+    if (/museum|history|culture|stadium|תרבות|היסטור/i.test(raw)) return 'culture';
+    if (/gym|fitness|wellness|spa|כושר/i.test(raw)) return 'wellness';
+    if (/حديقة|park|nature|lake|seaside|viewpoint|טבע|אגם|חוף|תצפית/i.test(raw)) return 'nature';
+    if (/مسائية|evening|nightlife|rooftop|bar|לילה/i.test(raw)) return 'nightlife';
+    if (/airport|transport|הגעה/i.test(raw)) return 'transport';
+    if (/rest|hotel|מנוחה|מלון/i.test(raw)) return raw.match(/hotel|מלון/i) ? 'hotel' : 'rest';
+    return ['restaurant','shopping','attractions','culture','nature','wellness','nightlife','family','winery','transport','hotel','rest'].includes(raw) ? raw : 'attractions';
   };
   const places = new Map();
   const images = {hero:safeUrl(payload.images?.hero || payload.images?.destinationHero || trip.hero_image_url), itinerary:safeUrl(payload.images?.itineraryDayHero || payload.images?.itinerary || trip.hero_image_url), places:{}, hotels:{}};
