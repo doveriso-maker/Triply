@@ -366,3 +366,25 @@ html[lang=ar] #splash h1.splash-headline{font-size:clamp(38px,11.8vw,67px);line-
 #previewGate{position:fixed;inset:0;z-index:999999;display:flex;align-items:center;justify-content:center;background:linear-gradient(150deg,#dff7fc,#fff);color:var(--navy);padding:22px;text-align:center}
 #previewGate>div{max-width:460px}#previewGate h1{font-size:26px;line-height:1.4}#previewGate p{font-size:16px;line-height:1.8;color:var(--muted)}.gate-logo{width:140px;height:120px;object-fit:contain}
 .image-placeholder{width:100%;height:100%;min-height:60px;display:flex;flex-direction:column;gap:5px;justify-content:center;align-items:center;text-align:center;padding:8px;font-size:10px;color:#0a526a;background:linear-gradient(145deg,#e0f8fb,#f6fbfd)}.image-placeholder>span{font-size:26px}.image-unavailable{background:#e0f8fb}.home-hero .image-placeholder{align-items:flex-start;justify-content:flex-start}.trip-cover .image-placeholder{font-size:15px}
+
+
+/* NAVIGAM Social Trends */
+.trend-intro{max-width:720px;margin:-8px auto 18px;text-align:center}
+.trend-list{display:grid;gap:14px}
+.trend-card{padding:17px;background:linear-gradient(155deg,#fff,#f7fcfd);border:1px solid #e3eef2}
+.trend-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.trend-head h3{margin:5px 0 3px;font-size:19px;line-height:1.3}
+.trend-head p{margin:0;color:var(--muted);font-size:11px}
+.trend-kicker{font-size:10px;font-weight:900;letter-spacing:.4px;color:#087f97;text-transform:uppercase}
+.trend-badges{display:flex;flex-wrap:wrap;gap:5px;justify-content:flex-end}
+.trend-badge{display:inline-flex;align-items:center;border-radius:999px;padding:5px 8px;font-size:10px;font-weight:800;background:#eef7fa;color:#07364b;border:1px solid #dcecf1}
+.trend-desc{font-size:12px;line-height:1.7;color:#36596a;margin:13px 0}
+.trend-why{background:#f2fafc;border-radius:14px;padding:10px 12px;margin-top:9px}
+.trend-why.match{background:#ecfbfc}
+.trend-why strong{font-size:11px;color:#08748a}
+.trend-why p{font-size:12px;line-height:1.65;margin:4px 0 0;color:#35596b}
+.trend-footer{margin-top:13px;display:grid;gap:10px}
+.trend-sources{display:flex;align-items:center;gap:7px;flex-wrap:wrap;font-size:10px;color:var(--muted)}
+.trend-source{display:inline-flex;border-radius:999px;padding:5px 8px;background:#fff;border:1px solid #dceaf0;color:#086e85;text-decoration:none;font-weight:800}
+.trend-disclaimer{max-width:720px;margin:16px auto 0;color:var(--muted);font-size:10px;line-height:1.6;text-align:center}
+@media(min-width:760px){.trend-list{grid-template-columns:repeat(2,minmax(0,1fr));max-width:900px;margin:auto}}
