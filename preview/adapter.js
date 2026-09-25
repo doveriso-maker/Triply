@@ -85,5 +85,17 @@ function adaptPreview(payload, code) {
   };
   const checklist = check.en.map((_,i) => Object.fromEntries(languages.map(l=>[l,check[l][i]])));
   const hotels = (payload.hotels || []).filter(h=>h.id).map(h => { const entry=payload.images?.hotels?.[h.id];images.hotels[h.id]=safeUrl(h.image_url || (typeof entry==='string'?entry:entry?.url));imagePresentation.hotels[h.id]={kind:entry?.kind||'place'};return {...h, q:queryOf(h)}; });
-  return {schemaVersion:2, engineVersion:'PREMIUM_V2_NEXT', code, id:`preview-${code}`, client:{language,name:payload.customer?.display_name || {he:'אורח NAVIGAM',en:'NAVIGAM Guest',ru:'Гость NAVIGAM',ar:'ضيف NAVIGAM'}, party:partyText}, destination:{...destination,name:destination.name || trip.destination,language:destination.language || payload.translate?.destination_language || null}, trip:{title, startDate, endDate,dayCount}, preview:{open_days:[1],locked_days:days.filter(d=>d.locked).map(d=>d.day)}, data:{tripDays:days,places:placeList,hotels,checklist,info:[]},images,imagePresentation,exchange:{from:'ILS',to:destination.currency || payload.currency || null,rate:null,isExample:false},support:payload.support || {},features:payload.features || {},expires_at:payload.expires_at,server_now:payload.server_now};
+  const trends = (payload.social_trends || []).slice(0,10).map((item,index)=>({
+    id:item.id || `trend-${index+1}`,
+    name:item.name || '',
+    category:item.category || '',
+    area:item.area || '',
+    description:item.description || '',
+    whyTrending:item.why_trending || '',
+    whyMatch:item.why_match || '',
+    platforms:Array.isArray(item.platforms)?item.platforms.filter(v=>['tiktok','instagram','facebook'].includes(v)):[],
+    socialSources:Array.isArray(item.social_sources)?item.social_sources.map(s=>({platform:s.platform,url:safeUrl(s.url)})).filter(s=>s.platform&&s.url):[],
+    q:item.query || item.name || ''
+  })).filter(item=>item.name && item.platforms.length);
+  return {schemaVersion:2, engineVersion:'PREMIUM_V2_NEXT', code, id:`preview-${code}`, client:{language,name:payload.customer?.display_name || {he:'אורח NAVIGAM',en:'NAVIGAM Guest',ru:'Гость NAVIGAM',ar:'ضيف NAVIGAM'}, party:partyText}, destination:{...destination,name:destination.name || trip.destination,language:destination.language || payload.translate?.destination_language || null}, trip:{title, startDate, endDate,dayCount}, preview:{open_days:[1],locked_days:days.filter(d=>d.locked).map(d=>d.day)}, data:{tripDays:days,places:placeList,hotels,trends,checklist,info:[]},images,imagePresentation,exchange:{from:'ILS',to:destination.currency || payload.currency || null,rate:null,isExample:false},support:payload.support || {},features:payload.features || {},expires_at:payload.expires_at,server_now:payload.server_now};
 }
