@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /admin-login.html
+Disallow: /app/
+Disallow: /preview/
+Disallow: /p/
+Disallow: /order/
+Disallow: /questionnaire.html
+Disallow: /trip/
+
+Sitemap: https://www.navigam.com/sitemap.xml
