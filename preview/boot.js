@@ -131,7 +131,7 @@
         }
         if (!loaded) {
           window.NAVIGAM_CONFIG=adaptPreview(data,code);
-          for (const file of ['premium.js','features.js','map.js']) await loadScript(file);
+          for (const file of ['premium.js','memories.js','features.js','map.js']) await loadScript(file);
           loaded=true;
           updateChrome();render();
         }
