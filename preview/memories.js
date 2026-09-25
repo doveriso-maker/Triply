@@ -218,7 +218,7 @@ function memoryAmbient(duration){
 async function memoryCreateReel(withMusic){
   if(memoryState.rendering)return;
   if(memoryState.items.length<3){toast(mt('needPhotos'));return}
-  const mime=memoryMime();if(!mime){toast(mt('unsupported'));return}
+  const mime=memoryMime();if(!mime||!HTMLCanvasElement.prototype.captureStream){toast(mt('unsupported'));return}
   memoryState.rendering=true;memoryState.progress=0;
   openSheet('<div class="sheethead"><div><h2>'+escapeHtml(mt('processing'))+'</h2><small>NAVIGAM Trip Reel</small></div><button onclick="closeSheet()">✕</button></div><div class="memory-render"><div class="memory-render-logo">✦</div><strong>'+escapeHtml(mt('rendering'))+'</strong><div class="memory-progress"><i id="memoryProgress"></i></div><span id="memoryProgressText">0%</span></div>');
   let loaded=[],logo=null,audio=null;
