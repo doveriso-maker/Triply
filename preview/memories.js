@@ -289,3 +289,21 @@ async function memoryShareCurrent(ext){
   const a=document.createElement('a');a.href=URL.createObjectURL(s.blob);a.download=file.name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),5000);
 }
 memoryLoad();
+
+
+/* Compatibility bridge for Premium V2 card hooks. */
+function memoryButton(ctx,compact=false){
+  const normalized={
+    sourceType:ctx?.sourceType||ctx?.source_type||'general',
+    sourceKey:ctx?.sourceKey||ctx?.source_key||'',
+    sourceLabel:ctx?.sourceLabel||ctx?.source_label||mt('general'),
+    tripDayId:ctx?.tripDayId||ctx?.trip_day_id||'',
+    dayNumber:ctx?.dayNumber||ctx?.day_number||S.day+1,
+    itineraryItemId:ctx?.itineraryItemId||ctx?.itinerary_item_id||'',
+    placeId:ctx?.placeId||ctx?.place_id||'',
+    query:ctx?.query||'',
+    latitude:ctx?.latitude??null,
+    longitude:ctx?.longitude??null
+  };
+  return memoryMiniButton(normalized,compact);
+}
