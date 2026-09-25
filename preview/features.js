@@ -4,6 +4,14 @@ const FEATURE_COPY = {
   weatherLoading:['טוענים את מזג האוויר…','Loading weather…','Загружаем погоду…','جارٍ تحميل الطقس…'],
   weatherService:['נתונים עדכניים מ-Open-Meteo.','Current data from Open-Meteo.','Актуальные данные Open-Meteo.','بيانات حديثة من Open-Meteo.'],
   currentConditions:['מזג האוויר כעת','Current conditions','Погода сейчас','الطقس الآن'],
+  airQuality:['איכות האוויר','Air quality','Качество воздуха','جودة الهواء'],
+  airQualityGood:['טובה','Good','Хорошее','جيدة'],
+  airQualityFair:['סבירה','Fair','Умеренное','متوسطة'],
+  airQualityModerate:['בינונית','Moderate','Среднее','متوسطة'],
+  airQualityPoor:['לא טובה','Poor','Плохое','سيئة'],
+  airQualityVeryPoor:['גרועה','Very poor','Очень плохое','سيئة جداً'],
+  airQualityExtreme:['קיצונית','Extremely poor','Крайне плохое','خطيرة جداً'],
+  pm25:['PM2.5','PM2.5','PM2.5','PM2.5'],
   feelsLike:['מרגיש כמו','Feels like','Ощущается как','المحسوسة'],
   wind:['רוח','Wind','Ветер','الرياح'],
   kmh:['קמ״ש','km/h','км/ч','كم/س'],
@@ -57,6 +65,15 @@ function weatherCodeText(code){
   const keys={0:'weatherClear',1:'weatherMostlyClear',2:'weatherPartCloud',3:'weatherCloud',45:'weatherFog',48:'weatherFog',51:'weatherDrizzle',53:'weatherDrizzle',55:'weatherDrizzle',56:'weatherDrizzle',57:'weatherDrizzle',61:'weatherRain',63:'weatherRain',65:'weatherRain',66:'weatherRain',67:'weatherRain',71:'weatherSnow',73:'weatherSnow',75:'weatherSnow',77:'weatherSnow',80:'weatherShowers',81:'weatherShowers',82:'weatherShowers',85:'weatherSnow',86:'weatherSnow',95:'weatherStorm',96:'weatherStorm',99:'weatherStorm'};
   return t(keys[code]||'weatherVariable');
 }
+function aqiText(value){
+  if(!Number.isFinite(value))return '';
+  if(value<=20)return t('airQualityGood');
+  if(value<=40)return t('airQualityFair');
+  if(value<=60)return t('airQualityModerate');
+  if(value<=80)return t('airQualityPoor');
+  if(value<=100)return t('airQualityVeryPoor');
+  return t('airQualityExtreme');
+}
 let weatherGeneration=0;
 async function renderWeather(m){
   const generation=++weatherGeneration,locale=LOCALE,destination=escapeHtml(String(loc(CONFIG.destination.name)));
@@ -66,7 +83,11 @@ async function renderWeather(m){
     const {latitude,longitude,timezone}=CONFIG.destination;
     if(!Number.isFinite(latitude)||!Number.isFinite(longitude)||Math.abs(latitude)>90||Math.abs(longitude)>180)throw Error('coordinates');
     const params=new URLSearchParams({latitude:String(latitude),longitude:String(longitude),current:'temperature_2m,apparent_temperature,weather_code,wind_speed_10m',daily:'weather_code,temperature_2m_max,temperature_2m_min',timezone:timezone||'auto',forecast_days:'7'});
-    const w=await fetchJSON('https://api.open-meteo.com/v1/forecast?'+params);
+    const airParams=new URLSearchParams({latitude:String(latitude),longitude:String(longitude),current:'european_aqi,pm2_5',timezone:timezone||'auto'});
+    const [w,air]=await Promise.all([
+      fetchJSON('https://api.open-meteo.com/v1/forecast?'+params),
+      fetchJSON('https://air-quality-api.open-meteo.com/v1/air-quality?'+airParams).catch(()=>null)
+    ]);
     if(!current())return;
     if(!w.current||!Number.isFinite(w.current.temperature_2m)||!Array.isArray(w.daily?.time))throw Error('weather');
     const number=value=>Number.isFinite(value)?new Intl.NumberFormat(locale,{maximumFractionDigits:0}).format(value):'—';
@@ -74,7 +95,9 @@ async function renderWeather(m){
     const today=String(w.current.time||w.daily.time[0]||'').slice(0,10);
     const note=CONFIG.trip.endDate<today?'forecastPast':forecast.length?'forecastPartial':'forecastFuture';
     const forecastHtml=forecast.map(day=>`<div style="min-width:110px;background:#f3fbfd;border-radius:16px;padding:12px;text-align:center"><b>${escapeHtml(new Date(day.date+'T12:00:00Z').toLocaleDateString(locale,{weekday:'short',day:'numeric',month:'short',timeZone:'UTC'}))}</b><div style="font-size:24px;margin:8px 0">${number(day.high)}°</div><small>${number(day.low)}° · ${weatherCodeText(day.code)}</small></div>`).join('');
-    m.innerHTML=`<div class="screen-title">${t('weather')}</div><div class="card" style="overflow:hidden"><div style="padding:24px;background:linear-gradient(135deg,#0b7898,#20cde0);color:white"><div style="font-size:14px">${destination} · ${t('currentConditions')}</div><div style="font-size:58px;font-weight:900">${number(w.current.temperature_2m)}°</div><h2 style="margin:0">${weatherCodeText(w.current.weather_code)}</h2><p>${t('feelsLike')} ${number(w.current.apparent_temperature)}° · ${t('wind')} ${number(w.current.wind_speed_10m)} ${t('kmh')}</p><small>${t('updated')}: ${escapeHtml(String(w.current.time||'').replace('T',' '))} · Open-Meteo</small></div><div style="padding:18px 16px 0"><h3>${t('tripForecast')}</h3><p class="route-note">${t(note)}</p></div>${forecast.length?`<div style="display:flex;gap:10px;overflow:auto;padding:14px">${forecastHtml}</div>`:''}<div style="padding:0 16px 16px"><button class="btn ghost full" onclick="render()">${t('retry')}</button></div></div>`;
+    const aqi=air?.current?.european_aqi,pm25=air?.current?.pm2_5;
+    const airHtml=Number.isFinite(aqi)?`<div style="margin:16px;background:#f2fbf7;border:1px solid #d9efe5;border-radius:18px;padding:16px"><div style="display:flex;align-items:center;justify-content:space-between;gap:14px"><div><strong style="display:block;font-size:16px">${t('airQuality')}</strong><span class="route-note">${aqiText(aqi)}</span></div><div style="text-align:center"><b style="font-size:32px;color:#0b7898">${number(aqi)}</b><small style="display:block">AQI</small></div></div>${Number.isFinite(pm25)?`<div class="route-note" style="margin-top:8px">${t('pm25')}: ${new Intl.NumberFormat(locale,{maximumFractionDigits:1}).format(pm25)} µg/m³</div>`:''}</div>`:'';
+    m.innerHTML=`<div class="screen-title">${t('weather')}</div><div class="card" style="overflow:hidden"><div style="padding:24px;background:linear-gradient(135deg,#0b7898,#20cde0);color:white"><div style="font-size:14px">${destination} · ${t('currentConditions')}</div><div style="font-size:58px;font-weight:900">${number(w.current.temperature_2m)}°</div><h2 style="margin:0">${weatherCodeText(w.current.weather_code)}</h2><p>${t('feelsLike')} ${number(w.current.apparent_temperature)}° · ${t('wind')} ${number(w.current.wind_speed_10m)} ${t('kmh')}</p><small>${t('updated')}: ${escapeHtml(String(w.current.time||'').replace('T',' '))} · Open-Meteo</small></div>${airHtml}<div style="padding:18px 16px 0"><h3>${t('tripForecast')}</h3><p class="route-note">${t(note)}</p></div>${forecast.length?`<div style="display:flex;gap:10px;overflow:auto;padding:14px">${forecastHtml}</div>`:''}<div style="padding:0 16px 16px"><button class="btn ghost full" onclick="render()">${t('retry')}</button></div></div>`;
   }catch(error){
     if(current())m.innerHTML=`<div class="screen-title">${t('weather')}</div><div class="weather-empty card"><span>☀</span><h2>${destination}</h2><h3>${t('weatherUnavailable')}</h3><p>${t('connectionRetry')}</p><button class="btn primary full" onclick="render()">${t('retry')}</button></div>`;
   }
