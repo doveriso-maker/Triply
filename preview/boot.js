@@ -12,14 +12,14 @@
     ar:{loading:'جارٍ فتح رحلتكم…',expired:'انتهت صلاحية المعاينة',expiryNote:'المعاينة متاحة لمدة 24 ساعة. تواصلوا مع أڤيا لمتابعة الرحلة.',failed:'تعذر فتح المعاينة الآن',network:'يلزم الاتصال بالإنترنت للتحقق من صلاحية الوصول إلى المعاينة.',retry:'إعادة المحاولة',invalid:'رابط المعاينة غير متاح'}
   };
   const offlineCopy = {
-    he:'החיבור נותק. הטיול הפתוח זמין עד פקיעת התצוגה המקדימה; שירותים חיים דורשים אינטרנט.',
-    en:'Connection interrupted. This open trip remains available until preview expiry; live features need internet.',
-    ru:'Связь прервана. Открытая поездка доступна до окончания предпросмотра; онлайн-функциям нужен интернет.',
-    ar:'انقطع الاتصال. تبقى الرحلة المفتوحة متاحة حتى انتهاء المعاينة؛ وتتطلب الخدمات المباشرة الإنترنت.'
+    he:'החיבור נותק. הטיול שכבר נפתח נשאר זמין; שירותים חיים דורשים אינטרנט.',
+    en:'Connection interrupted. Your open trip remains available; live features need internet.',
+    ru:'Связь прервана. Открытая поездка остаётся доступной; онлайн-функциям нужен интернет.',
+    ar:'انقطع الاتصال. تبقى الرحلة المفتوحة متاحة؛ وتتطلب الخدمات المباشرة الإنترنت.'
   };
   let language = ['he','en','ru','ar'].includes(navigator.language?.slice(0,2)) ? navigator.language.slice(0,2) : 'en';
   const scriptsLoaded = new Set();
-  let timer, hardTimer, deadline = 0, loaded = false, checking = null, terminal = false, expiresIn = 0, offlineNotice = null;
+  let timer, hardTimer, deadline = 0, loaded = false, checking = null, terminal = false, expiresIn = 0, unlimited = false, offlineNotice = null;
   window.NAVIGAM_PREVIEW_URL = 'https://www.navigam.com/p/' + encodeURIComponent(code);
   window.NAVIGAM_AUTHORIZED = false;
   function clearOfflineStatus() { offlineNotice?.remove(); offlineNotice=null; }
@@ -114,14 +114,21 @@
           return;
         }
         language = copy[data.language] ? data.language : 'en';
-        // Server dates determine the authorization lifetime; device clock is never used.
+        // Full/unlimited trips intentionally have no expires_at. Preview links still use server expiry.
+        unlimited = data.authorization?.unlimited === true || data.preview?.mode === 'full';
         const serverNow = Date.parse(data.server_now || response.headers.get('date'));
-        const expiry = Date.parse(data.expires_at);
-        expiresIn = expiry - serverNow - (performance.now()-started);
-        if (!Number.isFinite(expiresIn) || expiresIn<=0) {terminal=true;showGate('expired',language);return;}
-        deadline=performance.now()+expiresIn;
-        clearTimeout(hardTimer);
-        hardTimer=setTimeout(()=>{showGate('loading');authorize();},Math.max(1,expiresIn));
+        if (unlimited) {
+          expiresIn = Number.POSITIVE_INFINITY;
+          deadline = Number.POSITIVE_INFINITY;
+          clearTimeout(hardTimer);
+        } else {
+          const expiry = Date.parse(data.expires_at);
+          expiresIn = expiry - serverNow - (performance.now()-started);
+          if (!Number.isFinite(expiresIn) || expiresIn<=0) {terminal=true;showGate('expired',language);return;}
+          deadline=performance.now()+expiresIn;
+          clearTimeout(hardTimer);
+          hardTimer=setTimeout(()=>{showGate('loading');authorize();},Math.max(1,expiresIn));
+        }
         if (!loaded) {
           window.NAVIGAM_CONFIG=adaptPreview(data,code);
           for (const file of ['premium.js','features.js','map.js']) await loadScript(file);
@@ -134,7 +141,7 @@
         app.hidden=false;app.inert=false;gate.style.display='none';gate.hidden=true;
         window.NAVIGAM_AUTHORIZED=true;
         clearTimeout(timer);
-        timer=setTimeout(()=>{if(expiresIn<=60000)showGate('loading');authorize();},Math.min(60000,Math.max(250,deadline-performance.now())));
+        timer=setTimeout(()=>{if(!unlimited && expiresIn<=60000)showGate('loading');authorize();},unlimited ? 60000 : Math.min(60000,Math.max(250,deadline-performance.now())));
       } catch {
         if(!transportFailure || !retainOpenSession())showGate('failed',language);
         clearTimeout(timer);timer=setTimeout(authorize,30000);
@@ -144,8 +151,8 @@
     return checking;
   }
   try {if(await removeLegacyPreviewCache())return;}catch{showGate('failed');return;}
-  document.addEventListener('visibilitychange',()=>{if(!document.hidden){showGate('loading');authorize();}});
-  window.addEventListener('pageshow',event=>{if(event.persisted){showGate('loading');authorize();}});
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden){if(!unlimited)showGate('loading');authorize();}});
+  window.addEventListener('pageshow',event=>{if(event.persisted){if(!unlimited)showGate('loading');authorize();}});
   window.addEventListener('online',authorize);
   window.addEventListener('offline',()=>{if(!retainOpenSession())showGate('failed');});
   await authorize();
