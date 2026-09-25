@@ -609,3 +609,47 @@ const MESSAGES={
 
 const SHELL_COPY = {"locationPending": ["מיקום יתווסף לאחר בחירת לינה", "Location follows accommodation details", "Место появится после выбора проживания", "يُحدد الموقع بعد اختيار الإقامة"], "lockedTitle": ["המשך הטיול מחכה לכם", "The rest of your trip awaits", "Продолжение поездки ждёт вас", "باقي رحلتكم بانتظاركم"], "lockedBody": ["בתצוגה המקדימה יום 1 פתוח במלואו. יתר הימים נפתחים במסלול המלא.", "Day 1 is fully open in this preview. The remaining days unlock with the full itinerary.", "В предпросмотре полностью открыт день 1. Остальные дни доступны в полном маршруте.", "اليوم الأول مفتوح بالكامل في المعاينة. تُفتح بقية الأيام مع المسار الكامل."], "pricing": ["169 ₪ ל־4 ימים · 25 ₪ לכל יום נוסף · ליווי אביה בתוספת 10 ₪ ליום", "ILS 169 for 4 days · ILS 25 per extra day · Avia accompaniment: ILS 10 per day", "169 ₪ за 4 дня · 25 ₪ за каждый дополнительный день · сопровождение Авии: 10 ₪ в день", "169 شيكل لأربعة أيام · 25 شيكل لكل يوم إضافي · مرافقة أڤيا: 10 شواكل يومياً"], "attractions": ["אטרקציות", "Attractions", "Достопримечательности", "معالم وتجارب"], "family": ["למשפחות", "Family friendly", "Для семей", "مناسب للعائلة"], "unknownLanguage": ["שפת היעד טרם הוגדרה", "Destination language not configured", "Язык страны ещё не указан", "لم تُحدد لغة الوجهة بعد"]};
 for(const [key,values] of Object.entries(SHELL_COPY)) ['he','en','ru','ar'].forEach((locale,i)=>I18N[locale][key]=values[i]);
+
+
+/* NAVIGAM Memories */
+const NAVIGAM_MEMORY_COPY={
+  memories:['זיכרונות','Memories','Воспоминания','الذكريات'],
+  addMoment:['הוסף רגע','Add a moment','Добавить момент','أضف لحظة'],
+  memoryFullOnly:['NAVIGAM Memories זמין באפליקציה המלאה של הטיול.','NAVIGAM Memories is available in the full trip app.','NAVIGAM Memories доступен в полной версии приложения.','NAVIGAM Memories متاح في تطبيق الرحلة الكامل.'],
+  memoryCaptureText:['צלמו עכשיו או בחרו תמונה מהגלריה. NAVIGAM תשייך אותה למקום וליום בטיול.','Take a photo or choose one from your gallery. NAVIGAM will attach it to the place and trip day.','Снимите фото или выберите из галереи — NAVIGAM привяжет его к месту и дню.','التقط صورة أو اختر من المعرض، وسيقوم NAVIGAM بربطها بالمكان واليوم.'],
+  memoryCamera:['פתח מצלמה','Open camera','Открыть камеру','افتح الكاميرا'],
+  memoryGallery:['בחר מהגלריה','Choose from gallery','Выбрать из галереи','اختر من المعرض'],
+  memoryPrivacy:['התמונות נשמרות באופן פרטי בתוך הטיול שלכם ואינן ציבוריות.','Photos are stored privately inside your trip and are not public.','Фотографии хранятся приватно внутри поездки.','تُحفظ الصور بشكل خاص داخل رحلتكم وليست عامة.'],
+  memoryUploading:['שומר את הרגעים שלכם…','Saving your moments…','Сохраняем ваши моменты…','جارٍ حفظ لحظاتكم…'],
+  memorySaved:['הרגע נשמר ב-NAVIGAM Memories ✨','Saved to NAVIGAM Memories ✨','Момент сохранён в NAVIGAM Memories ✨','تم حفظ اللحظة في NAVIGAM Memories ✨'],
+  memoryUploadFailed:['לא הצלחנו לשמור את התמונה כרגע. נסו שוב.','Could not save the photo. Please try again.','Не удалось сохранить фото. Попробуйте снова.','تعذر حفظ الصورة. حاول مرة أخرى.'],
+  memoryLoading:['טוען את הזיכרונות שלכם…','Loading your memories…','Загружаем воспоминания…','جارٍ تحميل الذكريات…'],
+  memoryHeroTitle:['הטיול שלכם, כמו שזכרתם אותו.','Your trip, the way you remember it.','Ваша поездка — такой, какой вы её запомнили.','رحلتكم كما تتذكرونها.'],
+  memoryHeroText:['שומרים רגעים מכל מקום בטיול. בסוף NAVIGAM הופכת אותם לסרטון קצר וממותג.','Save moments from every stop. At the end, NAVIGAM turns them into a short branded reel.','Сохраняйте моменты с каждой остановки — NAVIGAM соберёт их в короткий ролик.','احفظوا لحظات من كل محطة، وفي النهاية يحولها NAVIGAM إلى فيديو قصير.'],
+  memoryPhotos:[' תמונות',' photos',' фото',' صور'],
+  memoryPlaces:[' מקומות',' places',' мест',' أماكن'],
+  memoryEmptyTitle:['עוד אין כאן רגעים','No moments yet','Пока нет моментов','لا توجد لحظات بعد'],
+  memoryEmpty:['הוסיפו תמונה מכל עצירה, המלצה או מקום טרנדי — ואנחנו נסדר את הזיכרונות לפי הטיול.','Add a photo from any stop, recommendation or trend and we’ll organize it by your trip.','Добавляйте фото из остановок, рекомендаций и трендов — мы разложим их по поездке.','أضيفوا صورة من أي محطة أو توصية أو ترند، وسنرتبها حسب الرحلة.'],
+  memoryDelete:['מחק תמונה','Delete photo','Удалить фото','احذف الصورة'],
+  memoryDeleteConfirm:['למחוק את הרגע הזה מהטיול?','Delete this moment from the trip?','Удалить этот момент?','حذف هذه اللحظة من الرحلة؟'],
+  memoryDeleteFailed:['לא הצלחנו למחוק כרגע.','Could not delete right now.','Не удалось удалить.','تعذر الحذف حالياً.'],
+  memoryReel:['NAVIGAM Trip Reel','NAVIGAM Trip Reel','NAVIGAM Trip Reel','NAVIGAM Trip Reel'],
+  memoryReelHint:['עד 30 שניות מהזיכרונות שלכם, עם לוגו NAVIGAM ומסך סיום אישי.','Up to 30 seconds from your memories, with NAVIGAM branding and a personal ending.','До 30 секунд из ваших фото, с брендингом NAVIGAM и финальным экраном.','حتى 30 ثانية من ذكرياتكم مع شعار NAVIGAM ونهاية شخصية.'],
+  memoryReelCreate:['צור את סרטון הטיול','Create my trip reel','Создать ролик','أنشئ فيديو الرحلة'],
+  memoryNeedTwo:['צריך לפחות 2 תמונות כדי ליצור סרטון','Add at least 2 photos to create a reel','Нужно минимум 2 фото','أضف صورتين على الأقل لإنشاء الفيديو'],
+  memoryMusicAmbient:['עם מנגינה רגועה מקורית','With original ambient music','С оригинальной спокойной музыкой','مع موسيقى هادئة أصلية'],
+  memoryNoMusic:['בלי מוזיקה','No music','Без музыки','بدون موسيقى'],
+  memoryMusicNote:['המנגינה נוצרת במיוחד בתוך NAVIGAM ואינה שיר מסחרי.','The melody is generated inside NAVIGAM and is not a commercial song.','Мелодия создаётся внутри NAVIGAM и не является коммерческой песней.','الموسيقى مُنشأة داخل NAVIGAM وليست أغنية تجارية.'],
+  memoryGenerating:['מכינים את הסרטון שלכם…','Creating your trip reel…','Создаём ваш ролик…','جارٍ إنشاء فيديو رحلتكم…'],
+  memoryGeneratingHint:['זה לוקח עד כחצי דקה — הסרטון נבנה ישירות במכשיר שלכם.','This takes up to about 30 seconds and is rendered directly on your device.','Это займёт около 30 секунд — ролик создаётся прямо на устройстве.','يستغرق ذلك نحو 30 ثانية ويتم إنشاء الفيديو مباشرة على جهازكم.'],
+  memoryReelReady:['הסרטון מוכן ✨','Your reel is ready ✨','Ролик готов ✨','الفيديو جاهز ✨'],
+  memoryReelFailed:['לא הצלחנו ליצור את הסרטון במכשיר הזה. התמונות נשמרו.','Could not create the reel on this device. Your photos are safe.','Не удалось создать ролик на этом устройстве. Фото сохранены.','تعذر إنشاء الفيديو على هذا الجهاز. صوركم محفوظة.'],
+  memoryVideoUnsupported:['הדפדפן הזה לא תומך כרגע ביצירת וידאו. התמונות נשמרו ואפשר לנסות ממכשיר אחר.','This browser cannot render video yet. Your photos are safe; try another device.','Браузер не поддерживает создание видео. Фото сохранены.','هذا المتصفح لا يدعم إنشاء الفيديو حالياً. صوركم محفوظة.'],
+  memoryShare:['שתף','Share','Поделиться','مشاركة'],
+  memoryDownload:['שמור','Save','Сохранить','حفظ'],
+  memoryShareText:['הזיכרונות שלנו מהטיול עם NAVIGAM ✨','Our trip memories with NAVIGAM ✨','Наши воспоминания с NAVIGAM ✨','ذكريات رحلتنا مع NAVIGAM ✨'],
+  memoryShareFailed:['לא הצלחנו לשתף כרגע.','Could not share right now.','Не удалось поделиться.','تعذرت المشاركة حالياً.'],
+  memoryEnd1:['שמחנו להיות חלק מהטיול שלכם.','We loved being part of your trip.','Мы рады, что стали частью вашей поездки.','سعدنا بأن نكون جزءاً من رحلتكم.'],
+  memoryEnd2:['ניפגש בטיול הבא.','See you on the next trip.','До встречи в следующей поездке.','نلتقي في الرحلة القادمة.']
+};
+for(const [key,values] of Object.entries(NAVIGAM_MEMORY_COPY)) ['he','en','ru','ar'].forEach((locale,i)=>I18N[locale][key]=values[i]);
