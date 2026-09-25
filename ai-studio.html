@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#063a56">
+<title>NAVIGAM AI Studio</title>
+<link rel="icon" type="image/png" href="/assets/navigam/symbol.png">
+<style>
+:root{--navy:#063a56;--deep:#052f48;--cyan:#18d9ed;--cyan2:#50e7f2;--ink:#0c2f47;--muted:#718694;--line:#deebf0;--bg:#eef7fb;--white:#fff;--green:#198c66;--warn:#b36a21;--red:#bd4052}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#f9fdff,#eef7fb 45%,#f8fcfd);font-family:Arial,"Noto Sans Hebrew",sans-serif;color:var(--ink)}
+button,input,select,textarea{font:inherit}.shell{max-width:1080px;margin:auto;padding:18px 14px 80px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}
+.brand{display:flex;align-items:center;gap:10px}.brand img{width:52px;height:52px;object-fit:contain}.brand h1{font-size:22px;margin:0;color:var(--navy)}.brand p{font-size:10px;color:var(--muted);margin:3px 0 0}
+.actions{display:flex;gap:7px;flex-wrap:wrap}.btn{border:0;border-radius:13px;padding:10px 13px;font-weight:900;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:6px}
+.primary{background:linear-gradient(90deg,var(--cyan),var(--cyan2));color:var(--deep)}.soft{background:#fff;color:var(--navy);border:1px solid var(--line)}.danger{background:#fff0f3;color:var(--red);border:1px solid #f3dbe1}.btn:disabled{opacity:.5;cursor:not-allowed}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.card{background:rgba(255,255,255,.96);border:1px solid var(--line);border-radius:22px;padding:16px;box-shadow:0 12px 30px rgba(6,58,86,.06)}
+.card h2{font-size:17px;margin:0 0 5px;color:var(--navy)}.card p{font-size:11px;color:var(--muted);line-height:1.6;margin:0 0 12px}.field{display:grid;gap:6px;margin:10px 0}
+.field label{font-size:10px;font-weight:900;color:#5d7481}.field input,.field select,.field textarea{width:100%;border:1px solid #cfe0e7;border-radius:13px;padding:11px;background:#fff;color:var(--ink);outline:none}
+.field textarea{min-height:150px;resize:vertical;line-height:1.55}.field input:focus,.field select:focus,.field textarea:focus{border-color:#76cbd6;box-shadow:0 0 0 3px rgba(24,217,237,.12)}
+.statusline{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin:9px 0}.pill{display:inline-flex;align-items:center;gap:5px;padding:5px 8px;border-radius:999px;font-size:9px;font-weight:900;background:#eef4f6;color:#607887}.pill.on{background:#e8f8f1;color:var(--green)}.pill.off{background:#fff2e4;color:var(--warn)}.pill.fail{background:#fff0f3;color:var(--red)}
+.codebox{background:#062f45;color:#e8fbff;border-radius:14px;padding:11px;font-family:ui-monospace,Consolas,monospace;font-size:10px;direction:ltr;word-break:break-all;line-height:1.5}.note{font-size:10px;color:#617783;background:#f3f8fa;border-radius:12px;padding:10px;line-height:1.55;margin-top:8px}
+.hero{background:linear-gradient(135deg,#063a56,#075c78 58%,#0f91a0);color:#fff;border:0}.hero h2{color:#fff;font-size:23px}.hero p{color:#d9f4f7}.hero .pill{background:rgba(255,255,255,.13);color:#fff}
+.full{grid-column:1/-1}.composer{display:grid;grid-template-columns:1.2fr .8fr;gap:12px}.task-list{display:grid;gap:10px}.task{border:1px solid var(--line);border-radius:17px;padding:13px;background:#fff}.taskhead{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.task h3{font-size:14px;margin:0 0 4px}.meta{font-size:9px;color:var(--muted);line-height:1.45}.response{margin-top:10px;background:#f7fbfc;border:1px solid #e3eef2;border-radius:13px;padding:11px;white-space:pre-wrap;font-size:11px;line-height:1.55;max-height:340px;overflow:auto;direction:auto}.empty{text-align:center;padding:28px;border:1px dashed #cbdde3;border-radius:16px;color:var(--muted);font-size:11px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(140%);background:#052f48;color:#fff;padding:11px 15px;border-radius:13px;font-size:11px;font-weight:900;transition:.25s;z-index:50}.toast.show{transform:translateX(-50%) translateY(0)}
+@media(max-width:780px){.grid,.composer{grid-template-columns:1fr}.full{grid-column:auto}.top{align-items:flex-start}.brand h1{font-size:19px}.shell{padding:13px 10px 70px}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="top">
+    <div class="brand"><img src="/assets/navigam/logo.png" alt="NAVIGAM"><div><h1>NAVIGAM AI Studio</h1><p>Shared workspace · ChatGPT + Grok + NAVIGAM</p></div></div>
+    <div class="actions"><a class="btn soft" href="/admin">← Admin</a><button class="btn soft" id="refreshBtn">רענון</button></div>
+  </div>
+
+  <section class="card hero">
+    <h2>שיתוף פעולה בין המודלים — באותו מקור אמת</h2>
+    <p>כאן מרכזים משימות עיצוב, UX, QA, מחקר וקוד. Grok יכול לעבוד ישירות דרך ה־API או להתחבר כ־Custom MCP Connector, ו־ChatGPT יכול לקרוא את אותה תור משימות דרך סביבת NAVIGAM.</p>
+    <div class="statusline"><span class="pill">NAVIGAM Premium V2</span><span class="pill">Grok design review</span><span class="pill">Shared task queue</span><span class="pill">MCP bridge</span></div>
+  </section>
+
+  <div class="grid" style="margin-top:12px">
+    <section class="card">
+      <h2>חיבור Grok API</h2>
+      <p>מאפשר לשלוח משימת עיצוב/מחקר ישירות ל־Grok 4.7 מתוך הממשק. המפתח נשמר בצד השרת ואינו נחשף בדפדפן.</p>
+      <div id="xaiStatus" class="statusline"><span class="pill off">בודק חיבור…</span></div>
+      <div class="field"><label>xAI API Key</label><input id="xaiKey" type="password" autocomplete="off" placeholder="הדבק מפתח xAI"></div>
+      <div class="actions"><button class="btn primary" id="connectXai">חבר Grok</button><button class="btn danger" id="disconnectXai">נתק</button></div>
+      <div class="note">לחיבור ישיר דרך API נדרש חשבון xAI API עם קרדיטים. הממשק בודק את המפתח מול רשימת המודלים לפני שמירתו.</div>
+    </section>
+
+    <section class="card">
+      <h2>Grok Bot · Custom MCP</h2>
+      <p>זה החיבור שמאפשר ל־Grok Bot לעבוד מול נתוני NAVIGAM, לפתוח אפליקציות חיות, לקבל Design System ולהחזיר ביקורות לתור המשותף.</p>
+      <div id="mcpStatus" class="statusline"><span class="pill off">בודק MCP…</span></div>
+      <div class="field"><label>MCP Server URL</label><div id="mcpUrl" class="codebox">טוען…</div></div>
+      <div class="actions"><button class="btn primary" id="rotateMcp">צור/החלף Token ל־Grok</button><button class="btn soft" id="copyMcpUrl">העתק URL</button></div>
+      <div id="mcpTokenWrap" style="display:none;margin-top:10px">
+        <div class="field"><label>Bearer Token — מוצג פעם אחת</label><div id="mcpToken" class="codebox"></div></div>
+        <button class="btn soft" id="copyMcpToken">העתק Token</button>
+      </div>
+      <div class="note">ב־Grok: Connectors → New/Other → Custom MCP → הדבק את ה־URL והגדר Authorization: Bearer עם ה־Token.</div>
+    </section>
+  </div>
+
+  <section class="card full" style="margin-top:12px">
+    <h2>משימה חדשה</h2>
+    <p>בחר טיול והגדר מה רוצים מ־Grok/ChatGPT. אם בוחרים “שניהם”, Grok מכין ביקורת ראשונית והמשימה נשארת במצב “ממתין לבדיקת ChatGPT”.</p>
+    <div class="composer">
+      <div>
+        <div class="field"><label>כותרת</label><input id="taskTitle" placeholder="למשל: שיפור מסך Memories באתונה"></div>
+        <div class="field"><label>המשימה</label><textarea id="taskPrompt" placeholder="תעבור על האפליקציה החיה, תבדוק היררכיה, ריווח, תמונות, CTA, מובייל ותן הצעות קונקרטיות לשיפור בלי לשנות את התוכן."></textarea></div>
+      </div>
+      <div>
+        <div class="field"><label>טיול</label><select id="taskTrip"><option value="">כללי / ללא טיול</option></select></div>
+        <div class="field"><label>סוג עבודה</label><select id="taskType">
+          <option value="design_review">Design Review</option><option value="ux_review">UX Review</option><option value="qa">QA</option><option value="copy">Copy</option><option value="research">Research</option><option value="code_review">Code Review</option><option value="general">General</option>
+        </select></div>
+        <div class="field"><label>מי עובד</label><select id="taskAgent">
+          <option value="both">Grok + בדיקת ChatGPT</option><option value="grok">Grok</option><option value="chatgpt">ChatGPT Queue</option>
+        </select></div>
+        <button class="btn primary" id="runTask" style="width:100%;margin-top:9px">✦ הפעל משימה</button>
+        <div id="taskMsg" class="note" style="display:none"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card full" style="margin-top:12px">
+    <div class="taskhead"><div><h2>תור משותף</h2><p>היסטוריית המשימות והתשובות של Grok/ChatGPT.</p></div><button class="btn soft" id="reloadTasks">רענון משימות</button></div>
+    <div id="tasks" class="task-list"><div class="empty">טוען…</div></div>
+  </section>
+</div>
+<div class="toast" id="toast"></div>
+
+<script type="module">
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+const CORE_URL='https://asnnvwoersrhrgdantll.supabase.co';
+const CORE_KEY='sb_publishable_dZFP2IUafSBsNpsnc4e4Mw_rU0FQFJh';
+const API=CORE_URL+'/functions/v1/triply-ai-studio';
+const supabase=createClient(CORE_URL,CORE_KEY,{auth:{persistSession:true,autoRefreshToken:true}});
+const $=s=>document.querySelector(s);
+let session=null,status=null,trips=[];
+
+function esc(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+function toast(t){const el=$('#toast');el.textContent=t;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2300)}
+function taskStatus(s){return ({queued:'ממתין',running:'בעבודה',needs_review:'ממתין לבדיקת ChatGPT',completed:'הושלם',failed:'נכשל'})[s]||s}
+function typeLabel(s){return ({design_review:'Design Review',ux_review:'UX Review',qa:'QA',copy:'Copy',research:'Research',code_review:'Code Review',general:'General'})[s]||s}
+async function auth(){
+  const {data:{session:s}}=await supabase.auth.getSession();session=s;
+  if(!session){location.href='/admin';return false}
+  const {data:admin}=await supabase.from('admin_users').select('role').eq('user_id',session.user.id).maybeSingle();
+  if(!admin){location.href='/admin';return false}
+  return true;
+}
+async function api(action,method='GET',body=null){
+  const {data:{session:s}}=await supabase.auth.getSession();
+  const r=await fetch(API+'?action='+encodeURIComponent(action),{method,headers:{'authorization':'Bearer '+s.access_token,'content-type':'application/json'},body:body?JSON.stringify(body):undefined});
+  const d=await r.json().catch(()=>({}));
+  if(!r.ok)throw Object.assign(new Error(d.error||'request_failed'),{data:d,status:r.status});
+  return d;
+}
+async function loadStatus(){
+  status=await api('status');
+  $('#xaiStatus').innerHTML=status.xai_connected?'<span class="pill on">● Grok מחובר</span><span class="pill">'+esc(status.model)+'</span>':'<span class="pill off">○ Grok API לא מחובר</span>';
+  $('#disconnectXai').disabled=!status.xai_connected;
+  $('#mcpStatus').innerHTML=status.mcp_configured?'<span class="pill on">● MCP מוגדר</span>':'<span class="pill off">○ עדיין לא נוצר Token</span>';
+  $('#mcpUrl').textContent=status.mcp_url||'';
+}
+async function loadTrips(){
+  const {data}=await supabase.from('trips').select('id,trip_code,title,destination,start_date,end_date').order('created_at',{ascending:false}).limit(100);
+  trips=data||[];
+  const sel=$('#taskTrip');sel.innerHTML='<option value="">כללי / ללא טיול</option>'+trips.map(t=>'<option value="'+esc(t.id)+'">'+esc(t.destination)+' · '+esc(t.title)+' · '+esc(t.trip_code)+'</option>').join('');
+  const wanted=new URLSearchParams(location.search).get('trip');if(wanted&&trips.some(t=>t.id===wanted))sel.value=wanted;
+}
+async function loadTasks(){
+  $('#tasks').innerHTML='<div class="empty">טוען משימות…</div>';
+  try{
+    const d=await api('tasks');
+    const arr=d.tasks||[];
+    if(!arr.length){$('#tasks').innerHTML='<div class="empty">אין עדיין משימות AI.</div>';return}
+    $('#tasks').innerHTML=arr.map(t=>{
+      const app=t.metadata?.app_url;
+      const st=t.status==='completed'?'on':t.status==='failed'?'fail':'off';
+      return '<article class="task"><div class="taskhead"><div><h3>'+esc(t.title)+'</h3><div class="meta">'+esc(typeLabel(t.task_type))+' · '+new Date(t.created_at).toLocaleString('he-IL')+' · '+esc(t.requested_agent)+'</div></div><span class="pill '+st+'">'+esc(taskStatus(t.status))+'</span></div>'+
+        '<div class="response" style="max-height:170px">'+esc(t.prompt)+'</div>'+
+        (t.grok_response?'<div class="response"><b>Grok</b>\n\n'+esc(t.grok_response)+'</div>':'')+
+        (t.chatgpt_notes?'<div class="response"><b>ChatGPT</b>\n\n'+esc(t.chatgpt_notes)+'</div>':'')+
+        (t.error?'<div class="note" style="color:#a23d4e">'+esc(t.error)+'</div>':'')+
+        (app?'<div class="actions" style="margin-top:9px"><a class="btn soft" target="_blank" rel="noopener" href="'+esc(app)+'">פתח אפליקציה חיה ↗</a></div>':'')+
+        '</article>';
+    }).join('');
+  }catch(e){$('#tasks').innerHTML='<div class="empty">לא ניתן לטעון משימות.</div>'}
+}
+$('#connectXai').addEventListener('click',async()=>{
+  const key=$('#xaiKey').value.trim();if(!key){toast('הדבק מפתח xAI');return}
+  $('#connectXai').disabled=true;
+  try{await api('connect_xai','POST',{api_key:key});$('#xaiKey').value='';toast('Grok חובר בהצלחה');await loadStatus()}
+  catch(e){toast(e.data?.error==='xai_key_invalid'?'המפתח לא עבר אימות':'לא ניתן לחבר כרגע')}
+  finally{$('#connectXai').disabled=false}
+});
+$('#disconnectXai').addEventListener('click',async()=>{if(!confirm('לנתק את Grok API?'))return;await api('disconnect_xai','POST',{});toast('Grok נותק');await loadStatus()});
+$('#rotateMcp').addEventListener('click',async()=>{
+  if(!confirm('יצירת Token חדש תבטל את ה-Token הקודם. להמשיך?'))return;
+  const d=await api('rotate_mcp_token','POST',{});
+  $('#mcpToken').textContent=d.bearer_token;$('#mcpTokenWrap').style.display='block';toast('Token חדש נוצר');await loadStatus();
+});
+$('#copyMcpUrl').addEventListener('click',async()=>{await navigator.clipboard.writeText($('#mcpUrl').textContent);toast('URL הועתק')});
+$('#copyMcpToken').addEventListener('click',async()=>{await navigator.clipboard.writeText($('#mcpToken').textContent);toast('Token הועתק')});
+$('#runTask').addEventListener('click',async()=>{
+  const title=$('#taskTitle').value.trim(),prompt=$('#taskPrompt').value.trim();if(!prompt){toast('כתוב משימה');return}
+  $('#runTask').disabled=true;$('#taskMsg').style.display='block';$('#taskMsg').textContent='מריץ…';
+  try{
+    const d=await api('task','POST',{title:title||'NAVIGAM AI task',prompt,trip_id:$('#taskTrip').value||null,task_type:$('#taskType').value,requested_agent:$('#taskAgent').value});
+    $('#taskMsg').textContent=d.task?.status==='needs_review'?'Grok סיים. המשימה מחכה לבדיקת ChatGPT.':'המשימה נשמרה/הושלמה.';
+    $('#taskTitle').value='';$('#taskPrompt').value='';await loadTasks();
+  }catch(e){
+    $('#taskMsg').textContent=e.data?.error==='xai_not_connected'?'המשימה נשמרה בתור, אבל Grok API עדיין לא מחובר.':'המשימה נכשלה: '+(e.data?.detail||e.message);
+    await loadTasks();
+  }finally{$('#runTask').disabled=false}
+});
+$('#reloadTasks').addEventListener('click',loadTasks);$('#refreshBtn').addEventListener('click',async()=>{await Promise.all([loadStatus(),loadTasks()]);toast('עודכן')});
+if(await auth()){await Promise.all([loadStatus(),loadTrips(),loadTasks()])}
+</script>
+</body>
+</html>
