@@ -8,7 +8,10 @@
     "cap:ios": "npx cap open ios"
   },
   "dependencies": {
-    "@capacitor/core": "^8.0.0"
+    "@capacitor/core": "^8.0.0",
+    "@supabase/supabase-js": "^2.57.4",
+    "ffmpeg-static": "^5.2.0",
+    "sharp": "^0.34.3"
   },
   "devDependencies": {
     "@capacitor/cli": "^8.0.0",
