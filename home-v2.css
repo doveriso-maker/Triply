@@ -10,7 +10,7 @@ body.chat-focus{overflow:hidden}
 a{text-decoration:none;color:inherit}
 button,input{font:inherit}
 button{cursor:pointer}
-img{display:block;max-width:100%}
+img{display:block;max-width:100%;height:auto}
 .shell{width:min(var(--max),calc(100% - 36px));margin-inline:auto}
 .section{padding:64px 0}
 .site-header{
@@ -36,7 +36,7 @@ img{display:block;max-width:100%}
 
 .hero{position:relative;min-height:610px;overflow:hidden}
 .hero-bg{position:absolute;inset:0;background:
-  url('https://images.unsplash.com/photo-1533104816931-20fa691ff6ca?auto=format&fit=crop&w=2000&q=88') center 48%/cover no-repeat;
+  url('/assets/navigam/photos/santorini-20260927.webp') center 48%/cover no-repeat;
   transform:scale(1.01)
 }
 .hero-shade{position:absolute;inset:0;background:
@@ -44,8 +44,8 @@ img{display:block;max-width:100%}
 .hero-inner{position:relative;min-height:610px;display:flex;align-items:center}
 .hero-copy{max-width:610px;padding:68px 0 72px;margin-inline-start:auto}
 .hero-kicker,.section-kicker{display:inline-flex;color:#087f98;font-size:13px;font-weight:900;letter-spacing:.2px;margin-bottom:12px}
-.hero h1{font-family:Rubik,Heebo,sans-serif;color:var(--navy-deep);font-size:clamp(54px,6.3vw,82px);line-height:.98;letter-spacing:-3px;margin:0 0 22px}
-.hero h1 em{font-style:normal;color:#17afc1}
+.hero .hero-headline{font-family:Rubik,Heebo,sans-serif;color:var(--navy-deep);font-size:clamp(54px,6.3vw,82px);line-height:.98;letter-spacing:-3px;margin:0 0 22px}
+.hero .hero-headline em{font-style:normal;color:#17afc1}
 .hero-copy>p{font-size:19px;line-height:1.7;color:#3b5e74;max-width:560px;margin:0 0 25px}
 .hero-actions{display:flex;gap:12px;flex-wrap:wrap}
 .hero-mini{display:flex;gap:20px;flex-wrap:wrap;margin-top:26px;color:#244d67;font-size:13px;font-weight:800}
@@ -69,7 +69,7 @@ img{display:block;max-width:100%}
 .app-head img{width:28px;height:28px;object-fit:contain}
 .app-hero{height:210px;margin:0 10px;border-radius:23px;background:
  linear-gradient(180deg,rgba(0,0,0,.06),rgba(0,27,47,.6)),
- url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=900&q=82') center/cover no-repeat;
+ url('/assets/navigam/photos/mountain-lake-20260927.webp') center/cover no-repeat;
  display:flex;align-items:flex-end;color:#fff;padding:18px}
 .app-hero small{display:block}.app-hero strong{font-size:23px;display:block;line-height:1.05}
 .app-search{margin:12px;background:#fff;border:1px solid #d8e9ee;border-radius:14px;padding:11px;color:#89a0ad;font-size:11px}
@@ -117,7 +117,7 @@ img{display:block;max-width:100%}
 .step-card p{margin:0;color:#6a7f8e;line-height:1.6}
 
 .story-band{position:relative;min-height:380px;display:flex;align-items:center;overflow:hidden}
-.story-bg{position:absolute;inset:0;background:url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1900&q=86') center 55%/cover no-repeat}
+.story-bg{position:absolute;inset:0;}
 .story-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(1,27,43,.76),rgba(2,33,49,.18))}
 .story-content{position:relative;color:#fff;text-align:center}
 .story-content>span{font-family:cursive;font-size:22px;opacity:.9}
@@ -147,7 +147,7 @@ img{display:block;max-width:100%}
   .nav-side .btn-main{display:none}
   .hero,.hero-inner{min-height:560px}.hero-bg{background-position:58% center}
   .hero-shade{background:linear-gradient(0deg,rgba(255,255,255,.98) 0%,rgba(255,255,255,.86) 58%,rgba(4,29,46,.05) 100%)}
-  .hero-copy{padding:250px 0 42px;margin:0;max-width:100%}.hero h1{font-size:52px}
+  .hero-copy{padding:250px 0 42px;margin:0;max-width:100%}.hero .hero-headline{font-size:52px}
   .hero-copy>p{font-size:17px}.hero-mini{gap:11px;font-size:12px}
   .category-grid{grid-template-columns:repeat(2,1fr)}.category-card:last-child{grid-column:1/-1}
   .experience-grid{grid-template-columns:1fr}.experience-intro{text-align:center}.phone-demo{margin-bottom:8px}
@@ -162,7 +162,7 @@ img{display:block;max-width:100%}
   body{padding-bottom:68px}
   .nav-side{display:none}
   .hero,.hero-inner{min-height:575px}.hero-copy{padding-top:250px}
-  .hero h1{font-size:45px;letter-spacing:-2px}.hero-actions .btn{width:100%}
+  .hero .hero-headline{font-size:45px;letter-spacing:-2px}.hero-actions .btn{width:100%}
   .hero-mini{display:grid;grid-template-columns:1fr 1fr}
   .category-grid{grid-template-columns:1fr 1fr;gap:8px}.category-card{height:125px}.category-card:last-child{grid-column:1/-1}
   .section{padding:56px 0}.experience-intro h2,.section-title-row h2,.section-center h2{font-size:36px}
@@ -224,7 +224,7 @@ img{display:block;max-width:100%}
 .real-app-top img{width:88px;height:35px;object-fit:contain;justify-self:center;filter:brightness(0) invert(1);opacity:.98}
 .real-app-side{display:grid;place-items:center;font-size:12px;color:#e2f9fc}
 .real-app-cover{height:135px;position:relative;background:
-  url('https://images.unsplash.com/photo-1555993539-1732b0258235?auto=format&fit=crop&w=850&q=88') center 44%/cover no-repeat;
+  url('/assets/navigam/photos/athens-20260927.webp') center 44%/cover no-repeat;
   overflow:hidden}
 .real-app-cover-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,24,39,.06),rgba(0,31,48,.58))}
 .real-app-trip-title{position:absolute;z-index:2;inset-inline:18px;bottom:12px;text-align:center;text-shadow:0 2px 8px rgba(0,0,0,.45)}
@@ -696,3 +696,15 @@ html[dir="ltr"] .footer-note{text-align:center}
     background:linear-gradient(0deg,rgba(255,255,255,.98) 0%,rgba(255,255,255,.86) 58%,rgba(4,29,46,.05) 100%);
   }
 }
+
+/* SEO content uses the existing brand, spacing and responsive shell. */
+.hero h1.hero-kicker{font-family:inherit;font-size:13px;font-weight:900;line-height:1.5;letter-spacing:.2px;margin:0 0 12px}
+.planning-intro h2{font-size:clamp(26px,3vw,38px);color:var(--navy-deep);margin:0 0 18px}
+.planning-intro p{max-width:880px;line-height:1.85;color:#3b5e74;margin:0 0 14px}
+.planning-links{display:flex;flex-wrap:wrap;gap:12px 24px;margin-top:22px}
+.planning-links a,.privacy-link{color:#08748b;text-decoration:underline;text-underline-offset:4px}
+.privacy-link{display:inline-block;margin-bottom:12px}
+
+.destination-photo,.story-bg img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.story-bg img{object-position:center 55%}
+@media(max-width:760px){.hero-bg{background-image:url('/assets/navigam/photos/santorini-mobile-20260927.webp')}}

@@ -1,12 +1,7 @@
+# Public pages can be crawled. Private routes return X-Robots-Tag: noindex.
+# Do not disallow those routes: crawlers must be able to read the noindex response.
+# Authentication, not robots.txt, protects confidential content.
 User-agent: *
 Allow: /
-Disallow: /admin
-Disallow: /admin-login.html
-Disallow: /app/
-Disallow: /preview/
-Disallow: /p/
-Disallow: /order/
-Disallow: /questionnaire.html
-Disallow: /trip/
 
 Sitemap: https://www.navigam.com/sitemap.xml

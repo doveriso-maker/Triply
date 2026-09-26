@@ -176,3 +176,11 @@ h1,h2,h3{font-family:Rubik,Heebo,Arial,sans-serif}
 /* SEO guide cards */
 .seo-link-card{display:block;text-decoration:none;color:inherit;transition:transform .18s ease,box-shadow .18s ease}
 .seo-link-card:hover{transform:translateY(-3px);box-shadow:0 18px 42px rgba(17,49,79,.12)}
+
+/* Correct heading hierarchy without changing card typography. */
+.card h2.seo-section-heading{font-size:20px;margin:0 0 8px;color:var(--navy)}
+.trip-card h2.seo-section-heading{margin:0 0 4px;font-size:21px}
+.step h2.seo-section-heading{margin:3px 0 5px;font-size:21px}
+.price-card h2.seo-section-heading{font-size:26px;margin:0 0 10px;color:var(--navy)}
+.feature-card h2.seo-section-heading{position:relative;font-size:26px;line-height:1.15;margin:0 0 10px;color:var(--navy)}
+.compare-side h2.seo-section-heading{font-size:25px;margin:0 0 14px;color:var(--navy)}

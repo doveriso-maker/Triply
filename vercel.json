@@ -218,6 +218,24 @@
           "value": "noindex, nofollow, noarchive"
         }
       ]
+    },
+    {
+      "source": "/((?!$|index\\.html$|en\\.html$|ar\\.html$|ru\\.html$|how-it-works\\.html$|trip-types\\.html$|pricing\\.html$|avia\\.html$|faq\\.html$|privacy\\.html$|guides(?:/|$)|assets/navigam/|robots\\.txt$|sitemap\\.xml$).*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive, nosnippet, noimageindex"
+        }
+      ]
+    },
+    {
+      "source": "/assets/navigam/photos/:path*",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
     }
   ],
   "redirects": [
@@ -232,6 +250,16 @@
       ],
       "destination": "/admin-login.html?code=:code",
       "permanent": false
+    },
+    {
+      "source": "/index.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/guides/index.html",
+      "destination": "/guides/",
+      "permanent": true
     }
   ],
   "rewrites": [
