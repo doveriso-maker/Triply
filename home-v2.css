@@ -581,15 +581,3 @@ img{display:block;max-width:100%}
   }
 }
 
-
-/* Footer brand mark — symbol only */
-.footer .footer-symbol{
-  width:92px;
-  height:92px;
-  object-fit:contain;
-  filter:none;
-  margin:auto;
-}
-@media(max-width:560px){
-  .footer .footer-symbol{width:82px;height:82px}
-}
