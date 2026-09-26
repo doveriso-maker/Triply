@@ -259,3 +259,27 @@ img{display:block;max-width:100%}
   .real-product-phone{width:278px}
   .real-app-ui{min-height:526px}
 }
+
+
+/* Compact "What you get" hierarchy */
+.experience.section{padding-top:34px}
+.what-you-get-title{
+  font-family:Rubik,Heebo,sans-serif;
+  color:#0a8195;
+  font-size:clamp(24px,2.5vw,31px);
+  font-weight:900;
+  line-height:1.05;
+  margin:0 0 5px;
+}
+.experience-intro .what-you-get-title + h2{margin-top:0;margin-bottom:16px}
+.reel-gift-card{
+  background:linear-gradient(135deg,#f2fcfd,#fff8ed);
+  border-color:#ccecf0;
+}
+.power-icon.reel{background:linear-gradient(135deg,#e4f9fb,#fff0da)}
+
+@media(max-width:560px){
+  .experience.section{padding-top:26px}
+  .what-you-get-title{font-size:27px;margin-bottom:3px}
+  .experience-intro .what-you-get-title + h2{margin-bottom:14px}
+}
