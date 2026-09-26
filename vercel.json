@@ -43,11 +43,15 @@
       "headers": [
         {
           "key": "Cache-Control",
-          "value": "no-cache"
+          "value": "no-cache, no-store, must-revalidate"
         },
         {
           "key": "X-Robots-Tag",
           "value": "noindex, nofollow, noarchive"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "display-capture=()"
         }
       ]
     },
@@ -77,7 +81,7 @@
         },
         {
           "key": "Permissions-Policy",
-          "value": "camera=(), microphone=(self), geolocation=(self), payment=()"
+          "value": "camera=(), microphone=(self), geolocation=(self), payment=(), display-capture=()"
         },
         {
           "key": "X-NAVIGAM-Engine",
@@ -106,7 +110,7 @@
         },
         {
           "key": "Permissions-Policy",
-          "value": "camera=(), microphone=(self), geolocation=(self), payment=()"
+          "value": "camera=(), microphone=(self), geolocation=(self), payment=(), display-capture=()"
         },
         {
           "key": "X-NAVIGAM-Engine",
@@ -195,6 +199,10 @@
         {
           "key": "X-Robots-Tag",
           "value": "noindex, nofollow, noarchive"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "display-capture=()"
         }
       ]
     },
