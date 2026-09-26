@@ -581,3 +581,18 @@ img{display:block;max-width:100%}
   }
 }
 
+
+
+/* Exact footer logo restore */
+.footer .footer-logo-full{
+  width:160px;
+  height:auto;
+  object-fit:contain;
+  filter:brightness(0) invert(1);
+}
+@media(max-width:820px){
+  .footer .footer-logo-full{
+    width:160px;
+    margin-inline:auto;
+  }
+}
