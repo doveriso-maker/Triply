@@ -283,3 +283,31 @@ img{display:block;max-width:100%}
   .what-you-get-title{font-size:27px;margin-bottom:3px}
   .experience-intro .what-you-get-title + h2{margin-bottom:14px}
 }
+
+
+/* Launch ribbon attached to Avia launch offer */
+.launch-gift{position:relative;padding-top:30px;overflow:visible}
+.launch-ribbon{
+  position:absolute;
+  top:-15px;
+  right:18px;
+  z-index:2;
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  padding:8px 13px;
+  border-radius:999px;
+  background:linear-gradient(135deg,#fff8d8,#ffe8ad);
+  color:#08788a;
+  border:1px solid rgba(8,125,139,.14);
+  box-shadow:0 9px 24px rgba(6,58,87,.14);
+  font-size:12px;
+  font-weight:900;
+  transform:rotate(5deg);
+  transform-origin:center;
+  white-space:nowrap;
+}
+@media(max-width:560px){
+  .launch-gift{padding-top:34px}
+  .launch-ribbon{top:-13px;right:14px;font-size:11px;padding:7px 11px;transform:rotate(4deg)}
+}
