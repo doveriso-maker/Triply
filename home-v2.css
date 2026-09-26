@@ -669,3 +669,30 @@ img{display:block;max-width:100%}
     left:calc(50% + 18px);
   }
 }
+
+
+/* Shared multilingual layout */
+html[dir="ltr"] body{direction:ltr}
+html[dir="ltr"] .hero-copy{
+  margin-inline-start:0;
+  margin-inline-end:auto;
+}
+html[dir="ltr"] .hero-shade{
+  background:linear-gradient(270deg,rgba(7,42,65,.05) 0%,rgba(7,42,65,.06) 28%,rgba(255,255,255,.83) 64%,rgba(255,255,255,.98) 100%);
+}
+html[dir="ltr"] .showcase-features{direction:ltr}
+html[dir="ltr"] .avia-feature{text-align:left}
+html[dir="ltr"] .reel-feature{text-align:left}
+html[dir="ltr"] .real-app-ui{direction:ltr}
+html[dir="ltr"] .real-event strong{text-align:right}
+html[dir="ltr"] .section-title-row{text-align:left}
+html[dir="ltr"] .calc-shell{text-align:left}
+html[dir="ltr"] .launch-gift{text-align:left}
+html[dir="ltr"] .promise{text-align:left}
+html[dir="ltr"] .footer-note{text-align:center}
+@media(max-width:820px){
+  html[dir="ltr"] .hero-copy{margin:0}
+  html[dir="ltr"] .hero-shade{
+    background:linear-gradient(0deg,rgba(255,255,255,.98) 0%,rgba(255,255,255,.86) 58%,rgba(4,29,46,.05) 100%);
+  }
+}
