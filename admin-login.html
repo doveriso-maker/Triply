@@ -54,7 +54,7 @@ async function handleCallback(){
       if(error)throw error;
     }
     history.replaceState({},document.title,'/admin');
-    location.replace('/admin.html');
+    location.replace('/admin-v2.html?v=20260926-1');
     return true;
   }catch(error){
     console.error('NAVIGAM admin auth callback failed',error);
@@ -64,7 +64,7 @@ async function handleCallback(){
 }
 if(!(await handleCallback())){
   const {data:{session}}=await supabase.auth.getSession();
-  if(session?.user){location.replace('/admin.html')}
+  if(session?.user){location.replace('/admin-v2.html?v=20260926-1')}
 }
 $('#sendBtn').addEventListener('click',async()=>{
   const email=$('#email').value.trim();
