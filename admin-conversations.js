@@ -144,7 +144,7 @@ async function callApi(payload){
 
 function fmtDate(v){
   if(!v)return '';
-  const d=new Date(String(v).replace(' ','T')+'Z');
+  const d=new Date(String(v).replace(' ','T'));
   if(Number.isNaN(d.getTime()))return String(v);
   return d.toLocaleString('he-IL',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'});
 }
