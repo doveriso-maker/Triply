@@ -26,6 +26,7 @@ h2{margin:0 0 6px;font-size:24px}p{font-size:13px;line-height:1.6;color:var(--mu
   </div>
   <div id="callbackView" style="display:none"><div class="loading">מאמת את קישור הכניסה…</div></div>
 </section>
+<script>if(/\.vercel\.app$/i.test(location.hostname)){location.replace('https://www.navigam.com/admin');}</script>
 <script type="module">
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 const CORE_URL='https://asnnvwoersrhrgdantll.supabase.co';
@@ -54,7 +55,7 @@ async function handleCallback(){
       if(error)throw error;
     }
     history.replaceState({},document.title,'/admin');
-    location.replace('/admin-v2.html?v=20260926-1');
+    location.replace('/admin-v2.html?v=20260926-3');
     return true;
   }catch(error){
     console.error('NAVIGAM admin auth callback failed',error);
@@ -64,13 +65,13 @@ async function handleCallback(){
 }
 if(!(await handleCallback())){
   const {data:{session}}=await supabase.auth.getSession();
-  if(session?.user){location.replace('/admin-v2.html?v=20260926-1')}
+  if(session?.user){location.replace('/admin-v2.html?v=20260926-3')}
 }
 $('#sendBtn').addEventListener('click',async()=>{
   const email=$('#email').value.trim();
   if(!email){showMsg('הכנס כתובת אימייל.',true);return}
   $('#sendBtn').disabled=true;
-  const {error}=await supabase.auth.signInWithOtp({email,options:{shouldCreateUser:false,emailRedirectTo:location.origin+'/'}});
+  const {error}=await supabase.auth.signInWithOtp({email,options:{shouldCreateUser:false,emailRedirectTo:'https://www.navigam.com/admin'}});
   $('#sendBtn').disabled=false;
   if(error){showMsg('שגיאה בשליחת הקישור: '+error.message,true);return}
   showMsg('שלחנו קישור כניסה למייל. פתח את הקישור החדש ביותר פעם אחת.');
