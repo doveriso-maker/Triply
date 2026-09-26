@@ -213,3 +213,49 @@ img{display:block;max-width:100%}
   .days-picker strong{font-size:42px}
   .calc-total strong{font-size:36px}
 }
+
+
+/* Real NAVIGAM app home embedded on marketing homepage */
+.real-product-demo{position:relative}
+.real-product-phone{width:292px;border:8px solid #071923;border-radius:42px;background:#071923;box-shadow:0 30px 70px rgba(5,38,58,.28);overflow:hidden}
+.real-product-phone .phone-notch{height:16px;width:92px;border-radius:0 0 13px 13px;background:#071923;margin:0 auto -2px;position:relative;z-index:4}
+.real-app-ui{min-height:548px;background:linear-gradient(180deg,#05364f,#032c43);color:#fff;display:flex;flex-direction:column;overflow:hidden}
+.real-app-top{height:48px;display:grid;grid-template-columns:34px 1fr 34px;align-items:center;padding:4px 10px;background:#04354f}
+.real-app-top img{width:88px;height:35px;object-fit:contain;justify-self:center;filter:brightness(0) invert(1);opacity:.98}
+.real-app-side{display:grid;place-items:center;font-size:12px;color:#e2f9fc}
+.real-app-cover{height:135px;position:relative;background:
+  url('https://images.unsplash.com/photo-1555993539-1732b0258235?auto=format&fit=crop&w=850&q=88') center 44%/cover no-repeat;
+  overflow:hidden}
+.real-app-cover-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,24,39,.06),rgba(0,31,48,.58))}
+.real-app-trip-title{position:absolute;z-index:2;inset-inline:18px;bottom:12px;text-align:center;text-shadow:0 2px 8px rgba(0,0,0,.45)}
+.real-app-trip-title small{display:block;font-size:10px;font-weight:800;opacity:.92}
+.real-app-trip-title strong{display:block;font:900 23px/1 Rubik,Heebo,sans-serif;letter-spacing:.5px}
+.real-app-trip-title span{display:block;font-size:10px;margin-top:4px;font-weight:800}
+.real-app-body{padding:10px 11px 8px;display:grid;gap:9px;background:linear-gradient(180deg,#073b55,#032f47);flex:1}
+.real-today-card{background:#07384f;border:1px solid rgba(64,214,232,.18);border-radius:15px;overflow:hidden;box-shadow:inset 0 1px 0 rgba(255,255,255,.03)}
+.real-today-head{display:grid;grid-template-columns:27px 1fr 16px;align-items:center;gap:7px;padding:9px 10px;border-bottom:1px solid rgba(255,255,255,.07)}
+.real-today-icon{width:25px;height:25px;border-radius:50%;display:grid;place-items:center;background:#08bfd0;color:#05364b;font-weight:900}
+.real-today-head b{display:block;font-size:11px}
+.real-today-head small{display:block;font-size:7.5px;color:#b9d9e3;margin-top:1px}
+.real-chevron{font-size:20px;color:#2bd6e5}
+.real-event{display:grid;grid-template-columns:44px 1fr 14px;align-items:center;gap:7px;padding:9px 10px}
+.real-event>b{font-size:10px;color:#e9fbff}
+.real-event strong{display:block;font-size:10px;direction:ltr;text-align:left}
+.real-event small{display:block;font-size:7px;color:#b9d9e3;margin-top:1px}
+.real-event>span{font-size:18px;color:#27d6e5}
+.real-quick-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.real-quick-grid>div{min-height:63px;border-radius:10px;background:#fff;color:#0b3850;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;border:1px solid #d9edf2;box-shadow:0 3px 8px rgba(0,0,0,.06)}
+.real-quick-grid span{color:#16aeda;font-size:18px;line-height:1}
+.real-quick-grid b{font-size:8px;line-height:1.18;margin-top:5px}
+.real-translate-card{display:grid;grid-template-columns:38px 1fr;gap:8px;align-items:center;border:1px solid rgba(38,212,228,.34);border-radius:13px;padding:9px 10px;background:#06354b}
+.real-translate-icon{width:32px;height:32px;border:1px solid #1cc8d9;border-radius:50%;display:grid;place-items:center;color:#2cd7e7;font-size:18px}
+.real-translate-card b{display:block;font-size:11px}.real-translate-card small{display:block;color:#b9dce5;font-size:7.5px;margin-top:2px}
+.real-app-nav{height:50px;background:#052d43;border-top:1px solid rgba(255,255,255,.08);display:grid;grid-template-columns:repeat(5,1fr);align-items:center;padding:4px 4px 5px}
+.real-app-nav>div{text-align:center;color:#accbd4;display:grid;gap:1px;justify-items:center}
+.real-app-nav span{font-size:14px;line-height:1}.real-app-nav b{font-size:6.5px;font-weight:700;white-space:nowrap}.real-app-nav .active{color:#19d3e1}
+.real-product-caption{margin-top:9px;text-align:center;color:#61798a;font-size:11px;font-weight:800}
+
+@media(max-width:560px){
+  .real-product-phone{width:278px}
+  .real-app-ui{min-height:526px}
+}
