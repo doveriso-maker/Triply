@@ -58,7 +58,7 @@ function ensureUI(){
     const btn=document.createElement('button');
     btn.className='btn soft conv-nav-btn';
     btn.id='openConversations';
-    btn.textContent='💬 שיחות לקוחות';
+    btn.innerHTML='💬 שיחות לקוחות <span id="convTopCount" style="display:none;margin-right:5px;background:#0b7c90;color:#fff;border-radius:999px;padding:2px 6px;font-size:8px"></span>';
     actions.insertBefore(btn,actions.firstChild);
   }
 
@@ -109,24 +109,29 @@ function ensureUI(){
   $('#convModal')?.addEventListener('click',e=>{if(e.target.id==='convModal')$('#convModal').classList.remove('show')});
 }
 
-function tripsElements(){
+function dashboardElements(){
   const grid=$('#app > .grid');
   const toolbar=$('#app > .toolbar');
   const trips=$('#trips');
-  return [grid,toolbar,trips].filter(Boolean);
+  const payments=$('#launchPayments');
+  const analytics=$('#webAnalytics');
+  return [grid,toolbar,trips,payments,analytics].filter(Boolean);
 }
 function showConversations(){
   ensureUI();
-  tripsElements().forEach(el=>el.style.display='none');
-  $('#customerConversations').classList.add('show');
+  dashboardElements().forEach(el=>el.style.display='none');
+  const panel=$('#customerConversations');
+  panel.classList.add('show');
+  window.scrollTo({top:0,behavior:'smooth'});
   loadConversations();
   clearInterval(refreshTimer);
-  refreshTimer=setInterval(()=>{if($('#customerConversations')?.classList.contains('show'))loadConversations(true)},30000);
+  refreshTimer=setInterval(()=>{if(panel?.classList.contains('show'))loadConversations(true)},30000);
 }
 function showTrips(){
   clearInterval(refreshTimer);refreshTimer=null;
   $('#customerConversations')?.classList.remove('show');
-  tripsElements().forEach(el=>el.style.display='');
+  dashboardElements().forEach(el=>el.style.display='');
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
 async function callApi(payload){
@@ -165,6 +170,8 @@ async function loadConversations(silent=false){
     $('#convStatWeb').textContent=data.stats?.website||0;
     $('#convStatWa').textContent=data.stats?.whatsapp||0;
     $('#convStatHot').textContent=data.stats?.hot||0;
+    const topCount=$('#convTopCount');
+    if(topCount){topCount.textContent=data.stats?.total||0;topCount.style.display='inline-flex'}
     render();
   }catch(e){
     if(list)list.innerHTML='<div class="conv-empty">לא ניתן לטעון כרגע את השיחות.</div>';
