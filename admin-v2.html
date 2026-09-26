@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#073348">
+<title>NAVIGAM Admin</title>
+<link rel="icon" type="image/png" href="/assets/navigam/symbol.png">
+<style>
+:root{--ink:#073348;--muted:#748991;--teal:#087d8b;--cyan:#00cfdf;--line:#dce9ec;--bg:#f4fafb;--white:#fff;--hot:#c94b3b}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#eef8fa,#fff 30%,#f6fbfc);font-family:Arial,"Noto Sans Hebrew",sans-serif;color:var(--ink)}
+button,input{font:inherit}.shell{max-width:1080px;margin:auto;padding:18px 14px 70px}.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.brand{display:flex;align-items:center;gap:10px}.brand img{width:52px;height:52px;object-fit:contain}.brand h1{margin:0;font-size:22px}.brand p{margin:3px 0 0;color:var(--muted);font-size:11px}
+.actions{display:flex;gap:8px;flex-wrap:wrap}.btn{border:0;border-radius:12px;padding:10px 13px;font-weight:800;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}.btn.primary{background:linear-gradient(135deg,var(--teal),#075f76);color:#fff}.btn.soft{background:#e9f5f7;color:var(--teal)}.btn.ghost{background:#fff;border:1px solid var(--line);color:var(--ink)}
+.tabs{display:flex;gap:8px;margin:14px 0;position:sticky;top:0;z-index:5;background:rgba(244,250,251,.92);backdrop-filter:blur(10px);padding:8px 0}.tab{border:1px solid var(--line);background:#fff;color:#55717a;border-radius:999px;padding:9px 13px;font-weight:900}.tab.active{background:var(--teal);color:#fff;border-color:var(--teal)}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.stat{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px}.stat strong{display:block;font-size:26px}.stat span{font-size:10px;color:var(--muted)}
+.panel{display:none}.panel.active{display:block}.section-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin:18px 0 10px}.section-head h2{margin:0;font-size:20px}
+.list{display:grid;gap:10px}.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px;box-shadow:0 8px 24px rgba(17,74,88,.05)}.trip{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center}.trip h3{margin:0 0 5px;font-size:15px}.meta{font-size:10px;color:var(--muted);line-height:1.65}.status{display:inline-flex;border-radius:999px;padding:4px 7px;font-size:8px;font-weight:900}.status.published{background:#e9f8f1;color:#18825f}.status.draft{background:#fff4df;color:#9b6b1d}
+.filters{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin-bottom:10px}.filters input{flex:1;min-width:220px;border:1px solid #cfe0e4;border-radius:12px;padding:10px 12px;background:#fff}.filter{border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 11px;font-weight:800;color:#55717a}.filter.active{background:var(--teal);border-color:var(--teal);color:#fff}
+.conv{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center}.badges{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:5px}.badge{border-radius:999px;padding:4px 7px;font-size:8px;font-weight:900}.badge.web{background:#eaf5ff;color:#2a6995}.badge.wa{background:#e9f8f1;color:#18825f}.badge.hot{background:#ffe8e4;color:#b84536}.badge.warm{background:#fff3d9;color:#98680f}.badge.new{background:#eef4f6;color:#617780}.badge.stage{background:#f1ecff;color:#6c4b9a}
+.empty{background:#fff;border:1px dashed #cbdde1;border-radius:16px;padding:28px;text-align:center;color:var(--muted);font-size:12px}.error{background:#fff1ef;color:#a94539;border:1px solid #f3d3ce;border-radius:14px;padding:12px;font-size:11px}
+.modal{position:fixed;inset:0;display:none;background:rgba(8,32,40,.5);align-items:flex-end;justify-content:center;padding:12px;z-index:30}.modal.show{display:flex}.sheet{width:min(760px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:24px;padding:18px}.sheet-head{display:flex;justify-content:space-between;gap:10px;align-items:center;position:sticky;top:-18px;background:#fff;padding:10px 0 12px}.transcript{display:grid;gap:9px}.msg{max-width:86%;padding:10px 12px;border-radius:15px;font-size:12px;line-height:1.55;white-space:pre-wrap}.msg.user{justify-self:start;background:var(--teal);color:#fff;border-top-left-radius:4px}.msg.assistant{justify-self:end;background:#eef7f9;color:#244b59;border-top-right-radius:4px}
+#loading{padding:50px 0;text-align:center;color:var(--muted)}
+@media(max-width:720px){.grid{grid-template-columns:1fr 1fr}.trip,.conv{grid-template-columns:1fr}.filters input{min-width:100%}.top{align-items:flex-start}.actions{width:100%}.actions .btn{flex:1}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="top">
+    <div class="brand"><img src="/assets/navigam/symbol.png" alt="NAVIGAM"><div><h1>NAVIGAM Admin</h1><p id="identity">טוען...</p></div></div>
+    <div class="actions">
+      <a class="btn soft" href="/ai-studio.html">✦ AI Studio</a>
+      <a class="btn soft" href="/questionnaire.html">שאלון לקוח</a>
+      <a class="btn ghost" href="/admin.html">תפעול מתקדם</a>
+      <button class="btn ghost" id="logout">יציאה</button>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="dashboard">📂 טיולים</button>
+    <button class="tab" data-tab="conversations">💬 שיחות לקוחות <span id="convBadge"></span></button>
+  </div>
+
+  <div id="loading">טוען את NAVIGAM Admin…</div>
+
+  <section id="dashboard" class="panel">
+    <div class="grid">
+      <div class="stat"><strong id="sAll">0</strong><span>כל הטיולים</span></div>
+      <div class="stat"><strong id="sPublished">0</strong><span>פורסמו</span></div>
+      <div class="stat"><strong id="sDraft">0</strong><span>טיוטות</span></div>
+      <div class="stat"><strong id="sUpcoming">0</strong><span>טיולים עתידיים</span></div>
+    </div>
+    <div class="section-head"><h2>כל הטיולים</h2><button class="btn soft" id="refreshTrips">↻ רענון</button></div>
+    <div id="tripList" class="list"></div>
+  </section>
+
+  <section id="conversations" class="panel">
+    <div class="grid">
+      <div class="stat"><strong id="cAll">0</strong><span>כל השיחות</span></div>
+      <div class="stat"><strong id="cWeb">0</strong><span>שיחות מהאתר</span></div>
+      <div class="stat"><strong id="cWa">0</strong><span>WhatsApp</span></div>
+      <div class="stat"><strong id="cHot">0</strong><span>לידים חמים</span></div>
+    </div>
+    <div class="section-head"><h2>שיחות לקוחות</h2><button class="btn soft" id="refreshConv">↻ רענון</button></div>
+    <div class="filters">
+      <button class="filter active" data-filter="all">הכול</button>
+      <button class="filter" data-filter="website">אתר</button>
+      <button class="filter" data-filter="whatsapp">WhatsApp</button>
+      <input id="search" placeholder="חיפוש לפי שם, טלפון או יעד">
+    </div>
+    <div id="convList" class="list"></div>
+  </section>
+</div>
+
+<div class="modal" id="modal"><div class="sheet">
+  <div class="sheet-head"><div><strong id="modalTitle">שיחה</strong><div id="modalMeta" class="meta"></div></div><button class="btn soft" id="closeModal">✕</button></div>
+  <div id="transcript" class="transcript"></div>
+</div></div>
+
+<script type="module">
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+const CORE_URL='https://asnnvwoersrhrgdantll.supabase.co';
+const CORE_KEY='sb_publishable_dZFP2IUafSBsNpsnc4e4Mw_rU0FQFJh';
+const DASH=CORE_URL+'/functions/v1/navigam-admin-dashboard';
+const CONV=CORE_URL+'/functions/v1/navigam-admin-conversations';
+const sb=createClient(CORE_URL,CORE_KEY,{auth:{detectSessionInUrl:false,persistSession:true,autoRefreshToken:true}});
+const $=s=>document.querySelector(s);
+const esc=v=>String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));
+let trips=[],conversations=[],filter='all',search='';
+
+function fmtDate(v){if(!v)return '';const d=new Date(String(v).replace(' ','T'));return Number.isNaN(d.getTime())?String(v):d.toLocaleString('he-IL',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})}
+function dateOnly(v){if(!v)return '';const d=new Date(v+'T12:00:00');return Number.isNaN(d.getTime())?v:d.toLocaleDateString('he-IL')}
+async function session(){
+  const {data:{session}}=await sb.auth.getSession();
+  if(!session?.access_token){location.replace('/admin');throw new Error('no_session')}
+  return session;
+}
+async function call(url,payload){
+  const s=await session();
+  const r=await fetch(url,{method:'POST',headers:{'Authorization':'Bearer '+s.access_token,'Content-Type':'application/json','apikey':CORE_KEY},body:JSON.stringify(payload||{})});
+  const data=await r.json().catch(()=>({}));
+  if(!r.ok||!data.ok)throw new Error(data.error||('HTTP '+r.status));
+  return data;
+}
+async function verify(){
+  const s=await session();
+  const {data,error}=await sb.from('admin_users').select('role,display_name').eq('user_id',s.user.id).maybeSingle();
+  if(error||!data){await sb.auth.signOut();location.replace('/admin');throw new Error('not_admin')}
+  $('#identity').textContent=(data.display_name||s.user.email)+' · '+data.role;
+}
+function showError(el,e){el.innerHTML='<div class="error">שגיאה בטעינה: '+esc(e?.message||e)+'<br>לחץ רענון. אם זה ממשיך — צא והיכנס מחדש.</div>'}
+async function loadTrips(){
+  const box=$('#tripList');box.innerHTML='<div class="empty">טוען טיולים…</div>';
+  try{
+    const d=await call(DASH,{action:'dashboard'});
+    trips=d.trips||[];
+    $('#sAll').textContent=trips.length;
+    $('#sPublished').textContent=trips.filter(t=>t.status==='published').length;
+    $('#sDraft').textContent=trips.filter(t=>t.status==='draft').length;
+    const today=new Date();today.setHours(0,0,0,0);
+    $('#sUpcoming').textContent=trips.filter(t=>new Date((t.start_date||'1970-01-01')+'T12:00:00')>=today).length;
+    box.innerHTML=trips.length?trips.map(t=>`<article class="card trip">
+      <div><h3>${esc(t.title||t.trip_code||'טיול')}</h3><div class="meta">${esc(t.destination||'')}${t.base_location?' · '+esc(t.base_location):''}<br>${dateOnly(t.start_date)}–${dateOnly(t.end_date)} · <span class="status ${esc(t.status)}">${t.status==='published'?'פורסם':'טיוטה'}</span> · Trip ${esc(t.trip_code||'')}</div></div>
+      <div class="actions"><a class="btn soft" href="/ai-studio.html?trip=${encodeURIComponent(t.id)}">AI Studio</a></div>
+    </article>`).join(''):'<div class="empty">אין טיולים.</div>';
+  }catch(e){showError(box,e)}
+}
+function heat(h){return h==='hot'?'חם':h==='warm'?'מתקדם':'חדש'}
+function nameOf(r){return r.customer_name||r.customer_phone||(r.source==='website'?'מבקר באתר':'לקוח')}
+function renderConv(){
+  const box=$('#convList');
+  const rows=conversations.filter(r=>{
+    if(filter!=='all'&&r.source!==filter)return false;
+    if(!search)return true;
+    return [r.customer_name,r.customer_phone,r.destination,r.stage?.label,r.source_label].filter(Boolean).join(' ').toLowerCase().includes(search);
+  });
+  box.innerHTML=rows.length?rows.map(r=>`<article class="card conv">
+    <div><div class="badges"><strong>${esc(nameOf(r))}</strong><span class="badge ${r.source==='website'?'web':'wa'}">${esc(r.source_label)}</span><span class="badge ${esc(r.stage?.heat||'new')}">${esc(heat(r.stage?.heat))}</span><span class="badge stage">${esc(r.stage?.label||'חדש')}</span></div>
+    <div class="meta">${r.customer_phone?esc(r.customer_phone)+' · ':''}${r.destination?'יעד: '+esc(r.destination)+' · ':''}${r.page_path?'עמוד: '+esc(r.page_path)+' · ':''}${esc(r.message_count)} הודעות · ${esc(fmtDate(r.updated_at))}${r.preview_sent?' · Preview נשלח':''}${r.order_ready?' · הזמנה מוכנה':''}${r.human_handoff?' · ביקש נציג':''}</div></div>
+    <button class="btn primary" data-open="${esc(r.id)}">פתח תמלול</button>
+  </article>`).join(''):'<div class="empty">אין שיחות שמתאימות לסינון.</div>';
+  box.querySelectorAll('[data-open]').forEach(b=>b.addEventListener('click',()=>openConv(b.dataset.open)));
+}
+async function loadConv(){
+  const box=$('#convList');box.innerHTML='<div class="empty">טוען שיחות…</div>';
+  try{
+    const d=await call(CONV,{action:'list',per_page:100});
+    conversations=d.data||[];
+    $('#cAll').textContent=d.stats?.total||0;$('#cWeb').textContent=d.stats?.website||0;$('#cWa').textContent=d.stats?.whatsapp||0;$('#cHot').textContent=d.stats?.hot||0;
+    $('#convBadge').textContent=d.stats?.total?'('+d.stats.total+')':'';
+    renderConv();
+  }catch(e){showError(box,e)}
+}
+async function openConv(id){
+  const r=conversations.find(x=>x.id===id)||{};
+  $('#modalTitle').textContent=nameOf(r);$('#modalMeta').textContent=(r.source_label||'')+(r.destination?' · '+r.destination:'');
+  $('#transcript').innerHTML='<div class="empty">טוען תמלול…</div>';$('#modal').classList.add('show');
+  try{const d=await call(CONV,{action:'get',conversation_id:id});const h=d.history||[];$('#transcript').innerHTML=h.length?h.map(m=>`<div class="msg ${m.role==='user'?'user':'assistant'}">${esc(m.content)}</div>`).join(''):'<div class="empty">אין הודעות.</div>'}catch(e){showError($('#transcript'),e)}
+}
+function tab(name){document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===name));document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id===name));if(name==='conversations')loadConv();else loadTrips()}
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>tab(b.dataset.tab)));
+document.querySelectorAll('[data-filter]').forEach(b=>b.addEventListener('click',()=>{filter=b.dataset.filter;document.querySelectorAll('[data-filter]').forEach(x=>x.classList.toggle('active',x===b));renderConv()}));
+$('#search').addEventListener('input',e=>{search=e.target.value.trim().toLowerCase();renderConv()});
+$('#refreshTrips').addEventListener('click',loadTrips);$('#refreshConv').addEventListener('click',loadConv);
+$('#closeModal').addEventListener('click',()=>$('#modal').classList.remove('show'));$('#modal').addEventListener('click',e=>{if(e.target.id==='modal')$('#modal').classList.remove('show')});
+$('#logout').addEventListener('click',async()=>{await sb.auth.signOut();location.replace('/admin')});
+try{await verify();$('#loading').style.display='none';$('#dashboard').classList.add('active');await Promise.all([loadTrips(),loadConv()])}catch(e){console.error(e)}
+</script>
+</body>
+</html>
