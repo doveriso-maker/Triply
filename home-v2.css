@@ -596,3 +596,32 @@ img{display:block;max-width:100%}
     margin-inline:auto;
   }
 }
+
+
+/* Footer cleanup: legal notice only, compact spacing */
+.footer.footer-legal-only{
+  padding:16px 0 20px;
+  min-height:0;
+}
+.footer.footer-legal-only .shell{
+  display:block;
+}
+.footer.footer-legal-only .footer-note{
+  max-width:760px;
+  margin:0 auto;
+  padding:0;
+  text-align:center;
+  font-size:11px;
+  line-height:1.75;
+  color:#8da2ae;
+}
+@media(max-width:560px){
+  .footer.footer-legal-only{
+    padding:12px 0 16px;
+  }
+  .footer.footer-legal-only .footer-note{
+    font-size:10.5px;
+    line-height:1.65;
+    padding:0 8px;
+  }
+}
